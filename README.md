@@ -55,9 +55,8 @@ This sample project uses a **payment system** scenario and demostrates the follo
 - **Maximum Effort Notification**: Handling retries and ensuring message delivery.
 
 For a step-by-step guide on how these solutions work, check out the following tutorials: 
-- [Message Sending Consistency]()
-- [Reliable Message Final Consitency]()
-- [TCC Distributed Transactions]()
+- [An In-Depth Analysis of Distributed Transaction Solutions](https://www.alibabacloud.com/blog/an-in-depth-analysis-of-distributed-transaction-solutions_597232)
+- [How RocketMQ Helps Achieve Better Message Reliability](https://www.alibabacloud.com/blog/how-rocketmq-helps-achieve-better-message-reliability_597836)
 
 ---
 
