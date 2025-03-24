@@ -15,22 +15,23 @@
 
 ## 🌟System Architecture Diagram
 
-![](./design_documents/00-architecture-diagram.png)
+<img src="./design_documents/00-architecture-diagram.png" alt="Description" width="750" height="500">
 
 --- 
 
-## Common Solutions for Data Consistency in Distributed Transactions
+## 📚 Common Solutions for Data Consistency in Distributed Transactions
 
 ### Eventual Consistency Based on Reliable Messages
 
-![](./design_documents/02-eventual-consistency-solution.png)
+<img src="./design_documents/02-eventual-consistency-solution.png" alt="Description" width="400" height="420">
+
 ### TCC(Try-Confirm-Cancel) Transaction Compensation Mechanism¬
 
-![](./design_documents/02-tcc-solution.png)
+<img src="./design_documents/02-tcc-solution.png" alt="Description" width="400" height="420">
 
 ### Best Effort Notification
 
-![](./design_documents/02-BE-notification.png)
+<img src="./design_documents/02-BE-notification.png" alt="Description" width="400" height="420">
 
 ---
 
