@@ -76,3 +76,25 @@ The **Transaction Manager(TM)** and **Resource Managers(RMs)** use **2PC** to ad
 
 - The Role of a Coordinator in 2PC 
 In **2PC**, a **coordinator (typically the TM)** is responsible for managing all participating **Resource Managers(RMs)**. It ensures that each **RM** reaches a decision on whether to commit or roll back its operations and synchronizes the final transaction outcome accordingly. 
+
+---
+
+## Pros and Cons of Standard/Tranditional Distributed Transaction Solutions 
+
+### Pros
+- Strict ACID Compliance: Standard distributed transaction solutions **strictly follow ACID principles**, ensuring data consistency, reliability, and integrity across multiple resource managers. 
+
+### Cons
+
+#### Low Performance and Inefficiency 
+- 2PC (Two-Phase Commit) protocol, which is used in **XA-based transactions**, causes significant performance overhead.
+- Transactions **lock resources** (e.g., database rows) until completion, leading to poor efficiency. 
+- This makes it **unsuitable for modern microservices architectures**, which prioritize scalability and high performance. 
+
+#### Limited Scalability 
+- **2PC** is not a scalable model because participants must hold resources until the transaction is finalized. 
+- As business complexity increases, the overhead of maintaining global transactions grows, leading to **bottlenecks** and **system inefficiencies**.
+
+#### High Overhead && Limited Compatibility 
+- **XA-based transactions introduce signficant operational overhead**, requiring careful consideration before adoption. 
+- Only **XA-compatible** resources can participate, meaning **existing systems may require extensive modifications** to support XA transactions. 
