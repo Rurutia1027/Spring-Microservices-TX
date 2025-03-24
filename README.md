@@ -1,8 +1,15 @@
-# Spring-MQ-Reliable-TX
+# Spring-Microservices-TX
 
 ## 🔗 Introduction 
 ### Practical Case Studies & Best Practices
-- This repository focuses on distributed transaction solutions using real-world payment systems and payment order processing as case studies. We explore classic scenarios to introduce different approaches for solving distributed transaction challenges. The repository provides detailed design implementations using Spring Boot, explaining the trade-offs made and how various techniques are leveraged to achieve the best practices in distributed transaction management.
+This repository focuses on distributed transaction solutions, using real-world payment systems and payment order processing as case studies. We explore classic scenarios to introduce different approaches for solving distributed transaction challenges. The repository provides detailed design implementations using Spring Boot, explaining the trade-offs made and how various techniques are leveraged to achieve best practices in distributed transaction management.
+
+In this repository, we implement three classic scenarios for tackling distributed transaction problems:
+
+- Eventual Consistency-Based Reliable Messages
+- TCC (Try-Confirm/Cancel)
+- Best-Effort Notification
+
 
 ### Broad Applicability Across Microservices
 - While the implementations in this repository are built with Spring Boot, the core concepts, patterns, and solutions apply to any microservices-based architecture. These approaches are not limited to Java—they can be adapted to any technology stack that follows the microservices architecture. Whether you’re using Go, Node.js, or Python, these strategies remain applicable and effective for ensuring data consistency in distributed systems.
