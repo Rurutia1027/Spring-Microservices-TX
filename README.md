@@ -25,7 +25,7 @@
 
 <img src="./design_documents/02-eventual-consistency-solution.png" alt="Description" width="400" height="420">
 
-### TCC(Try-Confirm-Cancel) Transaction Compensation Mechanism¬
+### TCC(Try-Confirm-Cancel) Transaction Compensation Mechanism
 
 <img src="./design_documents/02-tcc-solution.png" alt="Description" width="400" height="420">
 
