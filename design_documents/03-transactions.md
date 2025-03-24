@@ -149,3 +149,4 @@ The **CAP theoryy** states that in a **distributed data system**, only **two out
 - **Real-world systems must balance ACID and BASE models** to aligh with business needs. 
 - Architectures should **prioritize business goals** over theoretical perfection. 
 - A well-designed system **balance trade-offs** rather than rigidly adhering to call CAP properties. 
+
