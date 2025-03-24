@@ -17,6 +17,21 @@
 
 ![](./design_documents/00-architecture-diagram.png)
 
+--- 
+
+## Common Solutions for Data Consistency in Distributed Transactions
+
+### Eventual Consistency Based on Reliable Messages
+
+![](./design_documents/02-eventual-consistency-solution.png)
+### TCC(Try-Confirm-Cancel) Transaction Compensation Mechanism¬
+
+![](./design_documents/02-tcc-solution.png)
+
+### Best Effort Notification
+
+![](./design_documents/02-BE-notification.png)
+
 ---
 
 ## 📩 Use Scenarios 
