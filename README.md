@@ -1,15 +1,11 @@
 # Spring-MQ-Reliable-TX
 
-## 🚩 Milestones
-- [Milesteons](https://github.com/Rurutia1027/Spring-MQ-Reliable-TX/milestones)
-
 ## 🔗 Introduction 
+### Practical Case Studies & Best Practices
+- This repository focuses on distributed transaction solutions using real-world payment systems and payment order processing as case studies. We explore classic scenarios to introduce different approaches for solving distributed transaction challenges. The repository provides detailed design implementations using Spring Boot, explaining the trade-offs made and how various techniques are leveraged to achieve the best practices in distributed transaction management.
 
-- We all know that in **distributed systems**, transaction solutions typically fall into two main categories: **TCC (Try-Confirm-Cancel)** and **Reliable Messaging (Eventual Consistency)**.
-
-- This repository focuses on **designing and implementing** these two solutions by integrating **Spring Boot 3.0 and RabbitMQ**, providing **enterprise-level distributed transaction solutions**. It demonstrates how to ensure **data consistency**, **decouple services**, and achieve **high reliability** in microservices architectures.
-
-- Furthermore, this project is designed for **real-time payment systems**, showcasing practical adoption of **TCC and Reliable Messaging** to handle financial transactions with **precision and robustness**.
+### Broad Applicability Across Microservices
+- While the implementations in this repository are built with Spring Boot, the core concepts, patterns, and solutions apply to any microservices-based architecture. These approaches are not limited to Java—they can be adapted to any technology stack that follows the microservices architecture. Whether you’re using Go, Node.js, or Python, these strategies remain applicable and effective for ensuring data consistency in distributed systems.
 
 ---
 
@@ -90,6 +86,10 @@ For a step-by-step guide on how these solutions work, check out the following tu
 - **Distributed Payment Systems**: Ensure consistency in payments across multiple services; 
 - **Order Management**: Handle distributed order creation, cancellation, and updates reliably. 
 - **Event Driven Architecture**: Implement eventual consistency in microservices. 
+
+---
+## 🚩 Milestones
+- [Milesteons](https://github.com/Rurutia1027/Spring-MQ-Reliable-TX/milestones)
 
 ---
 
