@@ -10,6 +10,12 @@
 
 ---
 
+## 🌟System Architecture Diagram
+
+![](./design_documents/00-architecture-diagram.png)
+
+---
+
 ## 📩 Use Scenarios 
 
 This repository is designed for **enterprise-level distributed transactions** in critical financial domains, including: 
