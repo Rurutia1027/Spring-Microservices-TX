@@ -98,3 +98,54 @@ In **2PC**, a **coordinator (typically the TM)** is responsible for managing all
 #### High Overhead && Limited Compatibility 
 - **XA-based transactions introduce signficant operational overhead**, requiring careful consideration before adoption. 
 - Only **XA-compatible** resources can participate, meaning **existing systems may require extensive modifications** to support XA transactions. 
+
+--- 
+
+## BASE Theory: A Flexible Approch to Distributed Transactions 
+
+Due to the **limitations of XA-based transactions** in modern **microservices architectures**, the **BASE (Basically Available, Soft State, Eventual Consistency)** theory was introduced by eBay engineers as an alternative.
+
+
+### Key Concepts of BASE 
+
+#### Basically Available (BA)
+- Ensures **basic business availability**, even under **partition failures**. 
+- Prioritizes **system uptime** over **strict consistency**. 
+
+#### Soft State (S)
+- Allows temporary **inconsistencies** in distributed systems. 
+- The system does **not require immediate sychronization** across nodes. 
+
+#### Eventual Consistency (E)
+- Guarantees that **all data will become consistent** over time. 
+- Real-time consistency is not **required**, but the system eventually converges to a correct state. 
+
+### Trade-offs in BASE Theory 
+- **Atomicity and Durability** are still maintained, but strict **Consistency and Isolation are relaxed** to improve availability and performance. 
+- This approach is known as **ACID-BASE Balance**, where ACID principles are **compromised** to achieve **better scalability** and **responsiveness** in distributed systems. 
+
+---
+
+## CAP Theory: Trade-offs in Distributed Data Systems 
+
+The **CAP theoryy** states that in a **distributed data system**, only **two out of three properties** can be fully achieved at the same time. It is **impossible** to satisfy all three simultaneously, so system architects must choose two based on business requirements. 
+
+
+### Key Principles of CAP Theory 
+
+#### Consistency (C)
+- Ensures that **all users see the same data** at any given time, regardless of which replica they access. 
+- Even if data is stored across multiple partitions, the system guarantees a **single**, **unified state**. 
+
+#### Availability (A)
+- Guarantees that every request receives a response, even if some nodes are unreachable. 
+- Users should always be able to access a replica of the data. 
+
+#### Partition Tolerance (P)
+- The system **continues to functions** despite network failures or partitions. 
+- It must handle communication breakdowns while maintaining data integrity. 
+
+### Practical Considerations in Industry 
+- **Real-world systems must balance ACID and BASE models** to aligh with business needs. 
+- Architectures should **prioritize business goals** over theoretical perfection. 
+- A well-designed system **balance trade-offs** rather than rigidly adhering to call CAP properties. 
