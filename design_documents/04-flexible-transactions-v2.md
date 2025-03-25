@@ -1,4 +1,4 @@
-# Flexible Transactions V2
+# Flexible Transaction Solution: Eventual Consistency 
 ## Eventual Consistency Solution Based on Reliable Messaging
 ![](./02-eventual-consistency-solution.png)
 
