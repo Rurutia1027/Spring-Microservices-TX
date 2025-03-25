@@ -64,3 +64,17 @@ public void completeOrder() {
 
 This solution cannot guarantee consistency between business logic and messages. For example, if a message is sent to the Accounting System but an error during local business logic execution, it can lead to a mismatch between the final state of the Order System and the status in the Accounting System. 
 
+--- 
+
+## How to Ensure Message Consistency Based on the XA Protocol under the JMS Standard 
+
+In the **JMS(Java Message Service)** standard API, several interfaces start with "XA", as we introduced and discussed in earlier notes. The **XA protocol**, based on the **2PC(Two-Phase Commit)** theory, enables global transaction management, particularly for distributed transactions. While XA can help mtaintain transaction consistency, integrating it into a microservices architecture comes with significant limitations. 
+
+- **XA Compatibility Issues** - XA requires all business operations and resource instances to support the XA protocol. However, many resources, such as middleware and databases, do not support XA by default. The necessitates major changes to existing system architecture, code, and design. 
+
+- **Performance Overhead** - Implementing XA-based 2PC transactions introduces significant overhead. During the 2PC process, resources remain locked and isolated, restricting access for other system components. This reduces system concurrency and efficiency. 
+
+- **DTP Model Constraints** - XA transactions rely on a **global lock**, which consumes considerable resources and negatively impacts system performance and throughput. 
+
+### Conclusion: 
+- Importing XA into the microservices architecture goes against the original intent of flexible transaction design. 
