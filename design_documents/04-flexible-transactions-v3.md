@@ -1,5 +1,7 @@
 # Flexible Transaction Solution: TCC (Two-Phase, Compensation Model)
 
+![](02-tcc-solution.png)
+
 ## Implementation 
 - A complete business activity consists of a **main business service** and multiple **sub-business services**. 
 - The **main business service** initiates and completes the entire business activity. 
