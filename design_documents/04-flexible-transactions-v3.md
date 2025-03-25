@@ -18,7 +18,7 @@
 - Suitable for **short-duration** business transactions, such as **account processing and payment transactions**.
 
 ## Service Modes Used 
-- TCC operations, compensation operations, and query operations. 
+- TCC operations, compensation operations, idempotent, and query operations. 
 
 ## Solution Characteristics 
 - Independenty of specific service frameworks (applicable in RPC architectures).
