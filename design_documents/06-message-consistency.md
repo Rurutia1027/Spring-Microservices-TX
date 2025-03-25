@@ -1,5 +1,7 @@
 # Flexible Solution to Guarantee Message Consistency
 
+![](06-msg-consistency.png)
+
 ## Step-1: Active Application Sends Message 
 - The active application sends a message to the message middleware (broker).
 - The message status is initially marked as "to be confirmed". 
