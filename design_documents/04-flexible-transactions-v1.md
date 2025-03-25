@@ -1,4 +1,4 @@
-# Flexible Transactions 
+# Flexible Transactions V1
 
 ## Service Modes in Flexible Transactions 
 
@@ -90,5 +90,17 @@ Many assume that **TCC is the same as 2PC**, but in reality, TCC is a type of **
 
 
 
-### Compensable Operations
+### Compensation Mechanism
 - Allowing operations to be reversed or compensated in case of failure, commonly used in long-running business processes. 
+
+#### do (Execute Business Logic)
+- Processes the actual business operation. 
+- The result is externally visible. 
+
+#### compensate (Compensation Operation)
+- Rolls back or partially cancels a previous business action. 
+- Ensures eventual consistency. 
+
+#### Constraints 
+- Compensation must align with the original business operation.
+- Since execution results may be exposed before compensation, risks and costs must be controlled. 
