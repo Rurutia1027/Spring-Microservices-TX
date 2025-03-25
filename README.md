@@ -24,15 +24,15 @@ In this repository, we implement three classic scenarios for tackling distribute
 
 ## 📚 Common Solutions for Data Consistency in Distributed Transactions
 
-### Eventual Consistency Based on Reliable Messages
+### [Eventual Consistency Based on Reliable Messages](./design_documents/04-flexible-transactions-v2.md)
 
 <img src="./design_documents/02-eventual-consistency-solution.png" alt="Description" width="400" height="420">
 
-### TCC(Try-Confirm-Cancel) Transaction Compensation Mechanism
+### [TCC(Try-Confirm-Cancel) Transaction Compensation Mechanism](./design_documents/04-flexible-transactions-v3.md)
 
 <img src="./design_documents/02-tcc-solution.png" alt="Description" width="400" height="420">
 
-### Best Effort Notification
+### [Best Effort Notification](./design_documents/04-flexible-transactions-v4.md)
 
 <img src="./design_documents/02-BE-notification.png" alt="Description" width="400" height="420">
 
