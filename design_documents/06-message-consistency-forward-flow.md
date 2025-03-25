@@ -1,6 +1,6 @@
 # Flexible Solution to Guarantee Message Consistency
 
-![](06-msg-consistency.png)
+![](06-msg-consistency-forward-flow.png)
 
 ## Step-1: Active Application Sends Message 
 - The active application sends a message to the message middleware (broker).
