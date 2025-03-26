@@ -1,0 +1,43 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost/random-topic
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 50
+      idle-timeout: 60000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      pool-name: HikariCP
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update  # options：validate / update / create / create-drop
+      naming-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+        order_updates: true
+
+  # MQ config
+  activemq:
+    broker-url: failover:(tcp://192.168.1.81:51511,tcp://192.168.1.82:51512,tcp://192.168.1.83:51513)?jms.prefetchPolicy.queuePrefetch=50&jms.redeliveryPolicy.maximumRedeliveries=1&randomize=false&initialReconnectDelay=1000&maxReconnectDelay=30000
+    user: admin
+    password: admin
+    pool:
+      enabled: true
+      max-connections: 50
+
+  # Dubbo config
+dubbo:
+  registry:
+    address: zookeeper://192.168.1.161:2181
+
