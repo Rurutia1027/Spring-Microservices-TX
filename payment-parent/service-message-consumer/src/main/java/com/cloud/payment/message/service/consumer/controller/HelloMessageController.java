@@ -1,0 +1,39 @@
+package com.cloud.payment.message.service.consumer.controller;
+
+
+import com.cloud.payment.message.service.consumer.service.MessageService;
+import com.cloud.payment.service.message.api.RpTransactionMessageService;
+import com.cloud.payment.service.message.entity.RpTransactionMessage;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api")
+public class HelloMessageController {
+
+    @DubboReference
+    private RpTransactionMessageService rpTransactionMessageService;
+
+    @Autowired
+    private MessageService messageService;
+
+    @GetMapping("/hello")
+    public String getMessage() {
+        return "Hello World";
+    }
+
+    @GetMapping("/hiMessage")
+    public RpTransactionMessage getHiMessage() {
+        return rpTransactionMessageService.getMessageByMessageId(UUID.randomUUID().toString());
+    }
+
+    @GetMapping("/helloMessage")
+    public RpTransactionMessage getHelloMessage() {
+        return messageService.getMessageById(UUID.randomUUID().toString());
+    }
+}
