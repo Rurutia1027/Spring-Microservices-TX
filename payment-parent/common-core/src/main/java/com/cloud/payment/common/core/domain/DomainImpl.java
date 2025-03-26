@@ -1,10 +1,12 @@
 package com.cloud.payment.common.core.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Version;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -13,8 +15,8 @@ import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import java.io.Serializable;
 import java.util.Date;
 
-@MappedSuperclass
 @Data
+@MappedSuperclass
 public class DomainImpl implements Serializable {
     @Id
     @GeneratedValue(generator = "sequenceGenerator")
@@ -30,4 +32,12 @@ public class DomainImpl implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime = new Date();
+
+    @Version
+    private Integer version;
+    private String status;
+    private String creator;
+    private String editor;
+    private Date editTime;
+    private String comment;
 }
