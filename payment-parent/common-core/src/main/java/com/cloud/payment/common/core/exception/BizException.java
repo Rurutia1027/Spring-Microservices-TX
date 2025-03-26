@@ -44,7 +44,7 @@ public class BizException extends RuntimeException {
             10040006, "Session Timeout");
 
     /**
-     * 生成序列异常时
+     * Timeout when generating sequence id
      */
     public static final BizException DB_GET_SEQ_NEXT_VALUE_ERROR = new BizException(
             10040007, "Sequence Generation Timeout");
