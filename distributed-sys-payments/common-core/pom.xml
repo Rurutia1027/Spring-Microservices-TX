@@ -10,7 +10,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+    <groupId>com.cloud.payment</groupId>
     <artifactId>common-core</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
