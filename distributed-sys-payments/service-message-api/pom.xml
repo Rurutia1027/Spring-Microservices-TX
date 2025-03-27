@@ -12,6 +12,7 @@
 
     <groupId>com.cloud.payment.facade</groupId>
     <artifactId>service-message-api</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
