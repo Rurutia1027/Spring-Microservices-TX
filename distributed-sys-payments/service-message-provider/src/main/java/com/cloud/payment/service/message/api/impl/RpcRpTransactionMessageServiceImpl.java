@@ -10,7 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Objects;
@@ -44,7 +44,7 @@ public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessa
         message.setStatus(MessageStatusEnum.WAITING_CONFIRM.name());
         message.setAlreadyDead(PublicEnum.NO.name());
         message.setMessageSendTimes(0);
-        RpTransactionMessage ret = rpTransactionMessageService.save(message);
+        RpTransactionMessage ret = rpTransactionMessageService.saveMessage(message);
 
         if (ret.getId() > 0L) {
             log.info("Received Message saved to db successfully");
@@ -95,7 +95,7 @@ public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessa
         message.setAlreadyDead(PublicEnum.NO.name());
         message.setMessageSendTimes(0);
         message.setEditTime(new Date());
-        RpTransactionMessage ret = rpTransactionMessageService.save(message);
+        RpTransactionMessage ret = rpTransactionMessageService.updateMessage(message);
 
         // send message queue message here
         return Objects.nonNull(ret) && ret.getId() > 0 ? 0 : -1;

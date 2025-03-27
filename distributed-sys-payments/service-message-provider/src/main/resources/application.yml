@@ -20,6 +20,8 @@ spring:
         order_updates: true
 
 dubbo:
+  provider:
+    timeout: 60000
   application:
     name: service-message
   registry:
@@ -29,3 +31,7 @@ dubbo:
     port: 50052
 
 
+logging:
+  level:
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.transaction: TRACE
