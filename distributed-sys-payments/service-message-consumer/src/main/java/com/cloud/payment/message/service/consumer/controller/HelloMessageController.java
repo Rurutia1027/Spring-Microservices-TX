@@ -6,6 +6,8 @@ import com.cloud.payment.service.message.api.RpcRpTransactionMessageService;
 import com.cloud.payment.service.message.entity.RpTransactionMessage;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +19,7 @@ import java.util.UUID;
 @RequestMapping("/api")
 public class HelloMessageController {
 
-    @DubboReference
+    @DubboReference(timeout = 60000)
     private RpcRpTransactionMessageService rpcRpTransactionMessageService;
 
     @Autowired
@@ -33,6 +35,12 @@ public class HelloMessageController {
         RpTransactionMessage ret =
                 rpcRpTransactionMessageService.getMessageByMessageId(messageId);
         return ret;
+    }
+
+    @DeleteMapping("/delete/{messageId}")
+    public ResponseEntity<String> deleteHiMessage(@PathVariable("messageId") String messageId) {
+        rpcRpTransactionMessageService.deleteMessageByMessageId(messageId);
+        return ResponseEntity.ok("Message with ID " + messageId + " deleted successfully.");
     }
 
     @GetMapping("/helloMessage")
