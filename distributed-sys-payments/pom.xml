@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.cloud.payment</groupId>
-    <artifactId>payment-parent</artifactId>
+    <artifactId>distributed-sys-payments</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>payment-parent</name>
-    <description>payment-parent</description>
+    <name>distributed-sys-payments</name>
+    <description>payment services in distributed system</description>
     <modules>
         <module>common-core</module>
         <module>service-message-provider</module>

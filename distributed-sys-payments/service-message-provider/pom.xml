@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.cloud.payment</groupId>
-        <artifactId>payment-parent</artifactId>
+        <artifactId>distributed-sys-payments</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
