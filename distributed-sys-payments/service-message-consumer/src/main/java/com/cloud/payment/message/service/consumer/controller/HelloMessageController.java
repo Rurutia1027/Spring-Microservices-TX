@@ -2,7 +2,7 @@ package com.cloud.payment.message.service.consumer.controller;
 
 
 import com.cloud.payment.message.service.consumer.service.MessageService;
-import com.cloud.payment.service.message.api.RpTransactionMessageService;
+import com.cloud.payment.service.message.api.RpcRpTransactionMessageService;
 import com.cloud.payment.service.message.entity.RpTransactionMessage;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.UUID;
 public class HelloMessageController {
 
     @DubboReference
-    private RpTransactionMessageService rpTransactionMessageService;
+    private RpcRpTransactionMessageService rpcRpTransactionMessageService;
 
     @Autowired
     private MessageService messageService;
@@ -29,7 +29,7 @@ public class HelloMessageController {
 
     @GetMapping("/hiMessage")
     public RpTransactionMessage getHiMessage() {
-        return rpTransactionMessageService.getMessageByMessageId(UUID.randomUUID().toString());
+        return rpcRpTransactionMessageService.getMessageByMessageId(UUID.randomUUID().toString());
     }
 
     @GetMapping("/helloMessage")
