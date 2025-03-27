@@ -4,7 +4,7 @@ import com.cloud.payment.service.message.entity.RpTransactionMessage;
 import com.cloud.payment.service.message.exception.MessageBizException;
 
 
-public interface RpTransactionMessageService {
+public interface RpcRpTransactionMessageService {
     /**
      * Pre-save message with status as 'to-be-confirmed'
      */
@@ -60,12 +60,12 @@ public interface RpTransactionMessageService {
 
 
     /**
-     * 重发某个消息队列中的全部已死亡的消息.
+     * Resending all dead messages that locates in the given queue name
      */
     void reSendAllDeadMessageByQueueName(String queueName, int batchSize) throws MessageBizException;
 
     /**
-     * 获取分页数据
+     * Fetch datasets via pages
      */
 //    PageBean listPage(PageParam pageParam, Map<String, Object> paramMap) throws MessageBizException;
 

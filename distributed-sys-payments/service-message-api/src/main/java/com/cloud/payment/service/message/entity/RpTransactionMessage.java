@@ -32,4 +32,8 @@ public class RpTransactionMessage extends DomainImpl {
 
     private String field3;
 
+
+    public void addSendTimes() {
+        messageSendTimes++;
+    }
 }
