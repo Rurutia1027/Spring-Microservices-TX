@@ -13,8 +13,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-@Log4j2
 public class RpTransactionMessageServiceImpl implements RpTransactionMessageService {
+    private static final Logger log = LogManager.getLogger(RpTransactionMessageServiceImpl.class);
 
     @Autowired
     private RpTransactionMessageRepository rpTransactionMessageRepository;

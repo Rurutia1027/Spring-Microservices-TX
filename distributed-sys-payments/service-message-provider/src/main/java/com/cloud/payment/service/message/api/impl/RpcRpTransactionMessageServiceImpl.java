@@ -15,10 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.Objects;
 
-@Log4j2
 @DubboService
 public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessageService {
-
+    private static final Logger log = LogManager.getLogger(RpcRpTransactionMessageServiceImpl.class);
 
     @Autowired
     private RpTransactionMessageService rpTransactionMessageService;
