@@ -60,19 +60,15 @@ public enum MessageStatusEnum {
         return null;
     }
 
-    /**
-     * 取枚举的json字符串
-     *
-     * @return
-     */
+
     public static String getJsonStr() {
-        MessageStatusEnum[] enums = MessageStatusEnum.values();
+        MessageStatusEnum[] arr = MessageStatusEnum.values();
         StringBuffer jsonStr = new StringBuffer("[");
-        for (MessageStatusEnum senum : enums) {
+        for (MessageStatusEnum item : arr) {
             if (!"[".equals(jsonStr.toString())) {
                 jsonStr.append(",");
             }
-            jsonStr.append("{id:'").append(senum).append("',desc:'").append(senum.getDesc()).append("'}");
+            jsonStr.append("{id:'").append(item).append("',desc:'").append(item.getDesc()).append("'}");
         }
         jsonStr.append("]");
         return jsonStr.toString();

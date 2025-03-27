@@ -7,6 +7,7 @@ import com.cloud.payment.service.message.entity.RpTransactionMessage;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,9 +28,11 @@ public class HelloMessageController {
         return "Hello World";
     }
 
-    @GetMapping("/hiMessage")
-    public RpTransactionMessage getHiMessage() {
-        return rpcRpTransactionMessageService.getMessageByMessageId(UUID.randomUUID().toString());
+    @GetMapping("/hiMessage/{messageId}")
+    public RpTransactionMessage getHiMessage(@PathVariable("messageId") String messageId) {
+        RpTransactionMessage ret =
+                rpcRpTransactionMessageService.getMessageByMessageId(messageId);
+        return ret;
     }
 
     @GetMapping("/helloMessage")

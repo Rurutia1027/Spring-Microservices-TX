@@ -21,7 +21,9 @@ public class RpTransactionMessageServiceImpl implements RpTransactionMessageServ
 
     @Override
     public RpTransactionMessage queryMessage(String messageId) {
-        return rpTransactionMessageRepository.findById(Long.parseLong(messageId)).orElse(null);
+        RpTransactionMessage ret =
+                rpTransactionMessageRepository.findById(Long.parseLong(messageId)).orElse(null);
+        return ret;
     }
 
 
