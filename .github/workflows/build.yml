@@ -32,14 +32,14 @@ jobs:
         run: |
           cd distributed-sys-payments/common-core
           mvn clean install          
-          ls ~/.m2/repository/com/distributed/sys/payments/common-core/
+          ls ~/.m2/repository/com/cloud/payment/common-core/0.0.1-SNAPSHOT/common-core-0.0.1-SNAPSHOT.jar
           echo "✅ Common Core JAR installed in Maven repository."
 
       - name: Upload Common Core JAR
         uses: actions/upload-artifact@v4
         with:
           name: common-core-jar
-          path: ~/.m2/repository/com/distributed/sys/payments/common-core/
+          path: ~/.m2/repository/com/cloud/payment/common-core/0.0.1-SNAPSHOT/common-core-0.0.1-SNAPSHOT.jar
 
   service-message-api:
     name: Build Service Message API
@@ -65,20 +65,20 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: common-core-jar
-          path: ~/.m2/repository/com/distributed/sys/payments/common-core/
+          path: ~/.m2/repository/com/cloud/payment/common-core/0.0.1-SNAPSHOT/common-core-0.0.1-SNAPSHOT.jar
 
       - name: Build & Install Service Message API
         run: |
           cd distributed-sys-payments/service-message-api
           mvn clean install
-          ls ~/.m2/repository/com/distributed/sys/payments/common-core/*
+          ls ~/.m2/repository/com/cloud/payment/service-message-api/0.0.1-SNAPSHOT/service-message-api-0.0.1-SNAPSHOT.jar
           echo "✅ Service Message API JAR installed in Maven repository."
 
       - name: Upload Service Message API JAR
         uses: actions/upload-artifact@v4
         with:
           name: service-message-api-jar
-          path: ~/.m2/repository/com/distributed/sys/payments/service-message-api/
+          path: ~/.m2/repository/com/cloud/payment/service-message-api/0.0.1-SNAPSHOT/service-message-api-0.0.1-SNAPSHOT.jar
 
 #   service-provider:
 #     name: Build Service Provider
