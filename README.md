@@ -1,4 +1,4 @@
-# Flexible Transaction Solutions in Microservice Architecture Using Spring Frameworks [![CI/CD Build Pipeline](https://github.com/Rurutia1027/Spring-Microservices-TX/actions/workflows/build.yml/badge.svg?event=deployment_status)](https://github.com/Rurutia1027/Spring-Microservices-TX/actions/workflows/build.yml)
+# Flexible Transaction Solutions in Microservice Architecture Using Spring Frameworks [![CI/CD Build Pipeline](https://github.com/Rurutia1027/Spring-Microservices-TX/actions/workflows/build.yml/badge.svg)](https://github.com/Rurutia1027/Spring-Microservices-TX/actions/workflows/build.yml)
 
 ## 🔗 Introduction 
 ### Practical Case Studies & Best Practices
