@@ -1,3 +1,13 @@
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+    password: admin
+    user: admin
+    pool:
+      max-connections: 5
+      idle-timeout:
+    close-timeout: 60
+
 dubbo:
   application:
     name: message-service-consumer
@@ -6,4 +16,4 @@ dubbo:
   registry:
     address: nacos://127.0.0.1:8848
 server:
-  port: 8099
+  port: 8888

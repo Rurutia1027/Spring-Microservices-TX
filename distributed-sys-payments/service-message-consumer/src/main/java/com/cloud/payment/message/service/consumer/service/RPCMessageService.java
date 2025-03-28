@@ -6,7 +6,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MessageService {
+public class RPCMessageService {
 
     @DubboReference
     private RpcRpTransactionMessageService rpcRpTransactionMessageService;

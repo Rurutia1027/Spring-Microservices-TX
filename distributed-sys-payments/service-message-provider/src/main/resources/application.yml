@@ -18,6 +18,10 @@ spring:
           batch_size: 50
         order_inserts: true
         order_updates: true
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
 
 dubbo:
   provider:
