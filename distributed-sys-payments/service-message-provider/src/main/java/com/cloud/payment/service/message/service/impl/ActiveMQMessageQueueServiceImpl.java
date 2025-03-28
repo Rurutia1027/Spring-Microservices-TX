@@ -14,7 +14,6 @@ import java.util.Objects;
 
 @Service("activeMQMessageQueueService")
 public class ActiveMQMessageQueueServiceImpl implements MessageQueueService {
-
     @Autowired
     private JmsTemplate jmsTemplate;
 

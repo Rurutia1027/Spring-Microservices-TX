@@ -185,7 +185,7 @@ public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessa
                     " find message entity from db by given messageId " + messageId);
         }
 
-        // todo: refine this latter, set max retry times to config fil
+        // todo: refine this latter, set max retry times to configuration file
         int maxReSendTimes = 5;
         if (message.getMessageSendTimes() >= maxReSendTimes) {
             message.setAlreadyDead(PublicEnum.YES.name());

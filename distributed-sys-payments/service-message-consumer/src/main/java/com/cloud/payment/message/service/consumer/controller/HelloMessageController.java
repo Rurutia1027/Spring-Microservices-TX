@@ -1,17 +1,18 @@
 package com.cloud.payment.message.service.consumer.controller;
 
 
-import com.cloud.payment.message.service.consumer.service.MessageQueueService;
 import com.cloud.payment.message.service.consumer.service.RPCMessageService;
 import com.cloud.payment.service.message.api.RpcRpTransactionMessageService;
 import com.cloud.payment.service.message.entity.RpTransactionMessage;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,14 +26,6 @@ public class HelloMessageController {
     private RpcRpTransactionMessageService rpcRpTransactionMessageService;
 
     @Autowired
-    @Qualifier("kafkaMQMessageQueueService")
-    private MessageQueueService kafkaMQMessageQueueService;
-
-    @Autowired
-    @Qualifier("activeMQMessageQueueService")
-    private MessageQueueService activeMQMessageQueueService;
-
-    @Autowired
     private RPCMessageService RPCMessageService;
 
     @GetMapping("/test")
@@ -44,11 +37,6 @@ public class HelloMessageController {
 
     @GetMapping("/hello")
     public String getMessage() {
-        String dest = UUID.randomUUID().toString();
-        String messageBody = UUID.randomUUID().toString();
-
-        kafkaMQMessageQueueService.sendMessage(dest, messageBody);
-        activeMQMessageQueueService.sendMessage(dest, messageBody);
         return "Hello World";
     }
 
@@ -68,5 +56,13 @@ public class HelloMessageController {
     @GetMapping("/helloMessage")
     public RpTransactionMessage getHelloMessage() {
         return RPCMessageService.getMessageById(UUID.randomUUID().toString());
+    }
+
+    @PostMapping("/presendMessage")
+    public ResponseEntity<String> preSendMessage(@RequestBody RpTransactionMessage message) {
+        System.out.println("Received message: " + message);
+        rpcRpTransactionMessageService.directSendMessage(message);
+        System.out.println("preSend Message");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
