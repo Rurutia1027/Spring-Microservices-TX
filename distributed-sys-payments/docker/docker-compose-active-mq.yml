@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  activemq:
+    image: rmohr/activemq:latest
+    container_name: activemq
+    restart: always
+    ports:
+      - "61616:61616"  # JMS port
+      - "8161:8161"    # Web Console
+    environment:
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin
+      ACTIVEMQ_CONFIG_MINMEMORY: 512
+      ACTIVEMQ_CONFIG_MAXMEMORY: 2048
+    volumes:
+      - activemq_data:/opt/activemq/data
+
+volumes:
+  activemq_data:
+    driver: local
