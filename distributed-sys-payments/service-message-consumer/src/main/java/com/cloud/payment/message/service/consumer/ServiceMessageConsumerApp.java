@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @EnableDubbo
 @SpringBootApplication
- @EnableConfigurationProperties(JmsConfig.class)
 public class ServiceMessageConsumerApp {
     public static void main(String[] args) {
         SpringApplication.run(ServiceMessageConsumerApp.class, args);

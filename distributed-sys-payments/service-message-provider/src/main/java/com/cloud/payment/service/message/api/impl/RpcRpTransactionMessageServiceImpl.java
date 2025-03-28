@@ -5,10 +5,12 @@ import com.cloud.payment.service.message.api.RpcRpTransactionMessageService;
 import com.cloud.payment.service.message.entity.RpTransactionMessage;
 import com.cloud.payment.service.message.enums.MessageStatusEnum;
 import com.cloud.payment.service.message.exception.MessageBizException;
+import com.cloud.payment.service.message.service.MessageQueueService;
 import com.cloud.payment.service.message.service.RpTransactionMessageService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Date;
 import java.util.Objects;
@@ -17,6 +19,14 @@ import java.util.Objects;
 public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessageService {
     @Autowired
     private RpTransactionMessageService rpTransactionMessageService;
+
+    @Autowired
+    @Qualifier("kafkaMQMessageQueueService")
+    MessageQueueService kafkaMQMessageQueueService;
+
+    @Autowired
+    @Qualifier("activeMQMessageQueueService")
+    MessageQueueService activeMQMessageQueueService;
 
 
     @Override
@@ -62,7 +72,8 @@ public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessa
         // refresh message record to db
         rpTransactionMessageService.updateMessage(message);
 
-        // todo: send message here
+        // todo: send message to active|kafka queue
+        activeMQMessageQueueService.sendMessage("topic", "message status");
     }
 
     @Override
