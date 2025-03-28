@@ -5,10 +5,12 @@ import com.cloud.payment.service.message.api.RpcRpTransactionMessageService;
 import com.cloud.payment.service.message.entity.RpTransactionMessage;
 import com.cloud.payment.service.message.enums.MessageStatusEnum;
 import com.cloud.payment.service.message.exception.MessageBizException;
+import com.cloud.payment.service.message.service.MessageQueueService;
 import com.cloud.payment.service.message.service.RpTransactionMessageService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.Date;
 import java.util.Objects;
@@ -17,6 +19,9 @@ import java.util.Objects;
 public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessageService {
     @Autowired
     private RpTransactionMessageService rpTransactionMessageService;
+    @Autowired
+    @Qualifier("activeMQMessageQueueService")
+    MessageQueueService activeMQMessageQueueService;
 
 
     @Override
@@ -62,7 +67,19 @@ public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessa
         // refresh message record to db
         rpTransactionMessageService.updateMessage(message);
 
-        // todo: send message here
+        if (StringUtils.isBlank(message.getConsumerQueue())) {
+            throw new MessageBizException(MessageBizException.MESSAGE_CONSUMER_QUEUE_IS_NULL,
+                    "Received message id " + messageId + " queried entity message consumer " +
+                            "queue is blank!");
+        }
+
+        if (StringUtils.isBlank(message.getMessageBody())) {
+            throw new MessageBizException(MessageBizException.SAVED_MESSAGE_IS_NULL,
+                    "Saved message entity's body field is blank! Meaningless message will " +
+                            "not be sent to the consumer queue");
+        }
+
+        activeMQMessageQueueService.sendMessage(message.getConsumerQueue(), message.getMessageBody());
     }
 
     @Override
@@ -83,11 +100,26 @@ public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessa
         message.setEditTime(new Date());
         RpTransactionMessage ret = rpTransactionMessageService.updateMessage(message);
 
-        // send message queue message here
+
+        // send message notification to consumer queue
+        String consumerQueue = message.getConsumerQueue();
+        String messageBody = message.getMessageBody();
+
+        if (StringUtils.isBlank(consumerQueue)) {
+            throw new MessageBizException(MessageBizException.MESSAGE_CONSUMER_QUEUE_IS_NULL,
+                    "Received message consumer queue name is blank!");
+        }
+
+        if (StringUtils.isBlank(messageBody)) {
+            throw new MessageBizException(MessageBizException.SAVED_MESSAGE_IS_NULL,
+                    "Received message body is blank!");
+        }
+
+        activeMQMessageQueueService.sendMessage(consumerQueue, messageBody);
         return Objects.nonNull(ret) && ret.getId() > 0 ? 0 : -1;
     }
 
-    // Sending message out directly without store message to database table
+    // Deliver message directly to the consumer queue without store message to database table
     @Override
     public void directSendMessage(RpTransactionMessage message) throws MessageBizException {
         if (Objects.isNull(message)) {
@@ -95,12 +127,21 @@ public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessa
                     "Received to be saved message is null!");
         }
 
-        if (StringUtils.isEmpty(message.getConsumerQueue())) {
-            throw new MessageBizException(MessageBizException.MESSAGE_CONSUMER_QUEUE_IS_NULL
-                    , "Received msg consume queue is not defined!");
+        String messageBody = message.getMessageBody();
+        String consumerQueue = message.getConsumerQueue();
+
+
+        if (StringUtils.isEmpty(consumerQueue)) {
+            throw new MessageBizException(MessageBizException.MESSAGE_CONSUMER_QUEUE_IS_NULL,
+                    "Received msg consume queue is not defined!");
         }
 
-        // todo: send message to message queue
+        if (StringUtils.isEmpty(messageBody)) {
+            throw new MessageBizException(MessageBizException.SAVED_MESSAGE_IS_NULL,
+                    "Received message body is blank!");
+        }
+
+        activeMQMessageQueueService.sendMessage(consumerQueue, messageBody);
     }
 
     @Override
@@ -111,15 +152,22 @@ public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessa
         }
 
         if (StringUtils.isEmpty(message.getConsumerQueue())) {
-            throw new MessageBizException(MessageBizException.MESSAGE_CONSUMER_QUEUE_IS_NULL
-                    , "Received message's consumer queue name is empty");
+            throw new MessageBizException(MessageBizException.MESSAGE_CONSUMER_QUEUE_IS_NULL,
+                    "Received message's consumer queue name is empty");
+        }
+
+        if (StringUtils.isEmpty(message.getMessageBody())) {
+            throw new MessageBizException(MessageBizException.SAVED_MESSAGE_IS_NULL,
+                    "Received or stored message's body is blank!");
         }
 
         message.addSendTimes();
         message.setEditTime(new Date());
         rpTransactionMessageService.updateMessage(message);
 
-        // todo: send jms message
+        // after update the message items in storage layer, continue to re-deliver the
+        // message to message queue
+        activeMQMessageQueueService.sendMessage(message.getConsumerQueue(), message.getMessageBody());
     }
 
     @Override
@@ -132,8 +180,7 @@ public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessa
                     " find message entity from db by given messageId " + messageId);
         }
 
-        // todo: refine this latter, set max retry times to config file
-
+        // todo: refine this latter, set max retry times to configuration file
         int maxReSendTimes = 5;
         if (message.getMessageSendTimes() >= maxReSendTimes) {
             message.setAlreadyDead(PublicEnum.YES.name());
@@ -143,7 +190,20 @@ public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessa
         message.setMessageSendTimes(message.getMessageSendTimes() + 1);
         rpTransactionMessageService.updateMessage(message);
 
-        // todo: send jms message
+        String consumerQueue = message.getConsumerQueue();
+        String messageBody = message.getMessageBody();
+
+        if (StringUtils.isBlank(consumerQueue)) {
+            throw new MessageBizException(MessageBizException.MESSAGE_CONSUMER_QUEUE_IS_NULL,
+                    "Message's inner consumer message queue name is blank!");
+        }
+
+        if (StringUtils.isBlank(messageBody)) {
+            throw new MessageBizException(MessageBizException.SAVED_MESSAGE_IS_NULL,
+                    "Message's inner message body is blank!");
+        }
+
+        activeMQMessageQueueService.sendMessage(consumerQueue, messageBody);
     }
 
     @Override

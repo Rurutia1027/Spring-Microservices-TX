@@ -19,6 +19,15 @@ spring:
         order_inserts: true
         order_updates: true
 
+  activemq:
+    broker-url: tcp://localhost:61616
+    password: admin
+    user: admin
+    pool:
+      max-connections: 5
+      idle-timeout:
+    close-timeout: 60
+
 dubbo:
   provider:
     timeout: 60000
