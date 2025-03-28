@@ -19,11 +19,6 @@ import java.util.Objects;
 public class RpcRpTransactionMessageServiceImpl implements RpcRpTransactionMessageService {
     @Autowired
     private RpTransactionMessageService rpTransactionMessageService;
-
-    @Autowired
-    @Qualifier("kafkaMQMessageQueueService")
-    MessageQueueService kafkaMQMessageQueueService;
-
     @Autowired
     @Qualifier("activeMQMessageQueueService")
     MessageQueueService activeMQMessageQueueService;
