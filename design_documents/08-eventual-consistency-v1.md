@@ -4,8 +4,6 @@ __Local Message System__
 ![](./08-eventual-pic-1.png)
 ![](./08-eventual-pic-2.png)
 
-
-
 In this article, we introduce the design of an eventual consistency messaging system, the interaction flow among different systems, and the possible failure points that lead to message inconsistency, along with corresponding solutions. Finally, we will discuss the trade-offs of this local message system-based design for achieving eventual consistency.
 
 ### Forward Flow - Steps Description
