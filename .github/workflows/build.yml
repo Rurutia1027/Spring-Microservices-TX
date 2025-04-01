@@ -52,5 +52,5 @@ jobs:
 
       - name: Go to project root and build
         run: |
-          cd distributed-sys-payments
+          cd cloud-payment
           mvn clean install -DskipTests

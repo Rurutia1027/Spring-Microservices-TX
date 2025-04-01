@@ -1,0 +1,36 @@
+server:
+  port: 8580  # Web application runs on port 8080
+
+spring:
+  application:
+    name: grpc-web-client
+
+grpc-client:
+  message-service:
+    host: localhost
+    port: 58081
+
+management:
+  health:
+    diskspace:
+      enabled: false
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: 'health'
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+      show-details: always
+
+
+logging:
+  pattern:
+    console: "{ \"datetime\": \"%d{yyyy-MM-dd HH:mm:ss.SSS}\", \"level\": \"%level\", \"traceId\": \"%mdc{traceId}\", \"spanId\": \"%mdc{spanId}\", \"thread\": \"%thread\", \"class\": \"%c{2.}\", \"message\": \"%m\"}%n"
