@@ -8,7 +8,7 @@ spring:
 grpc-client:
   message-service:
     host: localhost
-    port: 58081
+    port: 59081
 
 management:
   health:

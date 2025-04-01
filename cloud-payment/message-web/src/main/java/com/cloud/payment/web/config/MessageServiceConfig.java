@@ -1,5 +1,6 @@
 package com.cloud.payment.web.config;
 
+import com.cloud.payment.interceptor.client.GrpcClientInterceptor;
 import com.cloud.payment.service.message.grpc.RpcRpTransactionMessageServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -26,7 +27,7 @@ public class MessageServiceConfig {
         return ManagedChannelBuilder.forAddress(grpcHost, grpcPort)
                 .usePlaintext()
                 .idleTimeout(20, TimeUnit.MINUTES)
-//                .intercept(new GrpcClientInterceptor(GRPC_CLIENT_NAME, GRPC_SERVER_NAME, tracer))
+                .intercept(new GrpcClientInterceptor(GRPC_CLIENT_NAME, GRPC_SERVER_NAME, tracer))
                 .build();
     }
 
