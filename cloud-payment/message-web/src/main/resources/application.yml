@@ -4,6 +4,14 @@ server:
 spring:
   application:
     name: grpc-web-client
+  webflux:
+    client:
+      response-timeout: 30s
+  zipkin:
+    baseUrl: http://localhost:9411
+    sleuth:
+      sampler:
+        probability: 1.0  # 100% sampling
 
 grpc-client:
   message-service:

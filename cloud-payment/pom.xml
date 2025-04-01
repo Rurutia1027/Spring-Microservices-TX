@@ -86,7 +86,13 @@
                 <artifactId>brave</artifactId>
                 <version>5.16.0</version>
             </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-resolver-dns-native-macos</artifactId>
+                <version>4.1.68.Final</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
     <build>

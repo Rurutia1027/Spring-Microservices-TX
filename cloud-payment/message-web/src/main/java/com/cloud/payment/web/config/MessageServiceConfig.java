@@ -19,8 +19,8 @@ public class MessageServiceConfig {
     @Value("${grpc-client.message-service.port}")
     private int grpcPort;
 
-    private static final String GRPC_CLIENT_NAME = "greet-client";
-    private static final String GRPC_SERVER_NAME = "greet-server";
+    private static final String GRPC_CLIENT_NAME = "message-service-client";
+    private static final String GRPC_SERVER_NAME = "message-service-server";
 
     @Bean(name = "managedChannelMessageService")
     public ManagedChannel managedChannelMessageService(final Tracer tracer) {
