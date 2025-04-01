@@ -45,7 +45,7 @@ public class GrpcClientInterceptor implements ClientInterceptor {
         final var grpcAuditLog =
                 GRpcAuditLog.builder().traceId(traceId)
                         .spanId(spanId)
-                        .serviceName(gRpcClientName)
+                        .serviceName(gRpcServerName)
                         .calledBy(gRpcClientName)
                         .method(methodDescriptor.getFullMethodName())
                         .build();

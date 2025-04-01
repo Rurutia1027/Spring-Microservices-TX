@@ -1,5 +1,6 @@
 package com.cloud.payment.web.config;
 
+import com.cloud.payment.interceptor.client.GrpcClientInterceptor;
 import com.cloud.payment.service.message.grpc.RpcRpTransactionMessageServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -18,15 +19,15 @@ public class MessageServiceConfig {
     @Value("${grpc-client.message-service.port}")
     private int grpcPort;
 
-    private static final String GRPC_CLIENT_NAME = "greet-client";
-    private static final String GRPC_SERVER_NAME = "greet-server";
+    private static final String GRPC_CLIENT_NAME = "message-service-client";
+    private static final String GRPC_SERVER_NAME = "message-service-server";
 
     @Bean(name = "managedChannelMessageService")
     public ManagedChannel managedChannelMessageService(final Tracer tracer) {
         return ManagedChannelBuilder.forAddress(grpcHost, grpcPort)
                 .usePlaintext()
                 .idleTimeout(20, TimeUnit.MINUTES)
-//                .intercept(new GrpcClientInterceptor(GRPC_CLIENT_NAME, GRPC_SERVER_NAME, tracer))
+                .intercept(new GrpcClientInterceptor(GRPC_CLIENT_NAME, GRPC_SERVER_NAME, tracer))
                 .build();
     }
 
