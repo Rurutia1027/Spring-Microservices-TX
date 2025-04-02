@@ -12,6 +12,9 @@
     <artifactId>message-web</artifactId>
 
     <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <app.image.name>message-web</app.image.name>
         <app.image.tag>1.0.0</app.image.tag>
     </properties>
@@ -55,10 +58,6 @@
             <groupId>io.netty</groupId>
             <artifactId>netty-resolver-dns-native-macos</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.google.cloud.tools</groupId>
-            <artifactId>jib-maven-plugin</artifactId>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -67,7 +66,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
             <!-- Protobuf Compiler Plugin -->
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
@@ -125,7 +123,6 @@
                     <plugin>
                         <groupId>com.google.cloud.tools</groupId>
                         <artifactId>jib-maven-plugin</artifactId>
-                        <version>3.4.4</version>
                         <configuration>
                             <from>
                                 <image>openjdk:17</image>
@@ -192,7 +189,6 @@
                     <plugin>
                         <groupId>com.google.cloud.tools</groupId>
                         <artifactId>jib-maven-plugin</artifactId>
-                        <version>3.4.4</version>
                         <configuration>
                             <from>
                                 <image>openjdk:17</image>
