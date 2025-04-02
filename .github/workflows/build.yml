@@ -65,4 +65,4 @@ jobs:
       - name: Go to project root and build
         run: |
           cd cloud-payment
-          mvn clean package -P spring-boot-build,jib-push-to-dockerhub -Dapp.image.tag=${{ env.BUILD_NUMBER }}
+          mvn clean package -P spring-boot-build,jib-push-to-dockerhub -Dapp.image.tag=latest-test
