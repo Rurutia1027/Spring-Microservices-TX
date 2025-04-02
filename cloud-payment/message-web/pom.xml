@@ -130,7 +130,6 @@
                             <container>
                                 <ports>
                                     <port>8580</port>  <!-- Web application -->
-                                    <port>59081</port> <!-- gRPC Client -->
                                 </ports>
                                 <format>OCI</format>
                             </container>
@@ -196,7 +195,6 @@
                             <container>
                                 <ports>
                                     <port>8580</port>  <!-- Web application -->
-                                    <port>59081</port> <!-- gRPC Client -->
                                 </ports>
                                 <format>OCI</format>
                             </container>
