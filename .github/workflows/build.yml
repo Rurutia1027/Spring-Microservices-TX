@@ -49,6 +49,17 @@ jobs:
             echo "Waiting for MySQL..."
             sleep 2
           done
+      
+      # generate a timestamp based unique build number rather than using latest which is hard to distinguish
+      - name: Build Number
+        id: build-number
+        run: echo "::set-output name=BUILD_NUMBER::$(date '+%-d.%-m.%Y.%-H.%-M.%-S')"
+      
+      - name: Docker Login
+        uses: docker/login-action@f3364599c6aa293cdc2b8391b1b56d0c30e45c8a
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Go to project root and build
         run: |
