@@ -15,7 +15,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <app.image.name>message-web</app.image.name>
+        <app.image.name>message-rpc-server</app.image.name>
         <app.image.tag>1.0.0</app.image.tag>
     </properties>
 
