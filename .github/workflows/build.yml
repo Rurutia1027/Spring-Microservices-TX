@@ -61,7 +61,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      
       - name: Go to project root and build
         run: |
           cd cloud-payment
-          mvn clean install -DskipTests
+          mvn clean package -Pjib-push-to-dockerhub -Dapp.image.tag=${{ env.BUILD_NUMBER }}
