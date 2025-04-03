@@ -13,6 +13,7 @@
         <module>message-rpc-server</module>
         <module>message-web</module>
         <module>common-core</module>
+        <module>gateway-service</module>
     </modules>
 
     <properties>
@@ -90,6 +91,13 @@
                 <groupId>io.netty</groupId>
                 <artifactId>netty-resolver-dns-native-macos</artifactId>
                 <version>4.1.68.Final</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>2024.0.1</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

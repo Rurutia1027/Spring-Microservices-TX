@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: grpc-web-client
+    name: message-web
   webflux:
     client:
       response-timeout: 30s
@@ -15,8 +15,8 @@ spring:
 
 grpc-client:
   message-service:
-    host: localhost
-    port: 59081
+    host: gateway-service # Use gateway instead of direct connection
+    port: 9994 # gateway's port
 
 management:
   health:
