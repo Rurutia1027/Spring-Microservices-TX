@@ -40,6 +40,24 @@ services:
       - message-rpc-server
     networks:
       - message-network
+  gateway-service:
+    image: docker.io/nanachi1027/gateway-service:latest  # Use docker.io/nanachi1027 for the image
+    container_name: gateway-service
+    ports:
+      - "9994:9994"  # Expose the gateway service to external world
+    environment:
+      SPRING_PROFILES_ACTIVE: "docker"
+      SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED: "true"
+      SPRING_CLOUD_GATEWAY_ROUTES_0_URI: "lb://RPC-SERVER"
+      SPRING_CLOUD_GATEWAY_ROUTES_0_PATH: "/rpc/server/**"
+      SPRING_CLOUD_GATEWAY_ROUTES_1_URI: "lb://RPC-CLIENT"
+      SPRING_CLOUD_GATEWAY_ROUTES_1_PATH: "/rpc/client/**"
+    depends_on:
+      - message-rpc-server  # Ensure the rpc server is available before starting the gateway
+      - activemq
+      - zipkin
+    networks:
+      - message-network
 
   mysql:
     image: mysql:8.0
