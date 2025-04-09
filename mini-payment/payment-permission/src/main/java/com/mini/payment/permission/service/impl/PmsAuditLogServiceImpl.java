@@ -47,6 +47,11 @@ public class PmsAuditLogServiceImpl implements PmsAuditLogService {
                         param.getOpType()));
             }
 
+            if (StringUtils.hasText(param.getContent())) {
+                predicates.add(cb.equal(root.get("content"),
+                        param.getContent()));
+            }
+
             return cb.and(predicates.toArray(new Predicate[0]));
         }, pageable);
     }
