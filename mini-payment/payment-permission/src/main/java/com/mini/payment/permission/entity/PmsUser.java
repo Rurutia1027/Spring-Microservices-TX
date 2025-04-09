@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -36,6 +37,9 @@ public class PmsUser extends DomainImpl implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PmsUserRole> userRoles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PmsAuditLog> auditLogs = new ArrayList<>();
 
     public PmsUser() {
     }
@@ -138,5 +142,13 @@ public class PmsUser extends DomainImpl implements UserDetails {
 
     public void setUserRoles(Set<PmsUserRole> userRoles) {
         this.userRoles = userRoles;
+    }
+
+    public List<PmsAuditLog> getAuditLogs() {
+        return auditLogs;
+    }
+
+    public void setAuditLogs(List<PmsAuditLog> auditLogs) {
+        this.auditLogs = auditLogs;
     }
 }
