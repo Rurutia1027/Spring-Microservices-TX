@@ -18,7 +18,7 @@ public class PmsMenu extends DomainImpl {
     private String name;
     private String url;
     private String number;
-    private String isLeaf;
+    private Boolean isLeaf;
     private Long level;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -57,11 +57,11 @@ public class PmsMenu extends DomainImpl {
         this.number = number;
     }
 
-    public String getIsLeaf() {
+    public Boolean getIsLeaf() {
         return isLeaf;
     }
 
-    public void setIsLeaf(String isLeaf) {
+    public void setIsLeaf(Boolean isLeaf) {
         this.isLeaf = isLeaf;
     }
 

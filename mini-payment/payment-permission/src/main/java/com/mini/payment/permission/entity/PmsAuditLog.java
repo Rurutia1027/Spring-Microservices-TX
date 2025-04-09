@@ -8,7 +8,6 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class PmsAuditLog extends DomainImpl {
-
     private String opType;
     private String ip;
     private String content;
