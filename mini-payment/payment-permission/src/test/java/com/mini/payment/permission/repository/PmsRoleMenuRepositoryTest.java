@@ -57,4 +57,36 @@ public class PmsRoleMenuRepositoryTest {
         List<PmsRoleMenu> itemList = pmsRoleMenuRepository.findAll();
         Assertions.assertTrue(itemList.size() > 0);
     }
+
+    @Test
+    public void saveAndDelete() {
+        PmsRole pmsRole = PmsMockUtils.mockPmsRole();
+        PmsMenu pmsMenu = PmsMockUtils.mockPmsMenu();
+        PmsRoleMenu item = new PmsRoleMenu();
+        item.setCreateTime(new Date());
+        item.setComment(StringUtil.get36UUID());
+        item.setRole(pmsRole);
+        item.setMenu(pmsMenu);
+
+        PmsMenu pmsMenuRet = pmsMenuRepository.save(pmsMenu);
+        Assertions.assertNotNull(pmsMenuRet);
+        Assertions.assertTrue(pmsMenuRet.getId() > 0);
+
+        PmsRole pmsRoleRet = pmsRoleRepository.save(pmsRole);
+        Assertions.assertNotNull(pmsRoleRet);
+        Assertions.assertTrue(pmsRoleRet.getId() > 0);
+
+        PmsRoleMenu ret = pmsRoleMenuRepository.save(item);
+        Assertions.assertNotNull(ret);
+        Assertions.assertTrue(ret.getId() > 0);
+
+        // pms_role_menu record cnt
+        int cnt1 = pmsRoleMenuRepository.findAll().size();
+
+        // here we delete role and the role's corresponding record should also be deleted
+        pmsRoleRepository.deleteById(pmsRoleRet.getId());
+        int cnt2 = pmsRoleMenuRepository.findAll().size();
+
+        Assertions.assertTrue(cnt1 > cnt2);
+    }
 }
