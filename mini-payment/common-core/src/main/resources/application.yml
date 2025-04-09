@@ -1,0 +1,10 @@
+mq:
+  broker-url: failover:(tcp://127.0.0.1:61616)?randomize=false&initialReconnectDelay=1000&maxReconnectDelay=30000
+  username: admin
+  password: admin
+  pool:
+    max-connections: 20
+
+  queue-names:
+    trade-notify: opensource_demo_tradeNotify
+    order-query: opensource_demo_orderQuery
