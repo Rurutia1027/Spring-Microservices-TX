@@ -38,7 +38,7 @@ public class PmsUser extends DomainImpl implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PmsUserRole> userRoles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PmsAuditLog> auditLogs = new ArrayList<>();
 
     public PmsUser() {

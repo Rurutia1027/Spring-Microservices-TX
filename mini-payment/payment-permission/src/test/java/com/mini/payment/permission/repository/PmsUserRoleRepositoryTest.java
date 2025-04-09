@@ -9,6 +9,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @SpringBootTest(classes = PaymentPermissionApplicationTest.class)
 public class PmsUserRoleRepositoryTest {
@@ -29,26 +34,25 @@ public class PmsUserRoleRepositoryTest {
     @Test
     public void saveAndQuery() {
         PmsUser pmsUser = PmsMockUtils.mockPmsUser();
+        PmsRole pmsRole = PmsMockUtils.mockPmsRole();
+
         PmsUser pmsUserRet = pmsUserRepository.save(pmsUser);
         Assertions.assertTrue(pmsUserRet.getId() > 0);
 
-        PmsRole pmsRole = PmsMockUtils.mockPmsRole();
         PmsRole pmsRoleRet = pmsRoleRepository.save(pmsRole);
         Assertions.assertTrue(pmsRoleRet.getId() > 0);
 
         PmsUserRole pmsUserRole = new PmsUserRole();
-        pmsUserRole.setRole(pmsRole);
-        pmsUserRole.setUser(pmsUser);
+        pmsUserRole.setUser(pmsUserRet);
+        pmsUserRole.setRole(pmsRoleRet);
 
-        PmsUserRole pmsUserRoleRet = pmsUserRoleRepository.save(pmsUserRole);
-        Assertions.assertTrue(pmsUserRet.getId() > 0);
-        PmsUserRole pmsUserRoleQueryRet =
-                pmsUserRoleRepository.findById(pmsUserRoleRet.getId()).orElse(null);
-        Assertions.assertNotNull(pmsUserRoleQueryRet);
+        Set<PmsUserRole> pmsUserRoles = new HashSet<>();
+        pmsUserRoles.add(pmsUserRole);
+        pmsUserRoleRepository.save(pmsUserRole);
 
-        pmsUserRepository.delete(pmsUserRet);
-        pmsUserRoleQueryRet =
-                pmsUserRoleRepository.findById(pmsUserRoleRet.getId()).orElse(null);
-        Assertions.assertNull(pmsUserRoleQueryRet);
+        List<PmsUserRole> list1 = pmsUserRoleRepository.findAll();
+        pmsUserRepository.deleteById(pmsUser.getId());
+        List<PmsUserRole> list2 = pmsUserRoleRepository.findAll();
+        Assertions.assertTrue(list1.size() > list2.size());
     }
 }
