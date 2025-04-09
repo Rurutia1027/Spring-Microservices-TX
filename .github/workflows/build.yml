@@ -62,7 +62,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       
-      # - name: Go to project root and build
-      #   run: |
-      #     cd cloud-payment
-      #     mvn clean package -P spring-boot-build,jib-push-to-dockerhub -Dapp.image.tag=latest
+      - name: Go to project root and build
+        run: |
+          cd mini-payment
+          mvn clean package 
