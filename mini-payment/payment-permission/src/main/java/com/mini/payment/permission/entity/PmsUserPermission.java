@@ -15,7 +15,7 @@ public class PmsUserPermission extends DomainImpl {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "permission_id")
-    private PmsPermission pmsPermission;
+    private PmsPermission permission;
 
     public PmsUser getUser() {
         return user;
@@ -25,11 +25,11 @@ public class PmsUserPermission extends DomainImpl {
         this.user = user;
     }
 
-    public PmsPermission getPmsPermission() {
-        return pmsPermission;
+    public PmsPermission getPermission() {
+        return permission;
     }
 
-    public void setPmsPermission(PmsPermission pmsPermission) {
-        this.pmsPermission = pmsPermission;
+    public void setPermission(PmsPermission permission) {
+        this.permission = permission;
     }
 }

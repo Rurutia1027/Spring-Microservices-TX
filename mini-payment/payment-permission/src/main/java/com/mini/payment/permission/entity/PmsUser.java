@@ -4,6 +4,7 @@ import com.mini.payment.domain.DomainImpl;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -29,10 +30,12 @@ public class PmsUser extends DomainImpl {
 
     private String salt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private Set<PmsUserRole> userRoles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private Set<PmsUserPermission> userPermissions = new HashSet<>();
 
     public PmsUser() {

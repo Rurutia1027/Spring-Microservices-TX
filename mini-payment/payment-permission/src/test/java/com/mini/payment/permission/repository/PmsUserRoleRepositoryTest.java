@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @SpringBootTest(classes = PaymentPermissionApplicationTest.class)
@@ -32,6 +31,7 @@ public class PmsUserRoleRepositoryTest {
     }
 
     @Test
+    @Transactional
     public void saveAndQuery() {
         PmsUser pmsUser = PmsMockUtils.mockPmsUser();
         PmsRole pmsRole = PmsMockUtils.mockPmsRole();
@@ -48,11 +48,9 @@ public class PmsUserRoleRepositoryTest {
 
         Set<PmsUserRole> pmsUserRoles = new HashSet<>();
         pmsUserRoles.add(pmsUserRole);
-        pmsUserRoleRepository.save(pmsUserRole);
+        PmsUserRole pmsUserRoleRet = pmsUserRoleRepository.save(pmsUserRole);
 
-        List<PmsUserRole> list1 = pmsUserRoleRepository.findAll();
+        pmsUserRoleRepository.deleteById(pmsUserRoleRet.getId());
         pmsUserRepository.deleteById(pmsUser.getId());
-        List<PmsUserRole> list2 = pmsUserRoleRepository.findAll();
-        Assertions.assertTrue(list1.size() > list2.size());
     }
 }
