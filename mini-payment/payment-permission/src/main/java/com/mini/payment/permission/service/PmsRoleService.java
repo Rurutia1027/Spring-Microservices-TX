@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface PmsRoleService {
@@ -13,6 +14,14 @@ public interface PmsRoleService {
     PmsRole updateData(PmsRole pmsRole);
 
     PmsRole getById(Long id);
+
+    Optional<PmsRole> findWithMenus(Long id);
+
+    Optional<PmsRole> findWithPermissions(Long id);
+
+    Optional<PmsRole> findWithUsers(Long id);
+
+    Optional<PmsRole> getByIdWithAllRelations(Long id);
 
     void deleteById(Long id);
 

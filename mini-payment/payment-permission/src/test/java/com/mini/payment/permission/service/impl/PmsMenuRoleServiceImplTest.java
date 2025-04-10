@@ -84,4 +84,52 @@ public class PmsMenuRoleServiceImplTest {
         int cntRet = pmsMenuRoleService.countMenuByRoleId(pmsRoleRet.getId());
         Assertions.assertTrue(cntRet == 0);
     }
+
+    @Test
+    public void testBindRoleMenuNames() {
+        // create one Role & save to db
+        PmsRole pmsRole = PmsMockUtils.mockPmsRole();
+        PmsRole pmsRoleRet = pmsRoleService.saveData(pmsRole);
+
+        // create several menus & save to db
+        List<PmsMenu> pmsMenuList = PmsMockUtils.mockPmsMenus(10);
+        Set<String> savedPmsMenuRetNames = new HashSet<>();
+        for (PmsMenu item : pmsMenuList) {
+            PmsMenu pmsMenuRet = pmsMenuService.saveData(item);
+            savedPmsMenuRetNames.add(pmsMenuRet.getName());
+        }
+
+        List<PmsRoleMenu> bindRet = pmsMenuRoleService.bindRoleMenuNames(pmsRoleRet.getId(),
+                savedPmsMenuRetNames);
+        Assertions.assertTrue(bindRet.size() > 0);
+        PmsRole queryRet = pmsRoleService.findWithMenus(pmsRoleRet.getId()).orElse(null);
+        Assertions.assertNotNull(queryRet);
+        Assertions.assertTrue(queryRet.getRoleMenus().size() > 0);
+        PmsRoleMenu retRoleMenuItem = queryRet.getRoleMenus().stream().findAny().get();
+        Assertions.assertTrue(retRoleMenuItem.getMenu() != null && retRoleMenuItem.getRole() != null);
+    }
+
+    @Test
+    public void testBindingRoleMenuIds() {
+        // create one Role & save to db
+        PmsRole pmsRole = PmsMockUtils.mockPmsRole();
+        PmsRole pmsRoleRet = pmsRoleService.saveData(pmsRole);
+
+        // create several menus & save to db
+        List<PmsMenu> pmsMenuList = PmsMockUtils.mockPmsMenus(10);
+        Set<Long> savedPmsMenuRetIds = new HashSet<>();
+        for (PmsMenu item : pmsMenuList) {
+            PmsMenu pmsMenuRet = pmsMenuService.saveData(item);
+            savedPmsMenuRetIds.add(pmsMenuRet.getId());
+        }
+
+        List<PmsRoleMenu> bindRet = pmsMenuRoleService.bindRoleMenuIds(pmsRoleRet.getId(),
+                savedPmsMenuRetIds);
+        Assertions.assertTrue(bindRet.size() > 0);
+        PmsRole queryRet = pmsRoleService.findWithMenus(pmsRoleRet.getId()).orElse(null);
+        Assertions.assertNotNull(queryRet);
+        Assertions.assertTrue(queryRet.getRoleMenus().size() > 0);
+        PmsRoleMenu retRoleMenuItem = queryRet.getRoleMenus().stream().findAny().get();
+        Assertions.assertTrue(retRoleMenuItem.getMenu() != null && retRoleMenuItem.getRole() != null);
+    }
 }
