@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Set;
+
 @Repository
 public interface PmsRoleMenuRepository extends BaseRepository<PmsRoleMenu>,
         JpaSpecificationExecutor<PmsRoleMenu> {
@@ -17,4 +19,7 @@ public interface PmsRoleMenuRepository extends BaseRepository<PmsRoleMenu>,
     @Modifying
     @Query("DELETE FROM PmsRoleMenu rm WHERE rm.role.id = :roleId")
     void deleteByRoleId(@Param("roleId") Long roleId);
+
+    @Query("SELECT rm.id FROM PmsRoleMenu rm WHERE rm.role.id = :roleId")
+    Set<Long> findAllIdsByRoleId(@Param("roleId") Long roleId);
 }

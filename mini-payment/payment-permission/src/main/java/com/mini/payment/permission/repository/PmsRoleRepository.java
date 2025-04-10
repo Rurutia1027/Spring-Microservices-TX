@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PmsRoleRepository extends BaseRepository<PmsRole>,
         JpaSpecificationExecutor<PmsRole> {
+
+
 }
