@@ -7,9 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,6 +23,8 @@ public class PmsUser extends DomainImpl {
 
     private String mobileNo;
 
+    private String email;
+
     private String type;
 
     private String salt;
@@ -33,7 +33,7 @@ public class PmsUser extends DomainImpl {
     private Set<PmsUserRole> userRoles = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PmsAuditLog> auditLogs = new ArrayList<>();
+    private Set<PmsUserPermission> userPermissions = new HashSet<>();
 
     public PmsUser() {
     }
@@ -95,11 +95,19 @@ public class PmsUser extends DomainImpl {
         this.userRoles = userRoles;
     }
 
-    public List<PmsAuditLog> getAuditLogs() {
-        return auditLogs;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAuditLogs(List<PmsAuditLog> auditLogs) {
-        this.auditLogs = auditLogs;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Set<PmsUserPermission> getUserPermissions() {
+        return userPermissions;
+    }
+
+    public void setUserPermissions(Set<PmsUserPermission> userPermissions) {
+        this.userPermissions = userPermissions;
     }
 }

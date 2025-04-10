@@ -1,6 +1,5 @@
 package com.mini.payment.permission;
 
-import com.mini.payment.permission.entity.PmsAuditLog;
 import com.mini.payment.permission.entity.PmsMenu;
 import com.mini.payment.permission.entity.PmsPermission;
 import com.mini.payment.permission.entity.PmsRole;
@@ -28,16 +27,6 @@ public class PmsMockUtils {
         pmsMenu.setIsLeaf(false);
         pmsMenu.setLevel(0L);
         return pmsMenu;
-    }
-
-    public static PmsAuditLog mockPmsAuditLog() {
-        PmsAuditLog ret = new PmsAuditLog();
-        ret.setIp("127.0.0.1");
-        ret.setStatus(StringUtil.get32UUID());
-        ret.setCreateTime(new Date());
-        ret.setContent(StringUtil.get32UUID());
-        ret.setOpType(StringUtil.get32UUID());
-        return ret;
     }
 
     public static PmsUser mockPmsUser() {
