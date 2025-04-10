@@ -22,10 +22,6 @@ public class PmsRole extends DomainImpl {
     @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PmsRolePermission> rolePermissions;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PmsRoleMenu> roleMenus = new HashSet<>();
-
-
     // --- getter & setter ---
 
     public String getRoleCode() {
@@ -58,13 +54,5 @@ public class PmsRole extends DomainImpl {
 
     public void setRolePermissions(Set<PmsRolePermission> rolePermissions) {
         this.rolePermissions = rolePermissions;
-    }
-
-    public Set<PmsRoleMenu> getRoleMenus() {
-        return roleMenus;
-    }
-
-    public void setRoleMenus(Set<PmsRoleMenu> roleMenus) {
-        this.roleMenus = roleMenus;
     }
 }
