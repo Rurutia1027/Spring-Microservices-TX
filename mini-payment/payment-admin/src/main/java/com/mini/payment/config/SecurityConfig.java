@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authorization.AuthorityAuthorizationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -49,26 +50,11 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/test", "/api/hello", "/api/sayHi").permitAll()
+                        .requestMatchers("/api/test", "/api/hello", "/api/sayHi").authenticated()
                         .requestMatchers("/api/account", "/api/admin", "/api/permission").authenticated()
                         .anyRequest().access(AuthorityAuthorizationManager.hasAnyAuthority(
                                 "admin")))
-                .formLogin(form -> form
-                        .loginPage("/login.html")
-                        .loginProcessingUrl("/auth")
-                        .usernameParameter("user")
-                        .passwordParameter("pass")
-                        .successHandler(pmsAuthenticationSuccessHandler)
-                        .failureHandler(pmsAuthenticationFailureHandler)
-                        .permitAll())
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                        .invalidSessionUrl("/session.html")
-                        .maximumSessions(3)
-                        .maxSessionsPreventsLogin(false))
-                .rememberMe(rem -> rem
-                        .tokenRepository(persistentTokenRepository())
-                        .tokenValiditySeconds(60));
+                .httpBasic(Customizer.withDefaults());
         return httpSecurity.build();
     }
 
