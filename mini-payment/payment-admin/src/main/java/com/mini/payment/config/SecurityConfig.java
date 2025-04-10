@@ -1,5 +1,6 @@
 package com.mini.payment.config;
 
+import com.mini.payment.filter.PermissionFilter;
 import com.mini.payment.service.PmsUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableMethodSecurity
@@ -32,7 +34,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/account", "/api/admin", "/api/permission").authenticated()
                         .anyRequest().access(AuthorityAuthorizationManager.hasAnyAuthority(
                                 "admin")))
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic(Customizer.withDefaults())
+                .addFilterBefore(new PermissionFilter(),
+                        UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 
