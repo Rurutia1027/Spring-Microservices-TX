@@ -20,4 +20,6 @@ public interface PmsPermissionService {
     boolean isPermissionNameAlreadyExist(String pmsName);
 
     List<PmsPermission> listAllByMenuId(Long menuId);
+
+    List<String> findPermissionsByUserId(Long id);
 }

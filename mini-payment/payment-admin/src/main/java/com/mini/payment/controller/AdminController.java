@@ -13,7 +13,7 @@ public class AdminController {
         return "Hello, Admin!";
     }
 
-    @PreAuthorize("hasPermission('menu', 'query')")
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/sayHi")
     public String sayHi() {
         return "Say Hi, Admin!";

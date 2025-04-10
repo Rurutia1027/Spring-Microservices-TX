@@ -1,36 +1,54 @@
 package com.mini.payment.config;
 
+import com.mini.payment.service.PmsUserDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authorization.AuthorityAuthorizationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled=true)
-public class SecurityConfig    {
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable()
-//                .authorizeRequests()
-//                .anyRequest().authenticated()
-//                .and()
-//                .httpBasic();
-//    }
+@EnableMethodSecurity
+public class SecurityConfig {
+    @Autowired
+    private PmsUserDetailService pmsUserDetailService;
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("admin").password("{noop}admin123").roles("ADMIN");
-//    }
+    @Autowired
+    private PmsSecurityAuthorizationManager pmsSecurityAuthorizationManager;
 
-//    @Bean
-//    public MethodSecurityExpressionHandler expressionHandler() {
-//        DefaultMethodSecurityExpressionHandler expressionHandler =
-//                new DefaultMethodSecurityExpressionHandler();
-//        expressionHandler.setPermissionEvaluator(new CustomPermissionEvaluator());
-//        return expressionHandler;
-//    }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/test", "/api/hello", "/api/sayHi").authenticated()
+                        .requestMatchers("/api/account", "/api/admin", "/api/permission").authenticated()
+                        .anyRequest().access(AuthorityAuthorizationManager.hasAnyAuthority(
+                                "admin")))
+                .httpBasic(Customizer.withDefaults());
+        return httpSecurity.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authBuilder
+                .userDetailsService(pmsUserDetailService)
+                .passwordEncoder(passwordEncoder());
+        return authBuilder.build();
+    }
 }
+

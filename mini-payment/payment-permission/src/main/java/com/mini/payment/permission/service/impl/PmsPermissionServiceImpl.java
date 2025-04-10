@@ -49,4 +49,9 @@ public class PmsPermissionServiceImpl implements PmsPermissionService {
     public List<PmsPermission> listAllByMenuId(Long menuId) {
         return List.of();
     }
+
+    @Override
+    public List<String> findPermissionsByUserId(Long id) {
+        return List.of();
+    }
 }
