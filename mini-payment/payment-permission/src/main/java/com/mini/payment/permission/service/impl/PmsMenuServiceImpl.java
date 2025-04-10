@@ -15,8 +15,8 @@ public class PmsMenuServiceImpl implements PmsMenuService {
     private PmsMenuRepository pmsMenuRepository;
 
     @Override
-    public void saveData(PmsMenu pmsMenu) {
-
+    public PmsMenu saveData(PmsMenu pmsMenu) {
+        return pmsMenuRepository.save(pmsMenu);
     }
 
     @Override

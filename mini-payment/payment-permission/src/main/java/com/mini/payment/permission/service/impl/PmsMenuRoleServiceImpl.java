@@ -9,6 +9,7 @@ import com.mini.payment.permission.repository.PmsRoleRepository;
 import com.mini.payment.permission.service.PmsMenuRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+@Transactional
 @Service("pmsMenuRoleService")
 public class PmsMenuRoleServiceImpl implements PmsMenuRoleService {
     @Autowired
@@ -35,7 +37,7 @@ public class PmsMenuRoleServiceImpl implements PmsMenuRoleService {
 
     @Override
     public void deleteByRoleId(Long roleId) {
-        pmsRoleMenuRepository.deleteById(roleId);
+        pmsRoleMenuRepository.deleteByRoleId(roleId);
     }
 
     @Override

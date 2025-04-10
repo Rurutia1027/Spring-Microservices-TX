@@ -7,7 +7,9 @@ import com.mini.payment.permission.entity.PmsRole;
 import com.mini.payment.permission.entity.PmsUser;
 import com.mini.payment.utils.StringUtil;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class PmsMockUtils {
     public static PmsRole mockPmsRole() {
@@ -54,5 +56,13 @@ public class PmsMockUtils {
         pmsPermission.setPermissionName(StringUtil.get32UUID());
         pmsPermission.setCreateTime(new Date());
         return pmsPermission;
+    }
+
+    public static List<PmsMenu> mockPmsMenus(int len) {
+        List<PmsMenu> ret = new ArrayList<>();
+        for (int i = 0; i < len; i++) {
+            ret.add(mockPmsMenu());
+        }
+        return ret;
     }
 }

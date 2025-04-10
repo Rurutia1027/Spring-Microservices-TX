@@ -18,7 +18,7 @@ public class PmsRoleServiceImpl implements PmsRoleService {
 
     @Override
     public PmsRole saveData(PmsRole pmsRole) {
-        return null;
+        return pmsRoleRepository.save(pmsRole);
     }
 
     @Override
