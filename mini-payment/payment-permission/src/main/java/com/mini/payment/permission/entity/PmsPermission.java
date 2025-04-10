@@ -3,6 +3,7 @@ package com.mini.payment.permission.entity;
 import com.mini.payment.domain.DomainImpl;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -13,8 +14,13 @@ import java.util.Set;
 @Table(name = "pms_permission")
 public class PmsPermission extends DomainImpl {
 
-    @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "permission", fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private Set<PmsRolePermission> permissionRoles;
+
+    @OneToMany(mappedBy = "permission", fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Set<PmsUserPermission> pmsUserPermissions;
 
     private String resource;
     private String action;
@@ -67,5 +73,13 @@ public class PmsPermission extends DomainImpl {
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    public Set<PmsUserPermission> getPmsUserPermissions() {
+        return pmsUserPermissions;
+    }
+
+    public void setPmsUserPermissions(Set<PmsUserPermission> pmsUserPermissions) {
+        this.pmsUserPermissions = pmsUserPermissions;
     }
 }

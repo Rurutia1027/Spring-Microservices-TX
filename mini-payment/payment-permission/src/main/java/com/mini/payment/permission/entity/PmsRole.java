@@ -16,10 +16,12 @@ public class PmsRole extends DomainImpl {
     private String roleCode;
     private String roleName;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private Set<PmsUserRole> roleUsers = new HashSet<>();
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private Set<PmsRolePermission> rolePermissions;
 
     // --- getter & setter ---
