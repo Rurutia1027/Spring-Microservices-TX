@@ -32,7 +32,6 @@ public class PmsMenu extends DomainImpl {
     private Set<PmsRoleMenu> menuRoles = new HashSet<>();
 
     // -- getter && setter --
-
     public String getName() {
         return name;
     }

@@ -13,6 +13,7 @@
         <module>payment-permission</module>
         <module>payment-service</module>
         <module>permission-audit</module>
+        <module>payment-admin</module>
     </modules>
 
     <properties>

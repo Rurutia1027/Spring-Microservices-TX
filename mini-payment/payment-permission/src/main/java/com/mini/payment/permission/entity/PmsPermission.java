@@ -5,6 +5,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 import java.util.Set;
 
@@ -15,16 +16,24 @@ public class PmsPermission extends DomainImpl {
     @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PmsRolePermission> permissionRoles;
 
-    private String permissionName;
+    private String resource;
+    private String action;
+    private String scope;
     private String permission;
 
-
-    public String getPermissionName() {
-        return permissionName;
+    @Transient
+    public String getPermCode() {
+        return scope != null && !scope.isEmpty()
+                ? String.format("%s:%s:%s", scope, resource, action)
+                : String.format("%s:%s", resource, action);
     }
 
-    public void setPermissionName(String permissionName) {
-        this.permissionName = permissionName;
+    public String getResource() {
+        return resource;
+    }
+
+    public void setResource(String permissionName) {
+        this.resource = permissionName;
     }
 
     public String getPermission() {
@@ -42,5 +51,21 @@ public class PmsPermission extends DomainImpl {
 
     public void setPermissionRoles(Set<PmsRolePermission> permissionRoles) {
         this.permissionRoles = permissionRoles;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 }
