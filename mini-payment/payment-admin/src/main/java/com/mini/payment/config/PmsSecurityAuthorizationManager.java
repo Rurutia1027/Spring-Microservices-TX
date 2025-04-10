@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 @Component("pmsSecurityAuthorizationManager")
-public class PermissionSecurityAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
+public class PmsSecurityAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
 
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
