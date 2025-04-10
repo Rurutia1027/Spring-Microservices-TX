@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface PmsMenuService {
-    void saveData(PmsMenu pmsMenu);
+    PmsMenu saveData(PmsMenu pmsMenu);
 
     PmsMenu updateData(PmsMenu menu);
 
