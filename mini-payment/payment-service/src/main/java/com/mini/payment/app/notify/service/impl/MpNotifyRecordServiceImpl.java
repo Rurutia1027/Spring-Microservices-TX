@@ -1,13 +1,13 @@
-package com.mini.payment.notify.service.impl;
+package com.mini.payment.app.notify.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mini.payment.notify.entity.MpNotifyRecord;
-import com.mini.payment.notify.entity.MpNotifyRecordAuditLog;
-import com.mini.payment.notify.enums.NotifyStatusEnum;
-import com.mini.payment.notify.enums.NotifyTypeEnum;
-import com.mini.payment.notify.repository.MpNotifyRecordAuditLogRepository;
-import com.mini.payment.notify.repository.MpNotifyRecordRespository;
-import com.mini.payment.notify.service.MpNotifyRecordService;
+import com.mini.payment.app.notify.entity.MpNotifyRecord;
+import com.mini.payment.app.notify.entity.MpNotifyRecordAuditLog;
+import com.mini.payment.app.notify.enums.NotifyStatusEnum;
+import com.mini.payment.app.notify.enums.NotifyTypeEnum;
+import com.mini.payment.app.notify.repository.MpNotifyRecordAuditLogRepository;
+import com.mini.payment.app.notify.repository.MpNotifyRecordRespository;
+import com.mini.payment.app.notify.service.MpNotifyRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;

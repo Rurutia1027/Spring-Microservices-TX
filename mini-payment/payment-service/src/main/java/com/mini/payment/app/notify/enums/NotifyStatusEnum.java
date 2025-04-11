@@ -1,4 +1,4 @@
-package com.mini.payment.notify.enums;
+package com.mini.payment.app.notify.enums;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,7 +1,7 @@
-package com.mini.payment.notify.service;
+package com.mini.payment.app.notify.service;
 
-import com.mini.payment.notify.entity.MpNotifyRecord;
-import com.mini.payment.notify.entity.MpNotifyRecordAuditLog;
+import com.mini.payment.app.notify.entity.MpNotifyRecord;
+import com.mini.payment.app.notify.entity.MpNotifyRecordAuditLog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

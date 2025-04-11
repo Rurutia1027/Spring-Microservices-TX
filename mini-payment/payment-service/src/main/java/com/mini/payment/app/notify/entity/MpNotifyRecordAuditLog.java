@@ -1,4 +1,4 @@
-package com.mini.payment.notify.entity;
+package com.mini.payment.app.notify.entity;
 
 import com.mini.payment.domain.DomainImpl;
 import jakarta.persistence.Entity;

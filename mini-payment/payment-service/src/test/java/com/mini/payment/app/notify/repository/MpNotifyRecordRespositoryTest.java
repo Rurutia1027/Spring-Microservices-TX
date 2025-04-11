@@ -1,4 +1,4 @@
-package com.mini.payment.notify.repository;
+package com.mini.payment.app.notify.repository;
 
 import com.mini.payment.MpNotifyApplicationTest;
 import org.junit.jupiter.api.Assertions;

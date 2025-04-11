@@ -1,7 +1,7 @@
-package com.mini.payment.notify.service.impl;
+package com.mini.payment.app.notify.service.impl;
 
 import com.mini.payment.MpNotifyApplicationTest;
-import com.mini.payment.notify.service.MpNotifyRecordService;
+import com.mini.payment.app.notify.service.MpNotifyRecordService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

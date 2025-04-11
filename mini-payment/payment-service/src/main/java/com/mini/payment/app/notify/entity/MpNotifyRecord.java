@@ -1,8 +1,8 @@
-package com.mini.payment.notify.entity;
+package com.mini.payment.app.notify.entity;
 
 import com.mini.payment.domain.DomainImpl;
-import com.mini.payment.notify.enums.NotifyStatusEnum;
-import com.mini.payment.notify.enums.NotifyTypeEnum;
+import com.mini.payment.app.notify.enums.NotifyStatusEnum;
+import com.mini.payment.app.notify.enums.NotifyTypeEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
