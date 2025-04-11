@@ -14,11 +14,24 @@ public class HelloController {
         return "Say Hi, Admin!";
     }
 
+    @GetMapping("/testAdminRole")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String testAdminRole() {
+        return "Say Hi, Role of Admin!";
+    }
+
     @GetMapping("/testUserAuthority")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public String testUserAuthority() {
         return "Say Hi, User!";
     }
+
+    @GetMapping("/testUserRole")
+    @PreAuthorize("hasRole('USER')")
+    public String testUserRole() {
+        return "Say Hi, Role of User";
+    }
+
 
     @GetMapping("/testNoAuthority")
     public String testNoAuthority() {
