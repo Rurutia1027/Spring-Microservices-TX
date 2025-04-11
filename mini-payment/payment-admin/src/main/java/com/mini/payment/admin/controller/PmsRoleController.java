@@ -1,4 +1,4 @@
-package com.mini.payment.controller;
+package com.mini.payment.admin.controller;
 
 import com.mini.payment.permission.service.PmsRoleService;
 import org.springframework.beans.factory.annotation.Autowired;

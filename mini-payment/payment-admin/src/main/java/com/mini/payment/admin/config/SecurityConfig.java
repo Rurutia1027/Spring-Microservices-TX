@@ -1,14 +1,11 @@
-package com.mini.payment.config;
+package com.mini.payment.admin.config;
 
-import com.mini.payment.filter.JwtAuthFilter;
-import com.mini.payment.filter.PermissionFilter;
-import com.mini.payment.service.PmsUserDetailService;
+import com.mini.payment.admin.filter.JwtAuthFilter;
+import com.mini.payment.admin.service.PmsUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authorization.AuthorityAuthorizationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

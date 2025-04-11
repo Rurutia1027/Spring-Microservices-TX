@@ -1,4 +1,4 @@
-package com.mini.payment.config;
+package com.mini.payment.admin.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
