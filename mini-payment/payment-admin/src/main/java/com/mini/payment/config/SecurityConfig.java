@@ -1,5 +1,6 @@
 package com.mini.payment.config;
 
+import com.mini.payment.filter.JwtAuthFilter;
 import com.mini.payment.filter.PermissionFilter;
 import com.mini.payment.service.PmsUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,19 +28,20 @@ public class SecurityConfig {
     private PmsSecurityAuthorizationManager pmsSecurityAuthorizationManager;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
+        http
                 .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/test", "/api/hello", "/api/sayHi").authenticated()
-                        .requestMatchers("/api/account", "/api/admin", "/api/permission").authenticated()
-                        .anyRequest().access(AuthorityAuthorizationManager.hasAnyAuthority(
-                                "admin")))
-                .httpBasic(Customizer.withDefaults())
-                .addFilterBefore(new PermissionFilter(),
-                        UsernamePasswordAuthenticationFilter.class);
-        return httpSecurity.build();
+                        .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/user/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                        .anyRequest().permitAll()
+                )
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
