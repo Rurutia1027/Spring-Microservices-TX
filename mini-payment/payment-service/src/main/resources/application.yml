@@ -9,3 +9,13 @@ spring:
     hibernate:
       ddl-auto: create  # Automatically creates/drops schema for tests
     show-sql: true
+
+mq:
+  broker-url: "failover:(tcp://127.0.0.1:61616)?randomize=false&initialReconnectDelay=1000&maxReconnectDelay=30000"
+  username: "mq_admin"
+  password: "mq_admin"
+  pool:
+    maxConnections: 20
+  queue-name:
+    merchant-notify: "merchant_notify_queue"
+    order-notify: "order_notify_queue"

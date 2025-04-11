@@ -87,4 +87,12 @@ public class MpNotifyRecord extends DomainImpl {
     public void setNotifyType(String notifyType) {
         this.notifyType = notifyType;
     }
+
+    public Integer getLimitNotifyTimes() {
+        return limitNotifyTimes;
+    }
+
+    public void setLimitNotifyTimes(Integer limitNotifyTimes) {
+        this.limitNotifyTimes = limitNotifyTimes;
+    }
 }

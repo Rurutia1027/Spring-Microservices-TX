@@ -6,9 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface MpNotifyRecordService {
-    void notifySend(String notifyUrl, String merchantOrderNo, String merchantNo);
+    void merchantNotifySend(String notifyUrl, String merchantOrderNo, String merchantNo);
 
-    void orderSend(String bankOrderNo);
+    void orderNotifySend(String bankOrderNo);
 
     MpNotifyRecord getNotifyRecordById(String id);
 
@@ -17,7 +17,7 @@ public interface MpNotifyRecordService {
 
     Page<MpNotifyRecord> listPage(MpNotifyRecord param, Pageable pageable);
 
-    long createNotifyRecord(MpNotifyRecord mpNotifyRecord);
+    MpNotifyRecord createNotifyRecord(MpNotifyRecord mpNotifyRecord);
 
     MpNotifyRecord updateNotifyRecord(MpNotifyRecord mpNotifyRecord);
 
