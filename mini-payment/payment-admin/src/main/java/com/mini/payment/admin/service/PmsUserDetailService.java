@@ -1,4 +1,4 @@
-package com.mini.payment.service;
+package com.mini.payment.admin.service;
 
 import com.mini.payment.permission.entity.PmsUser;
 import com.mini.payment.permission.service.PmsPermissionService;

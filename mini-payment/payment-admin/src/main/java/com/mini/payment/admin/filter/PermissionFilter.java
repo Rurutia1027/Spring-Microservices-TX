@@ -1,4 +1,4 @@
-package com.mini.payment.filter;
+package com.mini.payment.admin.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

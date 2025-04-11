@@ -1,4 +1,4 @@
-package com.mini.payment.config;
+package com.mini.payment.admin.config;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

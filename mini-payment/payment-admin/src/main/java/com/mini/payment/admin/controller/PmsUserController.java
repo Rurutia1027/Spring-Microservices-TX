@@ -1,6 +1,5 @@
-package com.mini.payment.controller;
+package com.mini.payment.admin.controller;
 
-import com.mini.payment.permission.entity.PmsUser;
 import com.mini.payment.permission.service.PmsUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

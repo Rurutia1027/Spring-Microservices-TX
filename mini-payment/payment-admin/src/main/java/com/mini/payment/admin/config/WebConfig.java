@@ -1,6 +1,6 @@
-package com.mini.payment.config;
+package com.mini.payment.admin.config;
 
-import com.mini.payment.interceptor.TimeInterceptor;
+import com.mini.payment.admin.interceptor.TimeInterceptor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

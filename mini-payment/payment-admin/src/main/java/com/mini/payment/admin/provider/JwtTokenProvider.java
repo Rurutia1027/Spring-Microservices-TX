@@ -1,4 +1,4 @@
-package com.mini.payment.provider;
+package com.mini.payment.admin.provider;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

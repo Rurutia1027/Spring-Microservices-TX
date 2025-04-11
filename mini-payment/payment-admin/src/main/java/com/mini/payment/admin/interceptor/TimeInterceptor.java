@@ -1,4 +1,4 @@
-package com.mini.payment.interceptor;
+package com.mini.payment.admin.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
