@@ -1,4 +1,4 @@
-package com.mini.payment.admin.config;
+package com.mini.payment.config;
 
 import com.mini.payment.admin.service.PmsUserDetailService;
 import org.springframework.context.annotation.Bean;

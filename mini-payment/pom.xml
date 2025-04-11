@@ -13,6 +13,7 @@
         <module>payment-app-permission</module>
         <module>payment-service</module>
         <module>payment-web-admin</module>
+        <module>payment-app-notify</module>
     </modules>
 
     <properties>
