@@ -12,8 +12,7 @@
         <module>common-core</module>
         <module>payment-permission</module>
         <module>payment-service</module>
-        <module>permission-audit</module>
-        <module>payment-admin</module>
+        <module>mini-payment-admin</module>
     </modules>
 
     <properties>
