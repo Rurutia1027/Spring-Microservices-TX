@@ -10,9 +10,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>common-core</module>
-        <module>payment-permission</module>
+        <module>payment-app-permission</module>
         <module>payment-service</module>
-        <module>mini-payment-admin</module>
+        <module>payment-web-admin</module>
     </modules>
 
     <properties>
@@ -41,7 +41,7 @@
             </dependency>
             <dependency>
                 <groupId>com.mini.payment</groupId>
-                <artifactId>payment-permission</artifactId>
+                <artifactId>payment-app-permission</artifactId>
                 <version>${parent.version}</version>
             </dependency>
             <dependency>
