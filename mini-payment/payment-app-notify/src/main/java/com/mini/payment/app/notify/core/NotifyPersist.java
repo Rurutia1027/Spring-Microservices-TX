@@ -18,7 +18,7 @@ public class NotifyPersist {
     }
 
     // update merchant notify record's record
-    public MpNotifyRecord updateNotifyRecord(String id, int notifyTimes, String status) {
+    public MpNotifyRecord updateNotifyRecord(Long id, int notifyTimes, String status) {
         MpNotifyRecord notifyRecord = mpNotifyRecordService.getNotifyRecordById(id);
         notifyRecord.setNotifyTimes(notifyTimes);
         notifyRecord.setStatus(status);
