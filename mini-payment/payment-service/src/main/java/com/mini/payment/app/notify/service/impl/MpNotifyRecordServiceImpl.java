@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -97,8 +98,21 @@ public class MpNotifyRecordServiceImpl implements MpNotifyRecordService {
     }
 
     @Override
-    public Page<MpNotifyRecord> loadRecords(List<Integer> statusList, List<Integer> notifyTimeList, Pageable pageable) {
-        return null;
+    public Page<MpNotifyRecord> loadNotifyRecordsFromDB(List<String> notifyStatusList,
+                                                        List<Integer> notifyTimeList
+            , Pageable pageable) {
+        Specification<MpNotifyRecord> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (!CollectionUtils.isEmpty(notifyStatusList)) {
+                predicates.add(root.get("status").in(notifyStatusList));
+            }
+
+            if (!CollectionUtils.isEmpty(notifyTimeList)) {
+                predicates.add(root.get("notifyTimes").in(notifyTimeList));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        return mpNotifyRecordRepository.findAll(spec, pageable);
     }
 
     @Override

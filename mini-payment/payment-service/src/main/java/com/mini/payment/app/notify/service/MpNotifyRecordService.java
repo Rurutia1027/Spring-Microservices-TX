@@ -19,8 +19,8 @@ public interface MpNotifyRecordService {
 
     Page<MpNotifyRecord> listPage(MpNotifyRecord param, Pageable pageable);
 
-    Page<MpNotifyRecord> loadRecords(List<Integer> statusList, List<Integer> notifyTimeList,
-                                     Pageable pageable);
+    Page<MpNotifyRecord> loadNotifyRecordsFromDB(List<String> notifyStatusList, List<Integer> notifyTimeList,
+                                                 Pageable pageable);
 
     MpNotifyRecord createNotifyRecord(MpNotifyRecord mpNotifyRecord);
 

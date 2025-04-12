@@ -4,6 +4,7 @@ import com.mini.payment.app.notify.core.NotifyPersist;
 import com.mini.payment.app.notify.core.NotifyQueue;
 import com.mini.payment.app.notify.core.NotifyTask;
 import com.mini.payment.app.notify.entity.MpNotifyRecord;
+import com.mini.payment.app.notify.enums.NotifyStatusEnum;
 import com.mini.payment.app.notify.service.MpNotifyRecordService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -75,13 +76,12 @@ public class NotifyAppInitRunner {
         int pageNum = 0;
         int pageSize = 500;
         Pageable pageable = PageRequest.of(pageNum, pageSize);
-        List<Integer> queryRecordHttpStatusList = List.of(101, 102, 200, 201);
+        List<String> queryRecordHttpStatusList = List.of(NotifyStatusEnum.FAILED.name(),
+                NotifyStatusEnum.CREATED.name(), NotifyStatusEnum.HTTP_REQUEST_FALIED.name());
         List<Integer> queryRecordNotifyTimeList = List.of(0, 1, 2, 3, 4);
 
-        MpNotifyRecord queryParam = new MpNotifyRecord();
-
-        Page<MpNotifyRecord> notifyRecords = mpNotifyRecordService.loadRecords(queryRecordHttpStatusList,
-                queryRecordNotifyTimeList, pageable);
+        Page<MpNotifyRecord> notifyRecords = mpNotifyRecordService
+                .loadNotifyRecordsFromDB(queryRecordHttpStatusList, queryRecordNotifyTimeList, pageable);
 
         // here we process each notify record
         // update it's inner record values, convert notify record into NotifyTask,
@@ -97,7 +97,7 @@ public class NotifyAppInitRunner {
             pageNum++;
             // continue fetch next page(batch) records from DB to cache/memory
             pageable = PageRequest.of(pageNum, pageSize);
-            notifyRecords = mpNotifyRecordService.loadRecords(queryRecordHttpStatusList,
+            notifyRecords = mpNotifyRecordService.loadNotifyRecordsFromDB(queryRecordHttpStatusList,
                     queryRecordNotifyTimeList, pageable);
         }
     }

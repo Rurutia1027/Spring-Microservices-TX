@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.mini.payment.MpNotifyApplicationTest;
 import com.mini.payment.app.notify.entity.MpNotifyRecord;
 import com.mini.payment.app.notify.entity.MpNotifyRecordAuditLog;
+import com.mini.payment.app.notify.enums.NotifyStatusEnum;
 import com.mini.payment.app.notify.handler.NotifyMessageHandler;
 import com.mini.payment.app.notify.listener.NotifyMessageListener;
 import com.mini.payment.app.notify.service.MpNotifyRecordService;
@@ -13,6 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -100,5 +104,40 @@ public class MpNotifyRecordServiceImplTest {
         Thread.sleep(1000L);
         List<JSONObject> messageList = notifyMessageHandler.getFromCache(merchantNotifyQueue);
         Assertions.assertTrue(messageList.size() > 0);
+    }
+
+    @Test
+    public void testLoadNotifyRecordsFromDB() {
+        // first we mock 5 records and save them to db
+        List<MpNotifyRecord> notifyRecords = MockDataRecordUtils.mockNotifyRecords(6);
+        notifyRecords.get(0).setStatus(NotifyStatusEnum.CREATED.name());
+        notifyRecords.get(0).setNotifyTimes(0);
+        notifyRecords.get(1).setStatus(NotifyStatusEnum.SUCCESS.name());
+        notifyRecords.get(2).setStatus(NotifyStatusEnum.FAILED.name());
+        notifyRecords.get(2).setNotifyTimes(1);
+        notifyRecords.get(3).setStatus(NotifyStatusEnum.HTTP_REQUEST_SUCCESS.name());
+        notifyRecords.get(4).setStatus(NotifyStatusEnum.HTTP_REQUEST_FALIED.name());
+        notifyRecords.get(5).setStatus(NotifyStatusEnum.CREATED.name());
+        notifyRecords.get(5).setNotifyTimes(5);
+
+        for (MpNotifyRecord r : notifyRecords) {
+            MpNotifyRecord ret = mpNotifyRecordService.createNotifyRecord(r);
+            Assertions.assertTrue(ret.getId() > 0);
+        }
+
+        // then create query conditions to fetch records from db table
+        int pageOffset = 0;
+        int pageSize = 20;
+        List<Integer> notifyRecordsNotifyTimes = List.of(0, 1, 2);
+        List<String> notifyRecordStatus = List.of(NotifyStatusEnum.CREATED.name(),
+                NotifyStatusEnum.FAILED.name());
+        Pageable pageable = PageRequest.of(pageOffset, pageSize);
+        Page<MpNotifyRecord> records =
+                mpNotifyRecordService.loadNotifyRecordsFromDB(notifyRecordStatus,
+                        notifyRecordsNotifyTimes, pageable);
+        Assertions.assertNotNull(records);
+        Assertions.assertTrue(records.getContent().size() > 0);
+        // record 1, 2 will be selected
+        Assertions.assertEquals(records.getContent().size(), 2);
     }
 }
