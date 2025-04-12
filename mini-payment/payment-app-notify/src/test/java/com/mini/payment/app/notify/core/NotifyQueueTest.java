@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class NotifyQueueTest {
     @Autowired
     private NotifyQueue notifyQueue;
-
     @Test
     public void initTest() {
         Assertions.assertNotNull(notifyQueue);
