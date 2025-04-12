@@ -26,6 +26,19 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
+      activemq:
+        image: rmohr/activemq
+        ports:
+          - 61616:61616
+          - 8161:8161
+        env:
+          ACTIVEMQ_ADMIN_LOGIN: mq_admin
+          ACTIVEMQ_ADMIN_PASSWORD: mq_admin
+        options: >-
+          --health-cmd="curl -f http://localhost:8161 || exit 1"
+          --health-interval=10s
+          --health-timeout=10s
+          --health-retries=5
 
     steps:
       - name: Checkout Repository
