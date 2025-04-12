@@ -3,7 +3,9 @@ package com.mini.payment.app.notify.entity;
 import com.mini.payment.domain.DomainImpl;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "notify_record_audit_log")
 public class MpNotifyRecordAuditLog extends DomainImpl {
