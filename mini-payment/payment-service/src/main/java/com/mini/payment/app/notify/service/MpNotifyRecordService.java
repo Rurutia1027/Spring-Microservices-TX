@@ -12,7 +12,7 @@ public interface MpNotifyRecordService {
 
     void orderNotifySend(String bankOrderNo);
 
-    MpNotifyRecord getNotifyRecordById(String id);
+    MpNotifyRecord getNotifyRecordById(Long id);
 
     MpNotifyRecord getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(
             String merchantNo, String merchantOrderNo, String notifyTyp);

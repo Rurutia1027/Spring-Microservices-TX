@@ -61,9 +61,9 @@ public class MpNotifyRecordServiceImpl implements MpNotifyRecordService {
     }
 
     @Override
-    public MpNotifyRecord getNotifyRecordById(String id) {
+    public MpNotifyRecord getNotifyRecordById(Long id) {
         return mpNotifyRecordRepository
-                .findById(Long.parseLong(id)).orElse(null);
+                .findById(id).orElse(null);
     }
 
     @Override
