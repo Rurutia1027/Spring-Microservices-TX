@@ -6,14 +6,20 @@ import com.mini.payment.app.notify.entity.MpNotifyRecordAuditLog;
 import com.mini.payment.app.notify.enums.NotifyStatusEnum;
 import com.mini.payment.app.notify.enums.NotifyTypeEnum;
 import com.mini.payment.app.notify.repository.MpNotifyRecordAuditLogRepository;
-import com.mini.payment.app.notify.repository.MpNotifyRecordRespository;
+import com.mini.payment.app.notify.repository.MpNotifyRecordRepository;
 import com.mini.payment.app.notify.service.MpNotifyRecordService;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service("mpNotifyRecordService")
 public class MpNotifyRecordServiceImpl implements MpNotifyRecordService {
@@ -25,15 +31,14 @@ public class MpNotifyRecordServiceImpl implements MpNotifyRecordService {
     private JmsTemplate orderJmsTemplate;
 
     @Autowired
-    private MpNotifyRecordRespository mpNotifyRecordRespository;
+    private MpNotifyRecordRepository mpNotifyRecordRepository;
 
     @Autowired
     private MpNotifyRecordAuditLogRepository mpNotifyRecordAuditLogRepository;
 
 
     @Override
-    public void merchantNotifySend(String notifyUrl, String merchantOrderNo,
-                                   String merchantNo) {
+    public void merchantNotifySend(String notifyUrl, String merchantNo, String merchantOrderNo) {
         MpNotifyRecord mpNotifyRecord = new MpNotifyRecord();
         mpNotifyRecord.setNotifyTimes(0);
         mpNotifyRecord.setLimitNotifyTimes(5);
@@ -56,16 +61,34 @@ public class MpNotifyRecordServiceImpl implements MpNotifyRecordService {
 
     @Override
     public MpNotifyRecord getNotifyRecordById(String id) {
-        return mpNotifyRecordRespository
+        return mpNotifyRecordRepository
                 .findById(Long.parseLong(id)).orElse(null);
     }
 
     @Override
-    public MpNotifyRecord getNotifyByMerchnatNoAndMerchantOrderNoAndNotifyType(String merchantNo, String merchantOrderNo, String notifyTyp) {
-        MpNotifyRecord ret = null;
+    public MpNotifyRecord getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(String merchantNo,
+                                                                               String merchantOrderNo,
+                                                                               String notifyTyp) {
+        Specification<MpNotifyRecord> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
 
-        // todo: Use Specificaiton dynamic query to query db
-        return ret;
+            if (StringUtils.hasText(merchantNo)) {
+                predicates.add(cb.equal(root.get("merchantNo"), merchantNo));
+            }
+
+            if (StringUtils.hasText(merchantOrderNo)) {
+                predicates.add(cb.equal(root.get("merchantOrderNo"), merchantOrderNo));
+            }
+
+            if (StringUtils.hasText(notifyTyp)) {
+                predicates.add(cb.equal(root.get("notifyType"), notifyTyp));
+            }
+
+            query.distinct(true);
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return mpNotifyRecordRepository.findOne(spec).orElse(null);
     }
 
     @Override
@@ -75,12 +98,12 @@ public class MpNotifyRecordServiceImpl implements MpNotifyRecordService {
 
     @Override
     public MpNotifyRecord createNotifyRecord(MpNotifyRecord mpNotifyRecord) {
-        return mpNotifyRecordRespository.save(mpNotifyRecord);
+        return mpNotifyRecordRepository.save(mpNotifyRecord);
     }
 
     @Override
     public MpNotifyRecord updateNotifyRecord(MpNotifyRecord mpNotifyRecord) {
-        return mpNotifyRecordRespository.save(mpNotifyRecord);
+        return mpNotifyRecordRepository.save(mpNotifyRecord);
     }
 
     @Override

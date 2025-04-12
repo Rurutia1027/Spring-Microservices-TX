@@ -5,6 +5,6 @@ import com.mini.payment.repository.BaseRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MpNotifyRecordRespository extends BaseRepository<MpNotifyRecord> {
+public interface MpNotifyRecordRepository extends BaseRepository<MpNotifyRecord> {
 
 }
