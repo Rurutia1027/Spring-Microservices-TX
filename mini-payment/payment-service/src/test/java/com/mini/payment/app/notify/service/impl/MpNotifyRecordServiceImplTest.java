@@ -71,7 +71,7 @@ public class MpNotifyRecordServiceImplTest {
         Assertions.assertTrue(recordRet.getId() > 0);
 
         MpNotifyRecord queryRet =
-                mpNotifyRecordService.getNotifyRecordById(Long.toString(recordRet.getId()));
+                mpNotifyRecordService.getNotifyRecordById(recordRet.getId());
         Assertions.assertEquals(recordRet, queryRet);
     }
 
