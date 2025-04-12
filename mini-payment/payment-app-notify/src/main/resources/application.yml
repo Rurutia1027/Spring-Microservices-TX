@@ -24,3 +24,4 @@ mq:
   queue-name:
     merchant-notify: "merchant_notify_queue"
     order-notify: "order_notify_queue"
+    trade-notify: "trade_notify_queue"
