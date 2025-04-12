@@ -97,6 +97,11 @@ public class MpNotifyRecordServiceImpl implements MpNotifyRecordService {
     }
 
     @Override
+    public Page<MpNotifyRecord> loadRecords(List<Integer> statusList, List<Integer> notifyTimeList, Pageable pageable) {
+        return null;
+    }
+
+    @Override
     public MpNotifyRecord createNotifyRecord(MpNotifyRecord mpNotifyRecord) {
         return mpNotifyRecordRepository.save(mpNotifyRecord);
     }

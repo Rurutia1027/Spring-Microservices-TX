@@ -1,11 +1,16 @@
 package com.mini.payment;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @SpringBootApplication
 public class MpAppNotifyApplication {
     public static void main(String[] args) {
-        SpringApplication.run(MpAppNotifyApplication.class, args);
+        new SpringApplicationBuilder()
+                .sources(MpAppNotifyApplication.class)
+                .web(WebApplicationType.NONE)
+                .run(args);
     }
 }
