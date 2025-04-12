@@ -53,7 +53,7 @@ public class NotifyQueue implements Serializable {
             // just update it to db table with `FAILED` status
             try {
                 MpNotifyRecord recordRet =
-                        notifyPersist.updateNotifyRecord(Long.toString(record.getId()),
+                        notifyPersist.updateNotifyRecord(record.getId(),
                                 record.getNotifyTimes(), NotifyStatusEnum.FAILED.name());
                 LOG.info("Failed send notify record with id {} updated to db table " +
                         "successfully!", recordRet.getId());

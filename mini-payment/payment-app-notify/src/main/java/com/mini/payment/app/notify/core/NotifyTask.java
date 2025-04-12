@@ -81,13 +81,13 @@ public class NotifyTask implements Runnable, Delayed {
             if (Objects.nonNull(null) && isStatusCodeValid(responseStatus)) {
                 // notify success, update the notify record's success status to db
                 if (responseMsg.trim().equals(successValue)) {
-                    notifyPersist.updateNotifyRecord(String.valueOf(notifyRecord.getId()),
+                    notifyPersist.updateNotifyRecord(notifyRecord.getId(),
                             notifyRecord.getNotifyTimes(),
                             NotifyStatusEnum.SUCCESS.name());
 
                 } else {
                     notifyQueue.addItemToList(notifyRecord);
-                    notifyPersist.updateNotifyRecord(String.valueOf(notifyRecord.getId()),
+                    notifyPersist.updateNotifyRecord(notifyRecord.getId(),
                             notifyRecord.getNotifyTimes(),
                             NotifyStatusEnum.HTTP_REQUEST_SUCCESS.name());
                 }
@@ -98,7 +98,7 @@ public class NotifyTask implements Runnable, Delayed {
                 // gonna be re-send or append to failed message queue and also update the
                 // record's db table status
                 notifyQueue.addItemToList(notifyRecord);
-                notifyPersist.updateNotifyRecord(String.valueOf(notifyRecord.getId()),
+                notifyPersist.updateNotifyRecord(notifyRecord.getId(),
                         notifyRecord.getNotifyTimes(),
                         NotifyStatusEnum.HTTP_REQUEST_FALIED.name());
             }
@@ -112,7 +112,7 @@ public class NotifyTask implements Runnable, Delayed {
         } catch (Exception e) {
             LOG.error("NotifyTask got exception:", e);
             notifyQueue.addItemToList(notifyRecord);
-            notifyPersist.updateNotifyRecord(String.valueOf(notifyRecord.getId()),
+            notifyPersist.updateNotifyRecord(notifyRecord.getId(),
                     notifyRecord.getNotifyTimes(),
                     NotifyStatusEnum.HTTP_REQUEST_FALIED.name());
             notifyPersist.saveNotifyRecordAuditLog(String.valueOf(notifyRecord.getId()),
