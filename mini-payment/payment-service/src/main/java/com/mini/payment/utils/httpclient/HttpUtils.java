@@ -210,7 +210,7 @@ public class HttpUtils {
         return "";
     }
 
-    private static void setSSLSocketFactory(HttpURLConnection urlConn, boolean sslVerify,
+    public static void setSSLSocketFactory(HttpURLConnection urlConn, boolean sslVerify,
                                             boolean hostnameVerify,
                                             TrustKeyStore trustCertFactory,
                                             ClientKeyStore clientKeyFactory) {
