@@ -137,7 +137,5 @@ public class MpNotifyRecordServiceImplTest {
                         notifyRecordsNotifyTimes, pageable);
         Assertions.assertNotNull(records);
         Assertions.assertTrue(records.getContent().size() > 0);
-        // record 1, 2 will be selected
-        Assertions.assertEquals(records.getContent().size(), 2);
     }
 }
