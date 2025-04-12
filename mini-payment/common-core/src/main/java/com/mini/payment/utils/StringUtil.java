@@ -5,8 +5,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -172,5 +176,47 @@ public final class StringUtil {
         } else {
             return false;
         }
+    }
+
+    public static List<String> makeStringList(Object value) {
+        if (value == null) {
+            value = "";
+        }
+        List<String> result = new ArrayList<String>();
+        if (value.getClass().isArray()) {
+            for (int j = 0; j < Array.getLength(value); j++) {
+                Object obj = Array.get(value, j);
+                result.add(obj != null ? obj.toString() : "");
+            }
+            return result;
+        }
+
+        if (value instanceof Iterator) {
+            Iterator it = (Iterator) value;
+            while (it.hasNext()) {
+                Object obj = it.next();
+                result.add(obj != null ? obj.toString() : "");
+            }
+            return result;
+        }
+
+        if (value instanceof Collection) {
+            for (Object obj : (Collection) value) {
+                result.add(obj != null ? obj.toString() : "");
+            }
+            return result;
+        }
+
+        if (value instanceof Enumeration) {
+            Enumeration enumeration = (Enumeration) value;
+            while (enumeration.hasMoreElements()) {
+                Object obj = enumeration.nextElement();
+                result.add(obj != null ? obj.toString() : "");
+            }
+            return result;
+        }
+
+        result.add(value.toString());
+        return result;
     }
 }
