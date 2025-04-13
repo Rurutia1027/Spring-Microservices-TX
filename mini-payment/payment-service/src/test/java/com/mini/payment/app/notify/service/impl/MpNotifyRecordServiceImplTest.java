@@ -132,9 +132,8 @@ public class MpNotifyRecordServiceImplTest {
         List<String> notifyRecordStatus = List.of(NotifyStatusEnum.CREATED.name(),
                 NotifyStatusEnum.FAILED.name());
         Pageable pageable = PageRequest.of(pageOffset, pageSize);
-        Page<MpNotifyRecord> records =
-                mpNotifyRecordService.loadNotifyRecordsFromDB(notifyRecordStatus,
-                        notifyRecordsNotifyTimes, pageable);
+        Page<MpNotifyRecord> records = mpNotifyRecordService.loadNotifyRecordsFromDB(notifyRecordStatus,
+                notifyRecordsNotifyTimes, pageable);
         Assertions.assertNotNull(records);
         Assertions.assertTrue(records.getContent().size() > 0);
     }

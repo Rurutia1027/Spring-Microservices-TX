@@ -66,10 +66,8 @@ public class NotifyTask implements Runnable, Delayed {
         try {
             LOG.info("Notify Url: " + notifyRecord.getUrl() + " ;notify id: "
                     + notifyRecord.getId() + ";notify times:" + notifyRecord.getNotifyTimes());
-
             HttpParam httpParam = new HttpParam(notifyRecord.getUrl());
             HttpResult httpResult = HttpUtils.httpRequest(httpParam);
-
 
             notifyRecord.setNotifyTimes(notifyTimes + 1);
             String successValue = notifyStrategy.getSuccessValue();
