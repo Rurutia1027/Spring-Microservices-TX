@@ -1,4 +1,4 @@
-package com.mini.payment.app.notify.runner;
+package com.mini.payment.runner;
 
 import com.mini.payment.app.notify.core.NotifyPersist;
 import com.mini.payment.app.notify.core.NotifyQueue;
@@ -37,7 +37,20 @@ public class NotifyAppInitRunner {
     @Autowired
     private NotifyPersist notifyPersist;
 
-    private static DelayQueue<NotifyTask> tasks = new DelayQueue<>();
+    public static DelayQueue<NotifyTask> tasks = new DelayQueue<>();
+
+    public NotifyAppInitRunner() {
+    }
+
+    public NotifyAppInitRunner(ThreadPoolTaskExecutor threadPool,
+                               MpNotifyRecordService mpNotifyRecordService,
+                               NotifyQueue notifyQueue,
+                               NotifyPersist notifyPersist) {
+        this.threadPool = threadPool;
+        this.mpNotifyRecordService = mpNotifyRecordService;
+        this.notifyQueue = notifyQueue;
+        this.notifyPersist = notifyPersist;
+    }
 
     @PostConstruct
     public void init() {
@@ -48,7 +61,7 @@ public class NotifyAppInitRunner {
 
     // todo: replace this one: @EventListener(ApplicationReadyEvent.class) or @Scheduled
     // todo: try something modern of spring framework <(｀^´)>
-    private void startThread() {
+    public void startThread() {
         threadPool.execute(() -> {
             try {
                 while (true) {
@@ -71,7 +84,7 @@ public class NotifyAppInitRunner {
 
     // load notify data records from db to init
     // NotifyQueue's cache list
-    private void startInitFromDB() {
+    public void startInitFromDB() {
         LOG.info("load notify records from db to task list");
         int pageNum = 0;
         int pageSize = 500;
@@ -100,5 +113,47 @@ public class NotifyAppInitRunner {
             notifyRecords = mpNotifyRecordService.loadNotifyRecordsFromDB(queryRecordHttpStatusList,
                     queryRecordNotifyTimeList, pageable);
         }
+    }
+
+    // -- getter && setter --
+
+    public ThreadPoolTaskExecutor getThreadPool() {
+        return threadPool;
+    }
+
+    public void setThreadPool(ThreadPoolTaskExecutor threadPool) {
+        this.threadPool = threadPool;
+    }
+
+    public MpNotifyRecordService getMpNotifyRecordService() {
+        return mpNotifyRecordService;
+    }
+
+    public void setMpNotifyRecordService(MpNotifyRecordService mpNotifyRecordService) {
+        this.mpNotifyRecordService = mpNotifyRecordService;
+    }
+
+    public NotifyQueue getNotifyQueue() {
+        return notifyQueue;
+    }
+
+    public void setNotifyQueue(NotifyQueue notifyQueue) {
+        this.notifyQueue = notifyQueue;
+    }
+
+    public NotifyPersist getNotifyPersist() {
+        return notifyPersist;
+    }
+
+    public void setNotifyPersist(NotifyPersist notifyPersist) {
+        this.notifyPersist = notifyPersist;
+    }
+
+    public static DelayQueue<NotifyTask> getTasks() {
+        return tasks;
+    }
+
+    public static void setTasks(DelayQueue<NotifyTask> tasks) {
+        NotifyAppInitRunner.tasks = tasks;
     }
 }

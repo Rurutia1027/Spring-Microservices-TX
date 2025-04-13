@@ -3,6 +3,7 @@ package com.mini.payment.app.notify.core;
 import com.mini.payment.app.notify.entity.MpNotifyRecord;
 import com.mini.payment.app.notify.entity.NotifyStrategy;
 import com.mini.payment.app.notify.enums.NotifyStatusEnum;
+import com.mini.payment.runner.NotifyAppInitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class NotifyQueue implements Serializable {
 
     @Autowired
     private NotifyPersist notifyPersist;
+
+    @Autowired
+    private NotifyAppInitRunner notifyAppInitRunner;
 
     public void addItemToList(MpNotifyRecord record) {
         if (Objects.isNull(record)) {
@@ -47,6 +51,8 @@ public class NotifyQueue implements Serializable {
                 // handle this record to notification scheduler
                 // when it's given timestamp attach scheduler will send the task automatically
                 // todo: add task scheduler here
+                NotifyTask notifyTask = new NotifyTask(record, this, notifyStrategy);
+                NotifyAppInitRunner.tasks.add(notifyTask);
             }
         } else {
             // this record's notify times already attach to max limitation times
