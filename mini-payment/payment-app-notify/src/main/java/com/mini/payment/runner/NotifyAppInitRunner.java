@@ -149,11 +149,11 @@ public class NotifyAppInitRunner {
         this.notifyPersist = notifyPersist;
     }
 
-    public static DelayQueue<NotifyTask> getTasks() {
+    public DelayQueue<NotifyTask> getTasks() {
         return tasks;
     }
 
-    public static void setTasks(DelayQueue<NotifyTask> tasks) {
-        NotifyAppInitRunner.tasks = tasks;
+    public void setTasks(DelayQueue<NotifyTask> tasks) {
+        this.tasks = tasks;
     }
 }

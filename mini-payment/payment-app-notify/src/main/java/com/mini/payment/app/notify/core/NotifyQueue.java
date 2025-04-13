@@ -25,9 +25,6 @@ public class NotifyQueue implements Serializable {
     @Autowired
     private NotifyPersist notifyPersist;
 
-    @Autowired
-    private NotifyAppInitRunner notifyAppInitRunner;
-
     public void addItemToList(MpNotifyRecord record) {
         if (Objects.isNull(record)) {
             LOG.info("receive null record, return!");
@@ -48,11 +45,7 @@ public class NotifyQueue implements Serializable {
             if (Objects.nonNull(next)) {
                 time += 1000 * 60 * next + 1;
                 record.setLastNotifyTime(new Date(time));
-                // handle this record to notification scheduler
-                // when it's given timestamp attach scheduler will send the task automatically
-                // todo: add task scheduler here
-                NotifyTask notifyTask = new NotifyTask(record, this, notifyStrategy);
-                NotifyAppInitRunner.tasks.add(notifyTask);
+                NotifyAppInitRunner.tasks.put(new NotifyTask(record, this, notifyStrategy));
             }
         } else {
             // this record's notify times already attach to max limitation times
