@@ -54,4 +54,28 @@ public class MockDataRecordUtils {
         }
         return ret;
     }
+
+    public static MockMessage mockTradeMessage() {
+        MockMessage mockMessage = new MockMessage();
+        mockMessage.setMessageType("TRADE");
+        mockMessage.setMsgUUID(StringUtil.get32UUID());
+        mockMessage.setTimestamp(new Date().getTime());
+        return mockMessage;
+    }
+
+    public static MockMessage mockOrderMessage() {
+        MockMessage mockMessage = new MockMessage();
+        mockMessage.setMessageType("ORDER");
+        mockMessage.setMsgUUID(StringUtil.get32UUID());
+        mockMessage.setTimestamp(new Date().getTime());
+        return mockMessage;
+    }
+
+    public static MockMessage mockMerchantMessage() {
+        MockMessage mockMessage = new MockMessage();
+        mockMessage.setMessageType("MERCHANT");
+        mockMessage.setMsgUUID(StringUtil.get32UUID());
+        mockMessage.setTimestamp(new Date().getTime());
+        return mockMessage;
+    }
 }
