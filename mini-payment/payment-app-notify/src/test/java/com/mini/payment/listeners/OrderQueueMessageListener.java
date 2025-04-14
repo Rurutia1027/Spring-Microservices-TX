@@ -2,7 +2,9 @@ package com.mini.payment.listeners;
 
 import com.mini.payment.app.notify.core.NotifyPersist;
 import com.mini.payment.app.notify.core.NotifyQueue;
+import com.mini.payment.app.notify.entity.MpNotifyRecord;
 import com.mini.payment.app.notify.service.MpNotifyRecordService;
+import com.mini.payment.mock.MockDataRecordUtils;
 import com.mini.payment.mock.MockMessage;
 import com.mini.payment.mock.MockMessageConverterUtils;
 import jakarta.jms.JMSException;
@@ -27,6 +29,12 @@ public class OrderQueueMessageListener extends BaseMessageListener {
             String json = ((TextMessage) message).getText();
             MockMessage msg = MockMessageConverterUtils.toJavaObj(json);
             LOG.info("#onMessage recv {}", json);
+
+            MpNotifyRecord record = MockDataRecordUtils.mockNotifyRecord();
+            record.setMerchantOrderNo(msg.getMsgUUID());
+            record.setMerchantNo(msg.getMsgUUID());
+            record.setNotifyType(msg.getMessageType());
+            mpNotifyRecordService.createNotifyRecord(record);
         } catch (JMSException e) {
             LOG.error("Got jmx exception ", e);
         }
