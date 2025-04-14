@@ -1,4 +1,8 @@
 package com.mini.payment.trade.service.impl;
 
-public class PaymentServiceImpl {
+import com.mini.payment.trade.service.PaymentService;
+import org.springframework.stereotype.Service;
+
+@Service("paymentService")
+public class PaymentServiceImpl implements PaymentService {
 }
