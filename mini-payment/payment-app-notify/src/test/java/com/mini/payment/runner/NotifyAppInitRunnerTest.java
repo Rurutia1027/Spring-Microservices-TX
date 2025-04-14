@@ -28,9 +28,6 @@ public class NotifyAppInitRunnerTest {
     @Autowired
     private MpNotifyRecordService mpNotifyRecordService;
 
-//    @Autowired
-//    private ConsumerMessageListener consumerMessageListener;
-
     @Test
     public void initTest() {
         Assertions.assertNotNull(notifyAppInitRunner);
@@ -66,7 +63,6 @@ public class NotifyAppInitRunnerTest {
     }
 
     @Test
-    @Transactional
     public void testGetTasks() {
         // mock dataset & insert dataset to db
         List<MpNotifyRecord> notifyRecords = MockDataRecordUtils.mockNotifyRecords(6);
