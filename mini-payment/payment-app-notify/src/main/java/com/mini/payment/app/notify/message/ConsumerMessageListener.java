@@ -77,4 +77,30 @@ public class ConsumerMessageListener implements MessageListener {
             LOG.error("Got exception during message handling ", e);
         }
     }
+
+    // -- getter && setter --
+
+    public NotifyQueue getNotifyQueue() {
+        return notifyQueue;
+    }
+
+    public void setNotifyQueue(NotifyQueue notifyQueue) {
+        this.notifyQueue = notifyQueue;
+    }
+
+    public MpNotifyRecordService getMpNotifyRecordService() {
+        return mpNotifyRecordService;
+    }
+
+    public void setMpNotifyRecordService(MpNotifyRecordService mpNotifyRecordService) {
+        this.mpNotifyRecordService = mpNotifyRecordService;
+    }
+
+    public NotifyPersist getNotifyPersist() {
+        return notifyPersist;
+    }
+
+    public void setNotifyPersist(NotifyPersist notifyPersist) {
+        this.notifyPersist = notifyPersist;
+    }
 }

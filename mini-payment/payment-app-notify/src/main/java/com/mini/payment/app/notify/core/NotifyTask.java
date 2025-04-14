@@ -33,9 +33,11 @@ public class NotifyTask implements Runnable, Delayed {
     }
 
     public NotifyTask(MpNotifyRecord record, NotifyQueue notifyQueue,
+                      NotifyPersist notifyPersist,
                       NotifyStrategy notifyStrategy) {
         super();
         this.notifyRecord = record;
+        this.notifyPersist = notifyPersist;
         this.notifyQueue = notifyQueue;
         this.notifyStrategy = notifyStrategy;
         this.executeTime = getExecuteTime(notifyRecord);
@@ -61,14 +63,12 @@ public class NotifyTask implements Runnable, Delayed {
     @Override
     public void run() {
         Integer notifyTimes = notifyRecord.getNotifyTimes();
-
         // go notify
         try {
             LOG.info("Notify Url: " + notifyRecord.getUrl() + " ;notify id: "
                     + notifyRecord.getId() + ";notify times:" + notifyRecord.getNotifyTimes());
             HttpParam httpParam = new HttpParam(notifyRecord.getUrl());
             HttpResult httpResult = HttpUtils.httpRequest(httpParam);
-
             notifyRecord.setNotifyTimes(notifyTimes + 1);
             String successValue = notifyStrategy.getSuccessValue();
             String responseMsg = "";
@@ -78,11 +78,11 @@ public class NotifyTask implements Runnable, Delayed {
             // the record's inner information value
             if (Objects.nonNull(null) && isStatusCodeValid(responseStatus)) {
                 // notify success, update the notify record's success status to db
+                responseMsg = httpResult.getContent().trim();
                 if (responseMsg.trim().equals(successValue)) {
                     notifyPersist.updateNotifyRecord(notifyRecord.getId(),
                             notifyRecord.getNotifyTimes(),
                             NotifyStatusEnum.SUCCESS.name());
-
                 } else {
                     notifyQueue.addItemToList(notifyRecord);
                     notifyPersist.updateNotifyRecord(notifyRecord.getId(),
@@ -132,5 +132,47 @@ public class NotifyTask implements Runnable, Delayed {
 
     private boolean isStatusCodeValid(Integer responseStatus) {
         return VALID_HTTP_STATUS_CODES.contains(responseStatus);
+    }
+
+    // -- getter & setter --
+
+    public long getExecuteTime() {
+        return executeTime;
+    }
+
+    public void setExecuteTime(long executeTime) {
+        this.executeTime = executeTime;
+    }
+
+    public MpNotifyRecord getNotifyRecord() {
+        return notifyRecord;
+    }
+
+    public void setNotifyRecord(MpNotifyRecord notifyRecord) {
+        this.notifyRecord = notifyRecord;
+    }
+
+    public NotifyQueue getNotifyQueue() {
+        return notifyQueue;
+    }
+
+    public void setNotifyQueue(NotifyQueue notifyQueue) {
+        this.notifyQueue = notifyQueue;
+    }
+
+    public NotifyStrategy getNotifyStrategy() {
+        return notifyStrategy;
+    }
+
+    public void setNotifyStrategy(NotifyStrategy notifyStrategy) {
+        this.notifyStrategy = notifyStrategy;
+    }
+
+    public NotifyPersist getNotifyPersist() {
+        return notifyPersist;
+    }
+
+    public void setNotifyPersist(NotifyPersist notifyPersist) {
+        this.notifyPersist = notifyPersist;
     }
 }

@@ -19,6 +19,7 @@ public class MockDataRecordUtils {
         mpNotifyRecord.setStatus(NotifyStatusEnum.CREATED.name());
         mpNotifyRecord.setNotifyType(NotifyTypeEnum.MERCHANT.name());
         mpNotifyRecord.setNotifyTimes(0);
+        mpNotifyRecord.setUrl("http://localhost:8999/api/notify");
         mpNotifyRecord.setMerchantNo(StringUtil.get32UUID());
         mpNotifyRecord.setMerchantOrderNo(StringUtil.get36UUID());
         mpNotifyRecord.setLimitNotifyTimes(6);

@@ -1,3 +1,4 @@
+
 spring:
   application:
     name: notify-app
@@ -9,7 +10,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create  # Automatically creates/drops schema for tests
+      ddl-auto: update  # Automatically creates/drops schema for tests
     show-sql: true
 
 mq:
