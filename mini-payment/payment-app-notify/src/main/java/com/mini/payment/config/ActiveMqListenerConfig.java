@@ -21,16 +21,16 @@ public class ActiveMqListenerConfig {
     }
 
     // queue listener container
-    @Bean(name = "tradeQueueListenerContainer")
-    public DefaultMessageListenerContainer tradeQueueListenerContainer(
-            @Qualifier("connectionFactory") ConnectionFactory connectionFactory,
-            @Qualifier("tradeNotifyQueue") Queue tradeNotifyQueue,
-            ConsumerMessageListener consumerMessageListener) {
-        DefaultMessageListenerContainer listenerContainer =
-                new DefaultMessageListenerContainer();
-        listenerContainer.setConnectionFactory(connectionFactory);
-        listenerContainer.setDestination(tradeNotifyQueue);
-        listenerContainer.setMessageListener(consumerMessageListener);
-        return listenerContainer;
-    }
+//    @Bean(name = "tradeQueueListenerContainer")
+//    public DefaultMessageListenerContainer tradeQueueListenerContainer(
+//            @Qualifier("connectionFactory") ConnectionFactory connectionFactory,
+//            @Qualifier("tradeNotifyQueue") Queue tradeNotifyQueue,
+//            @Qualifier("consumerMessageListener") ConsumerMessageListener consumerMessageListener) {
+//        DefaultMessageListenerContainer listenerContainer =
+//                new DefaultMessageListenerContainer();
+//        listenerContainer.setConnectionFactory(connectionFactory);
+//        listenerContainer.setDestination(tradeNotifyQueue);
+//        listenerContainer.setMessageListener(consumerMessageListener);
+//        return listenerContainer;
+//    }
 }

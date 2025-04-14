@@ -1,0 +1,26 @@
+package com.mini.payment.listeners;
+
+import com.mini.payment.app.notify.core.NotifyPersist;
+import com.mini.payment.app.notify.core.NotifyQueue;
+import com.mini.payment.app.notify.service.MpNotifyRecordService;
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
+
+public abstract class BaseMessageListener implements MessageListener {
+
+    private NotifyQueue notifyQueue;
+    private MpNotifyRecordService mpNotifyRecordService;
+    private NotifyPersist notifyPersist;
+
+    public BaseMessageListener(NotifyQueue notifyQueue,
+                               MpNotifyRecordService mpNotifyRecordService,
+                               NotifyPersist notifyPersist) {
+        this.notifyQueue = notifyQueue;
+        this.mpNotifyRecordService = mpNotifyRecordService;
+        this.notifyPersist = notifyPersist;
+    }
+
+    @Override
+    public abstract void onMessage(Message message);
+
+}

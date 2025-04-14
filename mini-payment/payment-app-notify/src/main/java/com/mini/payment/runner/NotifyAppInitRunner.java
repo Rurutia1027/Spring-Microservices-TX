@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.DelayQueue;
 
 @Component
@@ -69,6 +70,11 @@ public class NotifyAppInitRunner {
                     if (threadPool.getActiveCount() < threadPool.getMaxPoolSize()) {
                         final NotifyTask task = tasks.poll();
                         if (Objects.nonNull(task)) {
+                            if (isTaskTypeValid(task.getNotifyRecord().getNotifyType())) {
+                                LOG.info("receive invalid task type, skip");
+                                continue;
+                            }
+
                             threadPool.execute(() -> {
                                 tasks.remove(task);
                                 task.run();
@@ -80,6 +86,11 @@ public class NotifyAppInitRunner {
                 LOG.error("Internal error ", e);
             }
         });
+    }
+
+    private boolean isTaskTypeValid(String notifyType) {
+        Set<String> targetNotifyTaskType = Set.of("MERCHANT", "ORDER", "TRADE");
+        return targetNotifyTaskType.contains(notifyType.trim());
     }
 
     // load notify data records from db to init

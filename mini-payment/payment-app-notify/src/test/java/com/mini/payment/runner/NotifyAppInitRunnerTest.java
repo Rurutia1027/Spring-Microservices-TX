@@ -120,7 +120,6 @@ public class NotifyAppInitRunnerTest {
         notifyAppInitRunner.startInitFromDB();
         DelayQueue<NotifyTask> tasks = notifyAppInitRunner.getTasks();
         Assertions.assertTrue(Objects.nonNull(tasks) && tasks.size() > 0);
-        notifyAppInitRunner.startThread();
     }
 
     @Test

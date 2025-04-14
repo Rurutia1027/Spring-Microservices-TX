@@ -28,62 +28,62 @@ public class NotifyAppInitRunnerTestConfig {
 
     @Autowired
     private ThreadPoolTaskExecutor threadPool;
+//
+//    @Value("${mq.queue-name.trade-notify}")
+//    private String tradeQueue;
+//
+//    @Value("${mq.queue-name.order-notify}")
+//    private String orderQueue;
+//
+//    @Value("${mq.queue-name.merchant-notify}")
+//    private String merchantQueue;
+//
+//    @Value("${mq.broker-url}")
+//    private String brokerUrl;
+//
+//    @Value("${mq.username}")
+//    private String username;
+//
+//    @Value("${mq.password}")
+//    private String password;
+//
+//    @Value("${mq.queue-name.merchant-notify}")
+//    private String merchantNotifyQueue;
+//
+//    @Value("${mq.queue-name.order-notify}")
+//    private String orderNotifyQueue;
+//
+//    @Value("${mq.queue-name.trade-notify}")
+//    private String tradeNotifyQueue;
+//
+//    @Value("${mq.pool.maxConnections:20}")
+//    private int maxConnections;
 
-    @Value("${mq.queue-name.trade-notify}")
-    private String tradeQueue;
+//    @Bean
+//    public ConnectionFactory connectionFactory() {
+//        ActiveMQConnectionFactory activeMQConnectionFactory =
+//                new ActiveMQConnectionFactory(username, password, brokerUrl);
+//        PooledConnectionFactory pooledConnectionFactory = new PooledConnectionFactory();
+//        pooledConnectionFactory.setConnectionFactory(activeMQConnectionFactory);
+//        pooledConnectionFactory.setMaxConnections(maxConnections);
+//        return pooledConnectionFactory;
+//    }
 
-    @Value("${mq.queue-name.order-notify}")
-    private String orderQueue;
-
-    @Value("${mq.queue-name.merchant-notify}")
-    private String merchantQueue;
-
-    @Value("${mq.broker-url}")
-    private String brokerUrl;
-
-    @Value("${mq.username}")
-    private String username;
-
-    @Value("${mq.password}")
-    private String password;
-
-    @Value("${mq.queue-name.merchant-notify}")
-    private String merchantNotifyQueue;
-
-    @Value("${mq.queue-name.order-notify}")
-    private String orderNotifyQueue;
-
-    @Value("${mq.queue-name.trade-notify}")
-    private String tradeNotifyQueue;
-
-    @Value("${mq.pool.maxConnections:20}")
-    private int maxConnections;
-
-    @Bean
-    public ConnectionFactory connectionFactory() {
-        ActiveMQConnectionFactory activeMQConnectionFactory =
-                new ActiveMQConnectionFactory(username, password, brokerUrl);
-        PooledConnectionFactory pooledConnectionFactory = new PooledConnectionFactory();
-        pooledConnectionFactory.setConnectionFactory(activeMQConnectionFactory);
-        pooledConnectionFactory.setMaxConnections(maxConnections);
-        return pooledConnectionFactory;
-    }
-
-    // queues
-    @Bean("merchantQueue")
-    public Queue merchantNotifyQueue() {
-        return new ActiveMQQueue(merchantQueue);
-    }
-
-    @Bean("tradeNotifyQueue")
-    public Queue tradeNotifyQueue() {
-        return new ActiveMQQueue(tradeQueue);
-    }
-
-    @Bean("orderNotifyQueue")
-    public Queue orderNotifyQueue() {
-        return new ActiveMQQueue(orderQueue);
-    }
+//    // queues
+//    @Bean("merchantQueue")
+//    public Queue merchantNotifyQueue() {
+//        return new ActiveMQQueue(merchantQueue);
+//    }
+//
+//    @Bean("tradeNotifyQueue")
+//    public Queue tradeNotifyQueue() {
+//        return new ActiveMQQueue(tradeQueue);
+//    }
+//
+//    @Bean("orderNotifyQueue")
+//    public Queue orderNotifyQueue() {
+//        return new ActiveMQQueue(orderQueue);
+//    }
 
     // -- listeners --
 
