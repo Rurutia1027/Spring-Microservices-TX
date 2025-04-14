@@ -111,6 +111,14 @@ public class NotifyMessageFlowIntegrationTest {
                         .toJsonString(sendMsg)));
         String merchantUUID = sendMsg.getMsgUUID();
         String msgType = sendMsg.getMessageType();
+
+        // the listener container we created and assigned the message queue address
+        // will monitor the coming messages on the queue,
+        // once message attached to the queue, it will be fetched by the listener
+        // and via onMessage this message handler, messages will be converted into the
+        // MpNotifyRecord and invoke db service write to database
+        // finally we query the inserted records via the local sent record to verify
+        // this flow works as expected
         Thread.sleep(1000L);
         MpNotifyRecord recordRet =
                 mpNotifyRecordService.getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(
