@@ -2,7 +2,6 @@ package com.mini.payment.config;
 
 import com.mini.payment.app.notify.core.NotifyPersist;
 import com.mini.payment.app.notify.core.NotifyQueue;
-import com.mini.payment.app.notify.message.ConsumerMessageListener;
 import com.mini.payment.app.notify.service.MpNotifyRecordService;
 import com.mini.payment.runner.NotifyAppInitRunner;
 import jakarta.jms.ConnectionFactory;
@@ -11,15 +10,13 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.pool.PooledConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @TestConfiguration
-public class NotifyAppInitRunnerConfig {
+public class NotifyAppInitRunnerTestConfig {
     @Autowired
     private MpNotifyRecordService mpNotifyRecordService;
 

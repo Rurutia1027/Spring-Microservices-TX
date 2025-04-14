@@ -116,7 +116,6 @@ public class NotifyAppInitRunner {
         }
     }
 
-    // -- getter && setter --
     public ThreadPoolTaskExecutor getThreadPool() {
         return threadPool;
     }
@@ -151,5 +150,9 @@ public class NotifyAppInitRunner {
 
     public static DelayQueue<NotifyTask> getTasks() {
         return tasks;
+    }
+
+    public static void setTasks(DelayQueue<NotifyTask> tasks) {
+        NotifyAppInitRunner.tasks = tasks;
     }
 }
