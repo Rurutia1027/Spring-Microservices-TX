@@ -20,12 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * <b>功能说明:订单状态枚举类</b>
- *
- * @author Peter
- * <a href="http://www.roncoo.com">龙果学院(www.roncoo.com)</a>
- */
 public enum TradeStatusEnum {
 
     SUCCESS("transaction success"),
