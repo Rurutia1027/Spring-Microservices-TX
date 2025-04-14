@@ -8,9 +8,9 @@ import jakarta.jms.MessageListener;
 
 public abstract class BaseMessageListener implements MessageListener {
 
-    private NotifyQueue notifyQueue;
-    private MpNotifyRecordService mpNotifyRecordService;
-    private NotifyPersist notifyPersist;
+    protected NotifyQueue notifyQueue;
+    protected MpNotifyRecordService mpNotifyRecordService;
+    protected NotifyPersist notifyPersist;
 
     public BaseMessageListener(NotifyQueue notifyQueue,
                                MpNotifyRecordService mpNotifyRecordService,

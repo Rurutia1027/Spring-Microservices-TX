@@ -3,6 +3,7 @@ package com.mini.payment.integration;
 import com.mini.payment.MpAppNotifyTestApplication;
 import com.mini.payment.app.notify.core.NotifyPersist;
 import com.mini.payment.app.notify.core.NotifyQueue;
+import com.mini.payment.app.notify.entity.MpNotifyRecord;
 import com.mini.payment.app.notify.service.MpNotifyRecordService;
 import com.mini.payment.config.ConsumerMessageListenerTestConfig;
 import com.mini.payment.mock.MockDataRecordUtils;
@@ -78,15 +79,64 @@ public class NotifyMessageFlowIntegrationTest {
         merchantNotifyJmsTemplate.send(session -> session
                 .createTextMessage(MockMessageConverterUtils
                         .toJsonString(MockDataRecordUtils.mockMerchantMessage())));
+
     }
 
     @Test
-    public void tradeMessageListenerTest() {
+    public void tradeMessageListenerTest() throws InterruptedException {
         // send mock message to trade notify queue
         MockMessage sendMsg = MockDataRecordUtils.mockTradeMessage();
         tradeNotifyJmsTemplate.send(session -> session
                 .createTextMessage(MockMessageConverterUtils
                         .toJsonString(sendMsg)));
+        String merchantUUID = sendMsg.getMsgUUID();
+        String msgType = sendMsg.getMessageType();
 
+        Thread.sleep(1000L);
+        MpNotifyRecord recordRet =
+                mpNotifyRecordService.getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(
+                        merchantUUID, merchantUUID, msgType);
+        Assertions.assertNotNull(recordRet);
+        Assertions.assertEquals(sendMsg.getMsgUUID(), recordRet.getMerchantNo());
+        Assertions.assertEquals(sendMsg.getMsgUUID(), recordRet.getMerchantOrderNo());
+        Assertions.assertEquals(sendMsg.getMessageType(), recordRet.getNotifyType());
+    }
+
+    @Test
+    public void merchantMessageListenerTest() throws InterruptedException {
+        // send mock message to trade notify queue
+        MockMessage sendMsg = MockDataRecordUtils.mockMerchantMessage();
+        merchantNotifyJmsTemplate.send(session -> session
+                .createTextMessage(MockMessageConverterUtils
+                        .toJsonString(sendMsg)));
+        String merchantUUID = sendMsg.getMsgUUID();
+        String msgType = sendMsg.getMessageType();
+        Thread.sleep(1000L);
+        MpNotifyRecord recordRet =
+                mpNotifyRecordService.getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(
+                        merchantUUID, merchantUUID, msgType);
+        Assertions.assertNotNull(recordRet);
+        Assertions.assertEquals(sendMsg.getMsgUUID(), recordRet.getMerchantNo());
+        Assertions.assertEquals(sendMsg.getMsgUUID(), recordRet.getMerchantOrderNo());
+        Assertions.assertEquals(sendMsg.getMessageType(), recordRet.getNotifyType());
+    }
+
+    @Test
+    public void orderMessageListenerTest() throws InterruptedException {
+        MockMessage sendMsg = MockDataRecordUtils.mockOrderMessage();
+        orderNotifyJmsTemplate.send(session -> session
+                .createTextMessage(MockMessageConverterUtils
+                        .toJsonString(sendMsg)));
+        String merchantUUID = sendMsg.getMsgUUID();
+        String msgType = sendMsg.getMessageType();
+
+        Thread.sleep(2000);
+        MpNotifyRecord recordRet =
+                mpNotifyRecordService.getNotifyByMerchantNoAndMerchantOrderNoAndNotifyType(
+                        merchantUUID, merchantUUID, msgType);
+        Assertions.assertNotNull(recordRet);
+        Assertions.assertEquals(sendMsg.getMsgUUID(), recordRet.getMerchantNo());
+        Assertions.assertEquals(sendMsg.getMsgUUID(), recordRet.getMerchantOrderNo());
+        Assertions.assertEquals(sendMsg.getMessageType(), recordRet.getNotifyType());
     }
 }
