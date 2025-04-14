@@ -59,13 +59,14 @@ public class ConsumerMessageListenerTestConfig {
         return new ActiveMQQueue(orderNotifyQueueName);
     }
 
-    @Bean("merchantTestQueue")
+    @Bean("merchantNotifyTestQueue")
     public Queue merchantNotifyQueue() {
         return new ActiveMQQueue(merchantNotifyQueueName);
     }
 
     // -- create listeners ---
-    @Bean("tradeNotifyQueueListener")
+    @Bean
+    @Qualifier("tradeNotifyTestQueueListener")
     public TradeQueueMessageListener tradeNotifyQueueListener(@Qualifier("notifyQueue") NotifyQueue notifyQueue,
                                                               @Qualifier("mpNotifyRecordService") MpNotifyRecordService mpNotifyRecordService,
                                                               @Qualifier("notifyPersist") NotifyPersist notifyPersist) {
@@ -73,7 +74,7 @@ public class ConsumerMessageListenerTestConfig {
                 notifyPersist);
     }
 
-    @Bean("orderNotifyQueueListener")
+    @Bean("orderNotifyTestQueueListener")
     public OrderQueueMessageListener orderNotifyQueueListener(@Qualifier("notifyQueue") NotifyQueue notifyQueue,
                                                               @Qualifier("mpNotifyRecordService") MpNotifyRecordService mpNotifyRecordService,
                                                               @Qualifier("notifyPersist") NotifyPersist notifyPersist) {
@@ -81,7 +82,7 @@ public class ConsumerMessageListenerTestConfig {
                 notifyPersist);
     }
 
-    @Bean("merchantNotifyQueueListener")
+    @Bean("merchantNotifyTestQueueListener")
     public MerchantQueueMessageListener merchantNotifyQueueListener(@Qualifier("notifyQueue") NotifyQueue notifyQueue,
                                                                     @Qualifier("mpNotifyRecordService") MpNotifyRecordService mpNotifyRecordService,
                                                                     @Qualifier("notifyPersist") NotifyPersist notifyPersist) {
@@ -90,27 +91,27 @@ public class ConsumerMessageListenerTestConfig {
     }
 
     // -- listener container
-    @Bean
+    @Bean("merchantNotifyListenerContainer")
     public DefaultMessageListenerContainer merchantNotifyListenerContainer(
             @Qualifier("testConnectionFactory") ConnectionFactory connectionFactory,
-            @Qualifier("merchantNotifyQueue") Queue queue,
-            @Qualifier("merchantNotifyListener") MerchantQueueMessageListener listener) {
+            @Qualifier("merchantNotifyTestQueue") Queue queue,
+            @Qualifier("merchantNotifyTestQueueListener") MerchantQueueMessageListener listener) {
         return buildContainer(connectionFactory, queue, listener);
     }
 
-    @Bean
+    @Bean("orderNotifyListenerContainer")
     public DefaultMessageListenerContainer orderNotifyListenerContainer(
             @Qualifier("testConnectionFactory") ConnectionFactory connectionFactory,
-            @Qualifier("orderNotifyQueue") Queue queue,
-            @Qualifier("orderNotifyListener") OrderQueueMessageListener listener) {
+            @Qualifier("orderNotifyTestQueue") Queue queue,
+            @Qualifier("orderNotifyTestQueueListener") OrderQueueMessageListener listener) {
         return buildContainer(connectionFactory, queue, listener);
     }
 
-    @Bean
+    @Bean("tradeNotifyListenerContainer")
     public DefaultMessageListenerContainer tradeNotifyListenerContainer(
             @Qualifier("testConnectionFactory") ConnectionFactory connectionFactory,
-            @Qualifier("tradeNotifyQueue") Queue queue,
-            @Qualifier("tradeNotifyListener") TradeQueueMessageListener listener) {
+            @Qualifier("tradeNotifyTestQueue") Queue queue,
+            @Qualifier("tradeNotifyTestQueueListener") TradeQueueMessageListener listener) {
         return buildContainer(connectionFactory, queue, listener);
     }
 

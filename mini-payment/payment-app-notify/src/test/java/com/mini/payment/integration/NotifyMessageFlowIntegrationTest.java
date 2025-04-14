@@ -4,17 +4,22 @@ import com.mini.payment.MpAppNotifyTestApplication;
 import com.mini.payment.app.notify.core.NotifyPersist;
 import com.mini.payment.app.notify.core.NotifyQueue;
 import com.mini.payment.app.notify.service.MpNotifyRecordService;
+import com.mini.payment.config.ConsumerMessageListenerTestConfig;
 import com.mini.payment.mock.MockDataRecordUtils;
+import com.mini.payment.mock.MockMessage;
 import com.mini.payment.mock.MockMessageConverterUtils;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.listener.DefaultMessageListenerContainer;
 
 @SpringBootTest(classes = MpAppNotifyTestApplication.class)
+@Import(ConsumerMessageListenerTestConfig.class)
 public class NotifyMessageFlowIntegrationTest {
     @Autowired
     private NotifyPersist notifyPersist;
@@ -39,7 +44,20 @@ public class NotifyMessageFlowIntegrationTest {
     @Qualifier("tradeNotifyJmsTemplate")
     private JmsTemplate tradeNotifyJmsTemplate;
 
-    @Test
+    @Autowired
+    @Qualifier("tradeNotifyListenerContainer")
+    private DefaultMessageListenerContainer tradeNotifyListenerContainer;
+
+
+    @Autowired
+    @Qualifier("orderNotifyListenerContainer")
+    private DefaultMessageListenerContainer orderNotifyListenerContainer;
+
+    @Autowired
+    @Qualifier("merchantNotifyListenerContainer")
+    private DefaultMessageListenerContainer merchantNotifyListenerContainer;
+
+    @BeforeEach
     public void initTest() {
         Assertions.assertNotNull(notifyPersist);
         Assertions.assertNotNull(notifyQueue);
@@ -47,12 +65,9 @@ public class NotifyMessageFlowIntegrationTest {
         Assertions.assertNotNull(tradeNotifyJmsTemplate);
         Assertions.assertNotNull(merchantNotifyJmsTemplate);
         Assertions.assertNotNull(orderNotifyJmsTemplate);
-
-        // send mock message to trade notify queue
-        tradeNotifyJmsTemplate.send(session -> session
-                .createTextMessage(MockMessageConverterUtils
-                        .toJsonString(MockDataRecordUtils
-                                .mockTradeMessage())));
+        Assertions.assertNotNull(tradeNotifyListenerContainer);
+        Assertions.assertNotNull(merchantNotifyListenerContainer);
+        Assertions.assertNotNull(orderNotifyListenerContainer);
 
         // send mock message json string to order notify queue
         orderNotifyJmsTemplate.send(session -> session
@@ -63,5 +78,15 @@ public class NotifyMessageFlowIntegrationTest {
         merchantNotifyJmsTemplate.send(session -> session
                 .createTextMessage(MockMessageConverterUtils
                         .toJsonString(MockDataRecordUtils.mockMerchantMessage())));
+    }
+
+    @Test
+    public void tradeMessageListenerTest() {
+        // send mock message to trade notify queue
+        MockMessage sendMsg = MockDataRecordUtils.mockTradeMessage();
+        tradeNotifyJmsTemplate.send(session -> session
+                .createTextMessage(MockMessageConverterUtils
+                        .toJsonString(sendMsg)));
+
     }
 }
