@@ -88,13 +88,14 @@ public class NotifyAppInitRunner {
         LOG.info("load notify records from db to task list");
         int pageNum = 0;
         int pageSize = 500;
+
         Pageable pageable = PageRequest.of(pageNum, pageSize);
         List<String> queryRecordHttpStatusList = List.of(NotifyStatusEnum.FAILED.name(),
                 NotifyStatusEnum.CREATED.name(), NotifyStatusEnum.HTTP_REQUEST_FALIED.name());
         List<Integer> queryRecordNotifyTimeList = List.of(0, 1, 2, 3, 4);
-
         Page<MpNotifyRecord> notifyRecords = mpNotifyRecordService
-                .loadNotifyRecordsFromDB(queryRecordHttpStatusList, queryRecordNotifyTimeList, pageable);
+                .loadNotifyRecordsFromDB(queryRecordHttpStatusList,
+                        queryRecordNotifyTimeList, pageable);
 
         // here we process each notify record
         // update it's inner record values, convert notify record into NotifyTask,
@@ -116,7 +117,6 @@ public class NotifyAppInitRunner {
     }
 
     // -- getter && setter --
-
     public ThreadPoolTaskExecutor getThreadPool() {
         return threadPool;
     }
@@ -149,11 +149,7 @@ public class NotifyAppInitRunner {
         this.notifyPersist = notifyPersist;
     }
 
-    public DelayQueue<NotifyTask> getTasks() {
+    public static DelayQueue<NotifyTask> getTasks() {
         return tasks;
-    }
-
-    public void setTasks(DelayQueue<NotifyTask> tasks) {
-        this.tasks = tasks;
     }
 }

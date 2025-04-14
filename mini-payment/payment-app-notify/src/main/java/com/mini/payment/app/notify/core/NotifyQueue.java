@@ -45,7 +45,8 @@ public class NotifyQueue implements Serializable {
             if (Objects.nonNull(next)) {
                 time += 1000 * 60 * next + 1;
                 record.setLastNotifyTime(new Date(time));
-                NotifyAppInitRunner.tasks.put(new NotifyTask(record, this, notifyStrategy));
+                NotifyAppInitRunner.tasks.put(new NotifyTask(record, this, notifyPersist,
+                        notifyStrategy));
             }
         } else {
             // this record's notify times already attach to max limitation times
