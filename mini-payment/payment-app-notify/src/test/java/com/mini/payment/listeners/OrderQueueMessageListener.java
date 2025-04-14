@@ -12,14 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.DelayQueue;
-
 @Component
 public class OrderQueueMessageListener extends BaseMessageListener {
     private static final Logger LOG =
             LoggerFactory.getLogger(OrderQueueMessageListener.class);
-
-    private DelayQueue<MockMessage> messageDelayQueue;
 
     public OrderQueueMessageListener(NotifyQueue notifyQueue, MpNotifyRecordService mpNotifyRecordService, NotifyPersist notifyPersist) {
         super(notifyQueue, mpNotifyRecordService, notifyPersist);
@@ -30,7 +26,7 @@ public class OrderQueueMessageListener extends BaseMessageListener {
         try {
             String json = ((TextMessage) message).getText();
             MockMessage msg = MockMessageConverterUtils.toJavaObj(json);
-            messageDelayQueue.offer(msg);
+            LOG.info("#onMessage recv {}", json);
         } catch (JMSException e) {
             LOG.error("Got jmx exception ", e);
         }
