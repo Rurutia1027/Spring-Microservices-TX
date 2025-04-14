@@ -42,7 +42,6 @@ public class NotifyAppInitRunnerTest {
     }
 
     @Test
-    @Transactional
     public void testStartInitFromDB() {
         // mock dataset & insert dataset to db
         List<MpNotifyRecord> notifyRecords = MockDataRecordUtils.mockNotifyRecords(6);
@@ -132,8 +131,6 @@ public class NotifyAppInitRunnerTest {
     public void testConsumeMessageFromActiveMQ() {
         MpNotifyRecord mpNotifyRecord = MockDataRecordUtils.mockNotifyRecord();
         Assertions.assertNotNull(mpNotifyRecord.getMerchantNo());
-        // here we send message to merchant queue
-        // here we mark the merchant no as our local generated uuid value
         mpNotifyRecord.setMerchantNo(StringUtil.get32UUID());
         mpNotifyRecordService.merchantNotifySend(mpNotifyRecord.getUrl(),
                 mpNotifyRecord.getMerchantNo(), mpNotifyRecord.getMerchantOrderNo());
