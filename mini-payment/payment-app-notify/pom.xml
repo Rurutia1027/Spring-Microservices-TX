@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>com.mini.payment</groupId>
-            <artifactId>common-core</artifactId>
+            <artifactId>payment-common</artifactId>
         </dependency>
         <dependency>
             <groupId>com.mini.payment</groupId>
