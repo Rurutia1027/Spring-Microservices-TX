@@ -1,18 +1,3 @@
-/*
- * Copyright 2015-2102 RonCoo(http://www.roncoo.com) Group.
- *  
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *  
- *      http://www.apache.org/licenses/LICENSE-2.0
- *  
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.mini.payment.user.enums;
 
 import java.util.ArrayList;
@@ -20,57 +5,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 经营类目枚举
- * 龙果学院：www.roncoo.com
- * @author：zenghao
- */
+
 public enum BusCategoryEnum {
+	XXLS("1001", "Offline Retail", "0", "5000", "0", "24"), // Offline Retail
 
-	XXLS("1001","线下零售","0","5000","0","24"),//线下零售
+	CYSP("1002", "Catering/Food", "0", "2000", "7", "24"), // Catering, Food
 
-	CYSP("1002","餐饮/食品","0","2000","7","24"),//餐饮、食品
+	PWLY("1003", "Tickets/Tourism", "0", "999", "0", "24"), // Tickets, Tourism
 
-	PWLY("1003","票务/旅游","0","999","0","24"),//票务、旅游
+	JYPX("1004", "Education/Training", "1000", "5000", "0", "24"), // Education, Training
 
-	JYPX("1004","教育/培训","1000","5000","0","24"),//教育、培训
+	YLJSFW("1006", "Entertainment/Fitness Services", "0", "1000", "0", "24"), // Lifestyle, Fitness Services
 
-	YLJSFW("1006","娱乐/健身服务","0","1000","0","24"),//生活、健身服务
-	
-	YL("1007","医疗","0","1500","0","24"),//医疗
+	YL("1007", "Medical", "0", "1500", "0", "24"), // Medical
 
-	SCPM("1008","收藏/拍卖","1000","5000","9","21"),
+	SCPM("1008", "Collectibles/Auctions", "1000", "5000", "9", "21"), // Collectibles, Auctions
 
-	WLKD("1009","物流/快递","0","300","9","20"),
+	WLKD("1009", "Logistics/Express Delivery", "0", "300", "9", "20"), // Logistics, Express
 
-	GY("1010","公益","0","500","9","20"),
-	
-	TX("1011","通讯","0","500","0","24"),
-	
-	JRBX("1012","金融/保险","500","5000","0","24"),
-	
-	WLXNFW("1013","网络虚拟服务","0","5000","0","24"),
-	
-	SHJF("1014","生活缴费","0","1000","0","24"),
-	
-	JD("1015","酒店","200","5000","0","24"),
-	
-	JJ("1016","家居","200","5000","0","24"),
-	
-	DSTG("1017","电商团购","0","5000","0","24"),
-	QT("1018","其他","0","5000","0","24");
-	
-	/** 编码*/
+	GY("1010", "Charity", "0", "500", "9", "20"), // Charity
+
+	TX("1011", "Telecommunications", "0", "500", "0", "24"), // Telecommunications
+
+	JRBX("1012", "Finance/Insurance", "500", "5000", "0", "24"), // Finance, Insurance
+
+	WLXNFW("1013", "Online Virtual Services", "0", "5000", "0", "24"), // Online Virtual Services
+
+	SHJF("1014", "Utility Payments", "0", "1000", "0", "24"), // Utility Payments
+
+	JD("1015", "Hotel", "200", "5000", "0", "24"), // Hotel
+
+	JJ("1016", "Home Furnishing", "200", "5000", "0", "24"), // Home Furnishing
+
+	DSTG("1017", "E-commerce Group Buying", "0", "5000", "0", "24"), // E-commerce Group Buying
+
+	QT("1018", "Others", "0", "5000", "0", "24"); // Others
+
 	private String code;
-	/** 描述 */
+
 	private String desc;
-	/** 最低金额*/
+
 	private String minAmount;
-	/** 最大金额*/
+
 	private String maxAmount;
-	/** 开始时间*/
+
 	private String beginTime;
-	/** 结束时间*/
+
 	private String endTime;
 
 	public String getMinAmount() {
@@ -114,9 +94,8 @@ public enum BusCategoryEnum {
 		this.code = code;
 	}
 
-	
 
-	private BusCategoryEnum(String code,String desc,String minAmount,String maxAmount,String beginTime,String endTime) {
+	BusCategoryEnum(String code, String desc, String minAmount, String maxAmount, String beginTime, String endTime) {
 		this.code = code;
 		this.desc = desc;
 		this.minAmount = minAmount;
@@ -135,10 +114,10 @@ public enum BusCategoryEnum {
 
 	public static BusCategoryEnum getEnum(String enumName) {
 		BusCategoryEnum resultEnum = null;
-		BusCategoryEnum[] enumAry = BusCategoryEnum.values();
-		for (int i = 0; i < enumAry.length; i++) {
-			if (enumAry[i].name().equals(enumName)) {
-				resultEnum = enumAry[i];
+		BusCategoryEnum[] arr = BusCategoryEnum.values();
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i].name().equals(enumName)) {
+				resultEnum = arr[i];
 				break;
 			}
 		}
@@ -146,47 +125,41 @@ public enum BusCategoryEnum {
 	}
 
 	public static Map<String, Map<String, Object>> toMap() {
-		BusCategoryEnum[] ary = BusCategoryEnum.values();
+		BusCategoryEnum[] arr = BusCategoryEnum.values();
 		Map<String, Map<String, Object>> enumMap = new HashMap<String, Map<String, Object>>();
-		for (int num = 0; num < ary.length; num++) {
+		for (int num = 0; num < arr.length; num++) {
 			Map<String, Object> map = new HashMap<String, Object>();
-			String key = ary[num].name();
-			map.put("desc", ary[num].getDesc());
+			String key = arr[num].name();
+			map.put("desc", arr[num].getDesc());
 			enumMap.put(key, map);
 		}
 		return enumMap;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List toList() {
-		BusCategoryEnum[] ary = BusCategoryEnum.values();
+		BusCategoryEnum[] arr = BusCategoryEnum.values();
 		List list = new ArrayList();
-		for (int i = 0; i < ary.length; i++) {
+		for (int i = 0; i < arr.length; i++) {
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("name", ary[i].name());
-			map.put("desc", ary[i].getDesc());
-			map.put("minAmount", ary[i].getMinAmount());
-			map.put("maxAmount", ary[i].getMaxAmount());
-			map.put("beginTime", ary[i].getBeginTime());
-			map.put("endTime", ary[i].getEndTime());
+			map.put("name", arr[i].name());
+			map.put("desc", arr[i].getDesc());
+			map.put("minAmount", arr[i].getMinAmount());
+			map.put("maxAmount", arr[i].getMaxAmount());
+			map.put("beginTime", arr[i].getBeginTime());
+			map.put("endTime", arr[i].getEndTime());
 			list.add(map);
 		}
 		return list;
 	}
 
-	/**
-	 * 取枚举的json字符串
-	 * 
-	 * @return
-	 */
 	public static String getJsonStr() {
 		BusCategoryEnum[] enums = BusCategoryEnum.values();
 		StringBuffer jsonStr = new StringBuffer("[");
-		for (BusCategoryEnum senum : enums) {
+		for (BusCategoryEnum item : enums) {
 			if (!"[".equals(jsonStr.toString())) {
 				jsonStr.append(",");
 			}
-			jsonStr.append("{id:'").append(senum).append("',desc:'").append(senum.getDesc()).append("'}");
+			jsonStr.append("{id:'").append(item).append("',desc:'").append(item.getDesc()).append("'}");
 		}
 		jsonStr.append("]");
 		return jsonStr.toString();
