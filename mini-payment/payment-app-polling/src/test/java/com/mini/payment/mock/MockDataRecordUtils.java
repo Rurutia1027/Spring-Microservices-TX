@@ -1,10 +1,11 @@
-package com.mini.payment.utils;
+package com.mini.payment.mock;
 
 import com.mini.payment.app.notify.entity.MpNotifyRecord;
 import com.mini.payment.app.notify.entity.MpNotifyRecordAuditLog;
 import com.mini.payment.app.notify.enums.NotifyStatusEnum;
 import com.mini.payment.app.notify.enums.NotifyTypeEnum;
 import com.mini.payment.trade.entity.Payment;
+import com.mini.payment.utils.StringUtil;
 import org.apache.hc.core5.http.HttpStatus;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ public class MockDataRecordUtils {
         mpNotifyRecord.setStatus(NotifyStatusEnum.CREATED.name());
         mpNotifyRecord.setNotifyType(NotifyTypeEnum.MERCHANT.name());
         mpNotifyRecord.setNotifyTimes(0);
+        mpNotifyRecord.setUrl("http://localhost:8999/api/notify");
         mpNotifyRecord.setMerchantNo(StringUtil.get32UUID());
         mpNotifyRecord.setMerchantOrderNo(StringUtil.get36UUID());
         mpNotifyRecord.setLimitNotifyTimes(6);
@@ -73,6 +75,7 @@ public class MockDataRecordUtils {
         ret.setCreateTime(new Date());
         ret.setEditTime(new Date());
         ret.setRefundTimes(29);
+        ret.setVersion(0);
         return ret;
     }
 }
