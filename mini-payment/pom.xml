@@ -14,6 +14,7 @@
         <module>payment-service</module>
         <module>payment-web-admin</module>
         <module>payment-app-notify</module>
+        <module>payment-app-order-polling</module>
     </modules>
 
     <properties>

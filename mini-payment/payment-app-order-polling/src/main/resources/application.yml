@@ -1,0 +1,26 @@
+server:
+  port: 8096
+  servlet:
+    session:
+      timeout: 30
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mini_payment
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create  # Automatically creates/drops schema for tests
+    show-sql: true
+mq:
+  broker-url: "failover:(tcp://127.0.0.1:61616)?randomize=false&initialReconnectDelay=1000&maxReconnectDelay=30000"
+  username: "mq_admin"
+  password: "mq_admin"
+  pool:
+    maxConnections: 20
+  queue-name:
+    merchant-notify: "merchant_notify_queue"
+    order-notify: "order_notify_queue"
+    trade-notify: "trade_notify_queue"
