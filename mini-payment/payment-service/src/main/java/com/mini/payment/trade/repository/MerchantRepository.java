@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MerchantRepository extends BaseRepository<Merchant>,
         JpaSpecificationExecutor<Merchant> {
+
 }
