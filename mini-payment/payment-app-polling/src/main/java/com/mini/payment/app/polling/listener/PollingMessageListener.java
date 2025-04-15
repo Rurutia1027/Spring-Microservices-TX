@@ -52,9 +52,9 @@ public class PollingMessageListener implements MessageListener {
             Map<Integer, Integer> notifyStrategy = pollingParam.getNotifyParams();
             mpOrderResultQueryVo.setNotifyStrategy(JSONObject.toJSONString(notifyStrategy));
 
-            // appending this order result to polling queue
+            // appending this order result to polling-queue
             try {
-                // this is the first tome to commit order result to polling queue
+                // this is the first tome to commit order result to polling-queue
                 pollingQueue.addItemToTaskDelayQueue(mpOrderResultQueryVo);
             } catch (RuntimeException e) {
                 LOG.error("#onMessage got exception when appending order vo object to " +

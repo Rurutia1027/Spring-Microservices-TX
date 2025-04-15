@@ -27,6 +27,9 @@ public class ActiveMqListenerConfig {
             @Qualifier("pollingMessageListener") PollingMessageListener messageListener) {
         DefaultMessageListenerContainer messageListenerContainer =
                 new DefaultMessageListenerContainer();
+        messageListenerContainer.setDestination(activeMQQueue);
+        messageListenerContainer.setMessageListener(messageListener);
+        messageListenerContainer.setConnectionFactory(connectionFactory);
         return messageListenerContainer;
     }
 }
