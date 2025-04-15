@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service("pollingPersist")
 public class PollingPersist {
@@ -39,6 +41,9 @@ public class PollingPersist {
                 } else {
                     LOG.info("bank order No {} not pay", orderQueryVo.getBankOrderNo());
                 }
+            } else {
+                // if order procssing result is ok we write a record to db
+                paymentManagerService.updatePaymentRecordByBankOrderNo(orderQueryVo.getBankOrderNo(), orderQueryVo);
             }
 
         } catch (BizException e) {

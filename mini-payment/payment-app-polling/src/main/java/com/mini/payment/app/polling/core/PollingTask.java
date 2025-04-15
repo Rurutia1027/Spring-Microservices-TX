@@ -33,8 +33,8 @@ public class PollingTask implements Runnable, Delayed {
     @Override
     public int compareTo(Delayed o) {
         PollingTask item = (PollingTask) o;
-        return this.executeTime > item.executeTime ? 1 : (executeTime < item.executeTime ?
-                -1 : 0);
+        return this.executeTime > item.executeTime ? 1
+                : (executeTime < item.executeTime ? -1 : 0);
     }
 
     @Override

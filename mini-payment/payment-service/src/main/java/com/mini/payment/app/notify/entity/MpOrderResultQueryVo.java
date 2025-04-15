@@ -14,6 +14,10 @@ public class MpOrderResultQueryVo extends DomainImpl {
     private Integer limitNotifyTimes;
     private String bankOrderNo;
 
+    public MpOrderResultQueryVo() {
+        super();
+    }
+
     public MpOrderResultQueryVo(Date createTime, String notifyStrategy, Date lastNotifyTime,
                                 Integer notifyTimes, Integer limitNotifyTimes,
                                 String bankOrderNo, NotifyStatusEnum status) {

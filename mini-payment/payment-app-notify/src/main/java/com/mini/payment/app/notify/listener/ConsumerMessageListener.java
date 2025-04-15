@@ -1,4 +1,4 @@
-package com.mini.payment.app.notify.message;
+package com.mini.payment.app.notify.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
