@@ -11,7 +11,7 @@
     <modules>
         <module>payment-common</module>
         <module>payment-permission</module>
-        <module>payment-service</module>
+        <module>payment-domain</module>
         <module>payment-web-admin</module>
         <module>payment-app-notify</module>
         <module>payment-app-polling</module>

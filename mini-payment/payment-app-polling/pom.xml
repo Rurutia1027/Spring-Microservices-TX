@@ -24,7 +24,7 @@
         </dependency>
         <dependency>
             <groupId>com.mini.payment</groupId>
-            <artifactId>payment-service</artifactId>
+            <artifactId>payment-domain</artifactId>
             <version>${parent.version}</version>
         </dependency>
         <dependency>
