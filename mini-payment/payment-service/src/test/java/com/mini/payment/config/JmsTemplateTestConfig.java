@@ -1,6 +1,6 @@
 package com.mini.payment.config;
 
-import com.mini.payment.notify.handler.NotifyMessageHandler;
+import com.mini.payment.domains.notify.handler.NotifyMessageHandler;
 import jakarta.jms.ConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
