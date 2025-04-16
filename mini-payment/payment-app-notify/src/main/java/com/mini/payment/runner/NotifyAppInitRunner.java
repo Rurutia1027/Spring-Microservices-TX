@@ -1,11 +1,11 @@
 package com.mini.payment.runner;
 
-import com.mini.payment.app.notify.core.NotifyPersist;
-import com.mini.payment.app.notify.core.NotifyQueue;
-import com.mini.payment.app.notify.core.NotifyTask;
-import com.mini.payment.app.notify.entity.MpNotifyRecord;
-import com.mini.payment.app.notify.enums.NotifyStatusEnum;
-import com.mini.payment.app.notify.service.MpNotifyRecordService;
+import com.mini.payment.notify.core.NotifyPersist;
+import com.mini.payment.notify.core.NotifyQueue;
+import com.mini.payment.notify.core.NotifyTask;
+import com.mini.payment.domains.notify.entity.MpNotifyRecord;
+import com.mini.payment.domains.notify.enums.NotifyStatusEnum;
+import com.mini.payment.domains.notify.service.MpNotifyRecordService;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

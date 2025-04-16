@@ -1,10 +1,10 @@
 package com.mini.payment.integration;
 
 import com.mini.payment.MpAppNotifyTestApplication;
-import com.mini.payment.app.notify.core.NotifyPersist;
-import com.mini.payment.app.notify.core.NotifyQueue;
-import com.mini.payment.app.notify.entity.MpNotifyRecord;
-import com.mini.payment.app.notify.service.MpNotifyRecordService;
+import com.mini.payment.notify.core.NotifyPersist;
+import com.mini.payment.notify.core.NotifyQueue;
+import com.mini.payment.domains.notify.entity.MpNotifyRecord;
+import com.mini.payment.domains.notify.service.MpNotifyRecordService;
 import com.mini.payment.config.ConsumerMessageListenerTestConfig;
 import com.mini.payment.mock.MockDataRecordUtils;
 import com.mini.payment.mock.MockMessage;

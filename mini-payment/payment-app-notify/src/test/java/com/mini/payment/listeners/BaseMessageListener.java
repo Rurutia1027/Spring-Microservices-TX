@@ -1,8 +1,8 @@
 package com.mini.payment.listeners;
 
-import com.mini.payment.app.notify.core.NotifyPersist;
-import com.mini.payment.app.notify.core.NotifyQueue;
-import com.mini.payment.app.notify.service.MpNotifyRecordService;
+import com.mini.payment.notify.core.NotifyPersist;
+import com.mini.payment.notify.core.NotifyQueue;
+import com.mini.payment.domains.notify.service.MpNotifyRecordService;
 import jakarta.jms.Message;
 import jakarta.jms.MessageListener;
 

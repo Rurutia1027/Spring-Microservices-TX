@@ -1,16 +1,14 @@
 package com.mini.payment.app.polling.core;
 
-import com.mini.payment.app.notify.entity.MpOrderResultQueryVo;
+import com.mini.payment.domains.notify.entity.MpOrderResultQueryVo;
 import com.mini.payment.exception.BizException;
-import com.mini.payment.trade.service.PaymentManagerService;
+import com.mini.payment.domains.trade.service.PaymentManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service("pollingPersist")
 public class PollingPersist {

@@ -1,8 +1,8 @@
 package com.mini.payment.app.polling.listener;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.mini.payment.app.notify.entity.MpOrderResultQueryVo;
-import com.mini.payment.app.notify.enums.NotifyStatusEnum;
+import com.mini.payment.domains.notify.entity.MpOrderResultQueryVo;
+import com.mini.payment.domains.notify.enums.NotifyStatusEnum;
 import com.mini.payment.app.polling.core.PollingQueue;
 import com.mini.payment.app.polling.entity.PollingParam;
 import jakarta.jms.Message;
