@@ -2,8 +2,8 @@ package com.mini.payment.listeners;
 
 import com.mini.payment.notify.core.NotifyPersist;
 import com.mini.payment.notify.core.NotifyQueue;
-import com.mini.payment.domains.notify.entity.MpNotifyRecord;
-import com.mini.payment.domains.notify.service.MpNotifyRecordService;
+import com.mini.payment.domain.notify.entity.MpNotifyRecord;
+import com.mini.payment.domain.notify.service.MpNotifyRecordService;
 import com.mini.payment.mock.MockDataRecordUtils;
 import com.mini.payment.mock.MockMessage;
 import com.mini.payment.mock.MockMessageConverterUtils;

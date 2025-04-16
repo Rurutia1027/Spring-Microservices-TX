@@ -1,6 +1,6 @@
 package com.mini.payment.app.polling.core;
 
-import com.mini.payment.domains.notify.entity.MpOrderResultQueryVo;
+import com.mini.payment.domain.notify.entity.MpOrderResultQueryVo;
 import com.mini.payment.app.polling.OrderPollingRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,8 +1,8 @@
 package com.mini.payment.app.polling.core;
 
-import com.mini.payment.domains.notify.entity.MpOrderResultQueryVo;
+import com.mini.payment.domain.notify.entity.MpOrderResultQueryVo;
 import com.mini.payment.exception.BizException;
-import com.mini.payment.domains.trade.service.PaymentManagerService;
+import com.mini.payment.domain.trade.service.PaymentManagerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

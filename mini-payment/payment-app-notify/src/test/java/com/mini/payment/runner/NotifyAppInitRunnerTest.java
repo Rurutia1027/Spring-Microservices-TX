@@ -2,9 +2,9 @@ package com.mini.payment.runner;
 
 import com.mini.payment.MpAppNotifyTestApplication;
 import com.mini.payment.notify.core.NotifyTask;
-import com.mini.payment.domains.notify.entity.MpNotifyRecord;
-import com.mini.payment.domains.notify.enums.NotifyStatusEnum;
-import com.mini.payment.domains.notify.service.MpNotifyRecordService;
+import com.mini.payment.domain.notify.entity.MpNotifyRecord;
+import com.mini.payment.domain.notify.enums.NotifyStatusEnum;
+import com.mini.payment.domain.notify.service.MpNotifyRecordService;
 import com.mini.payment.mock.MockDataRecordUtils;
 import com.mini.payment.utils.StringUtil;
 import com.mini.payment.utils.httpclient.HttpParam;

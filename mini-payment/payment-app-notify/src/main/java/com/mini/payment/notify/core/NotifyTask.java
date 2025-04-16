@@ -1,9 +1,9 @@
 package com.mini.payment.notify.core;
 
 import com.alibaba.fastjson.JSONObject;
-import com.mini.payment.domains.notify.entity.MpNotifyRecord;
+import com.mini.payment.domain.notify.entity.MpNotifyRecord;
 import com.mini.payment.notify.entity.NotifyStrategy;
-import com.mini.payment.domains.notify.enums.NotifyStatusEnum;
+import com.mini.payment.domain.notify.enums.NotifyStatusEnum;
 import com.mini.payment.exception.BizException;
 import com.mini.payment.utils.httpclient.HttpParam;
 import com.mini.payment.utils.httpclient.HttpResult;
