@@ -1,9 +1,9 @@
 package com.mini.payment.mock;
 
-import com.mini.payment.app.notify.entity.MpNotifyRecord;
-import com.mini.payment.app.notify.entity.MpNotifyRecordAuditLog;
-import com.mini.payment.app.notify.enums.NotifyStatusEnum;
-import com.mini.payment.app.notify.enums.NotifyTypeEnum;
+import com.mini.payment.domains.notify.entity.MpNotifyRecord;
+import com.mini.payment.domains.notify.entity.MpNotifyRecordAuditLog;
+import com.mini.payment.domains.notify.enums.NotifyStatusEnum;
+import com.mini.payment.domains.notify.enums.NotifyTypeEnum;
 import com.mini.payment.utils.StringUtil;
 import org.apache.hc.core5.http.HttpStatus;
 

@@ -1,16 +1,13 @@
 package com.mini.payment.app.polling.core;
 
-import com.mini.payment.app.notify.entity.MpOrderResultQueryVo;
+import com.mini.payment.domains.notify.entity.MpOrderResultQueryVo;
 import com.mini.payment.app.polling.OrderPollingRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Objects;
-import java.util.concurrent.Delayed;
-import java.util.concurrent.TimeUnit;
 
 @Component
 public class PollingQueue  {

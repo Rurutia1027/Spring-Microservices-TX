@@ -1,10 +1,10 @@
 package com.mini.payment.runner;
 
 import com.mini.payment.MpAppNotifyTestApplication;
-import com.mini.payment.app.notify.core.NotifyTask;
-import com.mini.payment.app.notify.entity.MpNotifyRecord;
-import com.mini.payment.app.notify.enums.NotifyStatusEnum;
-import com.mini.payment.app.notify.service.MpNotifyRecordService;
+import com.mini.payment.notify.core.NotifyTask;
+import com.mini.payment.domains.notify.entity.MpNotifyRecord;
+import com.mini.payment.domains.notify.enums.NotifyStatusEnum;
+import com.mini.payment.domains.notify.service.MpNotifyRecordService;
 import com.mini.payment.mock.MockDataRecordUtils;
 import com.mini.payment.utils.StringUtil;
 import com.mini.payment.utils.httpclient.HttpParam;
@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;

@@ -1,6 +1,6 @@
 package com.mini.payment.config;
 
-import com.mini.payment.app.notify.entity.NotifyStrategy;
+import com.mini.payment.notify.entity.NotifyStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;

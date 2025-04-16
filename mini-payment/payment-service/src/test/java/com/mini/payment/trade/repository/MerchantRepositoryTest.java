@@ -1,6 +1,7 @@
 package com.mini.payment.trade.repository;
 
 import com.mini.payment.MpNotifyApplicationTest;
+import com.mini.payment.domains.trade.repository.MerchantRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
