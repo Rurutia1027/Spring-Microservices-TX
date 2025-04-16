@@ -2,9 +2,9 @@ package com.mini.payment.app.polling;
 
 import com.mini.payment.MpAppOrderPollingTestApplication;
 import com.mini.payment.mock.MockDataRecordUtils;
-import com.mini.payment.domains.trade.entity.Payment;
-import com.mini.payment.domains.trade.service.PaymentManagerService;
-import com.mini.payment.domains.trade.service.PaymentService;
+import com.mini.payment.domain.trade.entity.Payment;
+import com.mini.payment.domain.trade.service.PaymentManagerService;
+import com.mini.payment.domain.trade.service.PaymentService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

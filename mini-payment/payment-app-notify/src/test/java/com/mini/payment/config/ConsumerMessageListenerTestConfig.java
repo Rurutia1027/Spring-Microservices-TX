@@ -2,7 +2,7 @@ package com.mini.payment.config;
 
 import com.mini.payment.notify.core.NotifyPersist;
 import com.mini.payment.notify.core.NotifyQueue;
-import com.mini.payment.domains.notify.service.MpNotifyRecordService;
+import com.mini.payment.domain.notify.service.MpNotifyRecordService;
 import com.mini.payment.listeners.BaseMessageListener;
 import com.mini.payment.listeners.MerchantQueueMessageListener;
 import com.mini.payment.listeners.OrderQueueMessageListener;

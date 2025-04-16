@@ -1,8 +1,8 @@
 package com.mini.payment.notify.core;
 
-import com.mini.payment.domains.notify.entity.MpNotifyRecord;
+import com.mini.payment.domain.notify.entity.MpNotifyRecord;
 import com.mini.payment.notify.entity.NotifyStrategy;
-import com.mini.payment.domains.notify.enums.NotifyStatusEnum;
+import com.mini.payment.domain.notify.enums.NotifyStatusEnum;
 import com.mini.payment.runner.NotifyAppInitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

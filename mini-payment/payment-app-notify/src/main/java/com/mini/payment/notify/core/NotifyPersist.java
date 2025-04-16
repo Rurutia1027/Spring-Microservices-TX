@@ -1,8 +1,8 @@
 package com.mini.payment.notify.core;
 
-import com.mini.payment.domains.notify.entity.MpNotifyRecord;
-import com.mini.payment.domains.notify.entity.MpNotifyRecordAuditLog;
-import com.mini.payment.domains.notify.service.MpNotifyRecordService;
+import com.mini.payment.domain.notify.entity.MpNotifyRecord;
+import com.mini.payment.domain.notify.entity.MpNotifyRecordAuditLog;
+import com.mini.payment.domain.notify.service.MpNotifyRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
