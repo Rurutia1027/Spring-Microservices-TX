@@ -15,6 +15,6 @@ public class PersistenceServiceImplTest {
     @Test
     public void initTest() {
         Assertions.assertNotNull(persistenceService);
-        Assertions.assertNotNull(persistenceService.getEntityManager());
+        Assertions.assertNotNull(persistenceService.getSessionFactory());
     }
 }

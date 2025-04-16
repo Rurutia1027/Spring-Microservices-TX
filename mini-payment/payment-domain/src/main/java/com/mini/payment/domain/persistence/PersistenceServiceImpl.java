@@ -1,43 +1,150 @@
 package com.mini.payment.domain.persistence;
 
 import com.mini.payment.domain.DomainImpl;
-import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.HibernateException;
+import org.hibernate.JDBCException;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.sql.Clob;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service("persistenceService")
 public class PersistenceServiceImpl implements PersistenceService {
-    @Autowired
-    private EntityManager entityManager;
+    private static final Logger LOG = LoggerFactory.getLogger(PersistenceServiceImpl.class);
+    private static final Object[] EMPTY = {};
+
+    private EntityManagerFactory entityManagerFactory;
+
+    private SessionFactory sessionFactory;
+
+    public PersistenceServiceImpl(final EntityManagerFactory entityManagerFactory) {
+        super();
+        setSessionFactory(entityManagerFactory.unwrap(SessionFactory.class));
+    }
+
+    // interface for pluggable row handling strategies below.
+    private interface RowBuilder {
+        Object buildRow(ResultSet rs, String[] colNames) throws SQLException;
+    }
+
+    private final RowBuilder mapBuilder = new RowBuilder() {
+
+        @Override
+        public Object buildRow(ResultSet rs, String[] colNames) throws SQLException {
+            Map row = new HashMap();
+            for (int i = 0; i < colNames.length; i++) {
+                row.put(colNames[i], readColumnValue(rs, i));
+            }
+            return row;
+        }
+    };
+
+    /**
+     * Returns an Object [] for each row maintaining the column order from the
+     * select clause.
+     */
+    private final RowBuilder arrayBuilder = new RowBuilder() {
+        @Override
+        public Object buildRow(ResultSet rs, String[] colNames)
+                throws SQLException {
+            Object[] row = new Object[colNames.length];
+            for (int i = 0; i < colNames.length; i++) {
+                row[i] = readColumnValue(rs, i);
+            }
+            return row;
+        }
+    };
+
+    /**
+     * Returns the given column value from the ResultSet after applying
+     * common CLOB and Timestamp handling.
+     */
+    private Object readColumnValue(ResultSet rs, int i) throws SQLException {
+        Object val = rs.getObject(i + 1);
+        // Clobs are not Serializable
+        if (val instanceof Clob) {
+            Clob clob = (Clob) val;
+            val = clob.getSubString(1, (int) clob.length());
+        }
+
+        if (isOracleTimestamp(val)) {
+            val = rs.getTimestamp(i + 1);
+        }
+        return val;
+    }
+
+    /**
+     * Returns true if the input Object is Oracle's oracle.sql.TIMESTAMP
+     * class, which does not extend java.utilities.Date or java.sql.Timestamp.
+     */
+    private boolean isOracleTimestamp(Object val) {
+        return (val != null && "oracle.sql.TIMESTAMP".equals(val.getClass()
+                .getName()));
+    }
+
 
     @Override
     public Session openSession() {
-        return null;
+        return getSessionFactory().openSession();
+    }
+
+    public void shutdown() {
+        getSessionFactory().close();
     }
 
     @Override
     public List query(String hql) {
-        return List.of();
+        return this.query(hql, EMPTY);
     }
 
     @Override
     public List query(String hql, Object... params) {
-        return List.of();
+        return query(hql, null, params);
     }
 
     @Override
     public List query(String hql, QueryPostProcessor post, Object... params) {
-        return List.of();
+        Session session = null;
+        try {
+            session = openSession();
+            Query query = session.createQuery(hql);
+            for (int i = 0; i < params.length; i++) {
+                query = query.setParameter(i, params[i]);
+            }
+            List result = query.list();
+            if (Objects.nonNull(post)) {
+                return post.processListResult(result);
+            } else {
+                return result;
+            }
+        } catch (JDBCException e) {
+            LOG.error("JDBCException executing query {} Database may be down or unavailable.",
+                    hql, e);
+            throw e;
+        } catch (HibernateException e) {
+            LOG.error("Hibernate exception execution query {} ",
+                    hql, e);
+            throw e;
+        } finally {
+            close(session);
+        }
     }
+
 
     @Override
     public List query(String hql, Map<String, Object> namedParams) {
-        return List.of();
+        return query(hql, namedParams, null);
     }
 
     @Override
@@ -145,7 +252,22 @@ public class PersistenceServiceImpl implements PersistenceService {
         return null;
     }
 
-    public EntityManager getEntityManager() {
-        return entityManager;
+
+    private void close(Session session) {
+        if (Objects.nonNull(session)) {
+            try {
+                session.close();
+            } catch (HibernateException e) {
+                LOG.error("Error closing Session", e);
+            }
+        }
+    }
+
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 }
