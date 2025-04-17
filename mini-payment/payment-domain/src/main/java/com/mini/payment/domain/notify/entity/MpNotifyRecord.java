@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "notify_record")
+@Table(name = "mp_notify_record")
 public class MpNotifyRecord extends DomainImpl {
     private Date lastNotifyTime;
     private Integer notifyTimes;

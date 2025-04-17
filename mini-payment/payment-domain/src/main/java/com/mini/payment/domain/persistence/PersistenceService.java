@@ -1,6 +1,7 @@
 package com.mini.payment.domain.persistence;
 
 import com.mini.payment.domain.DomainImpl;
+import jakarta.persistence.EntityManager;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
