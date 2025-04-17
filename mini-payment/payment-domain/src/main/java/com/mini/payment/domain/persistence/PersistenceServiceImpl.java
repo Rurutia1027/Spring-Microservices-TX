@@ -6,6 +6,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.JDBCException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Clob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,13 +155,48 @@ public class PersistenceServiceImpl implements PersistenceService {
     }
 
     @Override
-    public List pagedQuery(String hql, Map<String, Object> namedParameters, Integer pageStart, Integer pageSize) {
-        return List.of();
+    public List pagedQuery(String hql, Map<String, Object> namedParameters,
+                           Integer pageStart, Integer pageSize) {
+        return pagedQuery(hql, namedParameters, pageStart, pageSize, null);
     }
 
     @Override
-    public List pagedQuery(String hql, Map<String, Object> namedParameters, Integer pageStart, Integer pageSize, QueryPostProcessor post) {
-        return List.of();
+    public List pagedQuery(String hql, Map<String, Object> namedParameters,
+                           Integer pageStart, Integer pageSize,
+                           QueryPostProcessor post) {
+        Session session = null;
+        if (Objects.isNull(pageSize) || Objects.isNull(pageSize)) {
+            LOG.debug("pageStart and pageSize are required, but not provided");
+            return null;
+        }
+
+        try {
+            session = openSession();
+            Query query = session.createQuery(hql);
+            for (Map.Entry<String, Object> entry : namedParameters.entrySet()) {
+                query = query.setParameter(entry.getKey(), entry.getValue());
+            }
+
+            query.setFirstResult(pageStart);
+            query.setMaxResults(pageSize);
+
+            List result = query.list();
+
+            if (Objects.nonNull(post)) {
+                return post.processListResult(result);
+            } else {
+                return result;
+            }
+        } catch (JDBCException e) {
+            LOG.error("JDBCException executing query {}", hql, e);
+            throw e;
+        } catch (HibernateException e) {
+            LOG.error("HibernateException executing query {}", hql, e);
+            throw e;
+        } finally {
+            close(session);
+        }
+
     }
 
     @Override
@@ -249,9 +286,51 @@ public class PersistenceServiceImpl implements PersistenceService {
 
     @Override
     public <T extends DomainImpl> T findOrSave(String hql, Map<String, Object> params, T item) {
-        return null;
+        Session session = null;
+        Transaction trx = null;
+
+        if (Objects.isNull(params)) {
+            LOG.debug("params required but not provided");
+            return null;
+        }
+
+        try {
+            session = openSession();
+            Query query = session.createQuery(hql);
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                query = query.setParameter(entry.getKey(), entry.getValue());
+            }
+
+            T found = (T) query.uniqueResult();
+            trx = session.beginTransaction();
+            item.setEditTime(new Date());
+            session.persist(item);
+            trx.commit();
+            return item;
+        } catch (Exception e) {
+            if (e instanceof JDBCException) {
+                LOG.error("JDBCException executing query {}", hql, e);
+            } else if (e instanceof HibernateException) {
+                LOG.error("HibernateException exception executing query {}", hql, e);
+            }
+
+            rollback(trx);
+            throw e;
+        } finally {
+            close(session);
+        }
     }
 
+
+    private void rollback(Transaction trx) {
+        if (Objects.nonNull(trx)) {
+            try {
+                trx.rollback();
+            } catch (HibernateException e) {
+                LOG.error("Error rolling back Transaction", e);
+            }
+        }
+    }
 
     private void close(Session session) {
         if (Objects.nonNull(session)) {
