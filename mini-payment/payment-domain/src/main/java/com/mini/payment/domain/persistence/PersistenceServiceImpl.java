@@ -5,16 +5,25 @@ import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.HibernateException;
 import org.hibernate.JDBCException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.jdbc.ReturningWork;
+import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.sql.Clob;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,11 +37,11 @@ public class PersistenceServiceImpl implements PersistenceService {
 
     private EntityManagerFactory entityManagerFactory;
 
-    private SessionFactory sessionFactory;
+    private SessionFactoryImplementor sessionFactory;
 
     public PersistenceServiceImpl(final EntityManagerFactory entityManagerFactory) {
         super();
-        setSessionFactory(entityManagerFactory.unwrap(SessionFactory.class));
+        setSessionFactory(entityManagerFactory.unwrap(SessionFactoryImplementor.class));
     }
 
     // interface for pluggable row handling strategies below.
@@ -151,7 +160,35 @@ public class PersistenceServiceImpl implements PersistenceService {
 
     @Override
     public List query(String hql, Map<String, Object> namedParams, QueryPostProcessor post) {
-        return List.of();
+        Session session = null;
+        if (Objects.isNull(namedParams)) {
+            LOG.debug("");
+            return null;
+        }
+        try {
+            session = openSession();
+            Query query = session.createQuery(hql);
+            for (Map.Entry<String, Object> entry : namedParams.entrySet()) {
+                query = query.setParameter(entry.getKey(), entry.getValue());
+            }
+
+            List result = query.list();
+
+            if (Objects.nonNull(post)) {
+                return post.processListResult(result);
+            } else {
+                return result;
+            }
+
+        } catch (JDBCException e) {
+            LOG.error("JDBCException executing query {} got exception", hql, e);
+            throw e;
+        } catch (HibernateException e) {
+            LOG.error("HibernateException executing query {} got exception", hql, e);
+            throw e;
+        } finally {
+            close(session);
+        }
     }
 
     @Override
@@ -201,27 +238,130 @@ public class PersistenceServiceImpl implements PersistenceService {
 
     @Override
     public <T extends DomainImpl> T save(T item) {
-        return null;
+        Session session = null;
+        Transaction trx = null;
+
+        try {
+            session = openSession();
+            trx = session.beginTransaction();
+            session.persist(item);
+            trx.commit();
+            return item;
+        } catch (Exception e) {
+            if (e instanceof JDBCException) {
+                LOG.info("JDBCException got exception ", e);
+            } else if (e instanceof HibernateException) {
+                LOG.info("HibernateException got exception ", e);
+            }
+            rollback(trx);
+            throw e;
+        } finally {
+            close(session);
+        }
     }
 
     @Override
     public <T extends DomainImpl> T save(T item, boolean saveOrUpdate) throws HibernateException {
-        return null;
+        Session session = null;
+        Transaction trx = null;
+
+        try {
+            session = openSession();
+            trx = session.beginTransaction();
+            if (saveOrUpdate) {
+                session.merge(item);
+            } else {
+                session.persist(item);
+            }
+            trx.commit();
+            return item;
+        } catch (HibernateException e) {
+            LOG.info("Hibernate Exception while executing saveOrUpdate", e);
+            rollback(trx);
+            throw e;
+        } finally {
+            close(session);
+        }
     }
 
     @Override
     public <T extends DomainImpl> T delete(T item) throws HibernateException {
-        return null;
+        Session session = null;
+        Transaction trx = null;
+
+        try {
+            session = openSession();
+            trx = session.beginTransaction();
+            session.remove(item);
+            trx.commit();
+            return item;
+        } catch (HibernateException e) {
+            LOG.error("Got Hibernate Exception while deleting item, " +
+                    "gonna rollback", e);
+            rollback(trx);
+            throw e;
+        } finally {
+            close(session);
+        }
     }
 
+    /**
+     * Persist a list of items of type T to the data store.
+     *
+     * @param itemList {@link java.util.List} of objects to persist
+     * @param <T>      The type of the item being persisted
+     * @return {@link java.util.List} of type T
+     * @throws org.hibernate.HibernateException if exception occurs during saveAll.
+     */
     @Override
     public <T extends DomainImpl> List<T> saveAll(List<T> itemList) {
-        return List.of();
+        Session session = null;
+        Transaction trx = null;
+
+        try {
+            session = openSession();
+            trx = session.beginTransaction();
+            for (T save : itemList) {
+                session.persist(save);
+            }
+            trx.commit();
+            return itemList;
+        } catch (HibernateException e) {
+            LOG.error("Hibernate exception during executing saveAll", e);
+            rollback(trx);
+            throw e;
+        } finally {
+            close(session);
+        }
     }
 
+    /**
+     * Persist a list of items of type T to the data store.
+     *
+     * @param itemList {@link java.util.List} of objects to persist
+     * @param <T>      The type of the item being persisted
+     * @return {@link java.util.List} of type T
+     * @throws org.hibernate.HibernateException if exception occurs during saveAll.
+     */
     @Override
-    public <T extends DomainImpl> List<T> mergeAll(List<T> itemList) throws HibernateException {
-        return List.of();
+    public <T extends DomainImpl> List<T> mergeAll(List<T> itemList)
+            throws HibernateException {
+        Session session = null;
+        Transaction trx = null;
+
+        try {
+            session = openSession();
+            trx = session.beginTransaction();
+            for (T save : itemList) {
+                session.merge(save);
+            }
+            trx.commit();
+            return itemList;
+        } catch (HibernateException e) {
+            LOG.error("HibernateException got exception via mergeAll gonna rollback");
+            rollback(trx);
+            throw e;
+        }
     }
 
     @Override
@@ -241,12 +381,25 @@ public class PersistenceServiceImpl implements PersistenceService {
 
     @Override
     public int sqlUpdate(String sql, Object... params) {
-        return 0;
+        Session session = null;
+        try {
+            session = openSession();
+            return session.doReturningWork(new UpdateWork(sql, params));
+        } catch (Exception e) {
+            for (Object param : params) {
+                sql = sql + "," + param.toString();
+            }
+            LOG.error("Failed to execute sql {}, with exception {}",
+                    sql, e.getMessage());
+            throw e;
+        } finally {
+            close(session);
+        }
     }
 
     @Override
     public <T extends DomainImpl> T findObjectByName(Class<T> clazz, String name) {
-        return null;
+        return findObjectByName(clazz, name, null);
     }
 
     @Override
@@ -256,12 +409,36 @@ public class PersistenceServiceImpl implements PersistenceService {
 
     @Override
     public <T extends DomainImpl> T findObjectByName(Class<T> clazz, String name, QueryPostProcessor post) {
-        return null;
+        if (Objects.isNull(name)) {
+            return null;
+        }
+
+        EntityPersister persister = sessionFactory.getMetamodel().entityPersister(clazz);
+        String[] propertyNames = persister.getPropertyNames();
+        String hql = "from " + clazz.getName() + " where lower(name) = lower(?1)";
+        if (Arrays.asList(propertyNames).contains("deleted")) {
+            hql += " and deleted is null";
+        }
+
+        List<T> found = query(hql, post, name);
+        return !found.isEmpty() ? found.get(0) : null;
     }
 
     @Override
-    public <T extends DomainImpl> T findObjectByIdOrName(Class<T> clazz, String idName, QueryPostProcessor post) {
-        return null;
+    public <T extends DomainImpl> T findObjectByIdOrName(Class<T> clazz, String idName,
+                                                         QueryPostProcessor post) {
+        if (Objects.isNull(idName)) {
+            LOG.debug("Name or unique identifier required, but not provided");
+            return null;
+        }
+
+        EntityPersister persister = sessionFactory.getMetamodel().entityPersister(clazz);
+        String[] propertyNames = persister.getPropertyNames();
+        String hql = "from " + clazz.getName()
+                + " where (id=?0 or lower(name)=lower(?1))"
+                + " and deleted is null";
+        List<T> found = query(hql, post, idName, idName);
+        return found.isEmpty() ? null : found.get(0);
     }
 
     @Override
@@ -321,6 +498,22 @@ public class PersistenceServiceImpl implements PersistenceService {
         }
     }
 
+    private List sqlQueryExecute(String sql, int limit, Object[] params,
+                                 RowBuilder builder) {
+        Session session = null;
+        try {
+            session = openSession();
+            return session.doReturningWork(
+                    new LimitedWork(sql, limit, params, builder));
+
+        } catch (HibernateException e) {
+            LOG.error("Exception got during executing sql {} with {}",
+                    sql, params.length, e);
+            throw e;
+        } finally {
+            close(session);
+        }
+    }
 
     private void rollback(Transaction trx) {
         if (Objects.nonNull(trx)) {
@@ -342,11 +535,146 @@ public class PersistenceServiceImpl implements PersistenceService {
         }
     }
 
-    public SessionFactory getSessionFactory() {
+    public SessionFactoryImplementor getSessionFactory() {
         return sessionFactory;
     }
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
+    public void setSessionFactory(SessionFactoryImplementor sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    // -- define static classes --
+    private static class BaseWork {
+        protected void close(final Statement stmt) {
+            if (Objects.nonNull(stmt)) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    LOG.error("Error closing Statement", e);
+                }
+            }
+        }
+
+        protected void close(final ResultSet rs) {
+            if (Objects.nonNull(rs)) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    LOG.error("Error closing ResultSet", e);
+                }
+            }
+        }
+
+        protected void rollback(final Connection conn) {
+            if (Objects.nonNull(conn)) {
+                try {
+                    conn.rollback();
+                } catch (SQLException e) {
+                    LOG.error("Error rolling back Connection", e);
+                }
+            }
+        }
+
+        // Returns the lower-cased column names in ResultSet.
+        protected String[] columnNames(final ResultSet rs) throws SQLException {
+            final String[] cols = getColumnNames(rs);
+            for (int i = 0; i < cols.length; i++) {
+                cols[i] = cols[i].toLowerCase();
+            }
+            return cols;
+        }
+
+        // Returns the column names in the ResultSet.
+        protected String[] getColumnNames(final ResultSet rs) throws SQLException {
+            final ResultSetMetaData meta = rs.getMetaData();
+            final String[] names = new String[meta.getColumnCount()];
+            for (int i = 0; i < names.length; i++) {
+                names[i] = meta.getColumnName(i + 1);
+            }
+            return names;
+        }
+    }
+
+    // UpdateWork
+    private static class UpdateWork extends BaseWork
+            implements ReturningWork<Integer> {
+        private final String sql;
+        private final Object[] params;
+
+        public UpdateWork(String sql, Object... params) {
+            this.sql = sql;
+            this.params = params;
+        }
+
+        @Override
+        public Integer execute(Connection connection) throws SQLException {
+            PreparedStatement stmt = null;
+            boolean autoCommit = connection.getAutoCommit();
+            try {
+                connection.setAutoCommit(false);
+                stmt = connection.prepareStatement(sql);
+                for (int i = 0; i < params.length; i++) {
+                    stmt.setObject(i + 1, params[i]);
+                }
+                int rows = stmt.executeUpdate();
+                connection.commit();
+                return rows;
+            } catch (SQLException e) {
+                LOG.error("Exception executing sql '{}' with {} parameters",
+                        sql, params.length, e);
+                rollback(connection);
+                throw e;
+            } finally {
+                close(stmt);
+                connection.setAutoCommit(autoCommit);
+            }
+        }
+    }
+
+    // LimitedWork
+    private static class LimitedWork extends BaseWork
+            implements ReturningWork<List<Object>> {
+        private final String sql;
+        private final int limit;
+        private final Object[] params;
+        private final RowBuilder builder;
+
+        public LimitedWork(String sql, int limit, Object[] params, RowBuilder builder) {
+            this.sql = sql;
+            this.limit = limit;
+            this.params = params;
+            this.builder = builder;
+        }
+
+        @Override
+        public List<Object> execute(Connection conn) throws SQLException {
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+            try {
+                stmt = conn.prepareStatement(sql);
+                stmt.setMaxRows(limit);
+                for (int i = 0; i < params.length; i++) {
+                    if (params[i] == null) {
+                        // Oracle's null handling always works with VARCHAR
+                        stmt.setNull(i + 1, Types.VARCHAR);
+                    } else {
+                        stmt.setObject(i + 1, params[i]);
+                    }
+                }
+                rs = stmt.executeQuery();
+
+                List<Object> found = new ArrayList<>();
+                while (rs.next()) {
+                    found.add(builder.buildRow(rs, columnNames(rs)));
+                }
+
+                // reset in case the stmt is reused by pooling
+                stmt.setMaxRows(0);
+                return found;
+            } finally {
+                close(rs);
+                close(stmt);
+            }
+        }
     }
 }
