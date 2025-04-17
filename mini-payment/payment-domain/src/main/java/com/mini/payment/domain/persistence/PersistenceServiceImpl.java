@@ -260,21 +260,26 @@ public class PersistenceServiceImpl implements PersistenceService {
         }
     }
 
+    // saveOrUpdate = true, then save & update this record, and the record will be detached
+    // saveOrUpdate = false, then create a new record, with new identify id value
     @Override
     public <T extends DomainImpl> T save(T item, boolean saveOrUpdate) throws HibernateException {
         Session session = null;
         Transaction trx = null;
+        T retItem = null;
 
         try {
             session = openSession();
             trx = session.beginTransaction();
+            T result;
             if (saveOrUpdate) {
-                session.merge(item);
+                result = (T) session.merge(item);
             } else {
                 session.persist(item);
+                result = item;
             }
             trx.commit();
-            return item;
+            return result;
         } catch (HibernateException e) {
             LOG.info("Hibernate Exception while executing saveOrUpdate", e);
             rollback(trx);
@@ -361,6 +366,8 @@ public class PersistenceServiceImpl implements PersistenceService {
             LOG.error("HibernateException got exception via mergeAll gonna rollback");
             rollback(trx);
             throw e;
+        } finally {
+            close(session);
         }
     }
 
