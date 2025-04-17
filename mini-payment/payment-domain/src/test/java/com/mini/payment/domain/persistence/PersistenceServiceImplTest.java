@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest(classes = MpNotifyApplicationTest.class)
 public class PersistenceServiceImplTest {
@@ -58,12 +59,47 @@ public class PersistenceServiceImplTest {
                 && queryRet.getId().equals(recordRet.getId()));
         Assertions.assertTrue(queryRet.getNotifyType().equals(NotifyTypeEnum.MERCHANT.name()));
 
-
         // well this time, we use the false -> this gonna create a new record
         // based on the previous record values
         recordRet.setId(null);
         MpNotifyRecord queryRet2 = persistenceService.save(recordRet, false);
         Assertions.assertTrue(idValue != queryRet2.getId());
         Assertions.assertTrue(queryRet2.getNotifyType().equals(NotifyTypeEnum.MERCHANT.name()));
+    }
+
+    @Test
+    public void testSqlQuery() {
+        MpNotifyRecord record = MockDataRecordUtils.mockNotifyRecord();
+        MpNotifyRecord recordRet = persistenceService.save(record, false);
+        Assertions.assertTrue(recordRet.getId() > 0);
+
+        String sql = "SELECT * FROM mp_notify_record WHERE id = ?";
+        List<Map<String, Object>> ret = persistenceService.sqlQuery(sql, recordRet.getId());
+        Assertions.assertFalse(ret.isEmpty());
+        Assertions.assertEquals(((Number) ret.get(0).get("id")).longValue(), recordRet.getId());
+    }
+
+    @Test
+    public void testSqlQueryLimit() {
+        List<MpNotifyRecord> records = MockDataRecordUtils.mockNotifyRecords(10);
+        String targetUrl = "https://test.bliblib.com";
+        for (MpNotifyRecord r : records) {
+            r.setUrl(targetUrl);
+        }
+        List<MpNotifyRecord> recordsRet = persistenceService.saveAll(records);
+        Assertions.assertEquals(recordsRet.size(), 10);
+        Assertions.assertTrue(recordsRet.get(0).getId() > 0);
+        String sql = "SELECT * FROM mp_notify_record WHERE url = ?";
+        int limitTarget = 4;
+        List<Map<String, Object>> ret =
+                persistenceService.sqlQueryLimit(sql, limitTarget, targetUrl);
+        Assertions.assertFalse(ret.isEmpty());
+        Assertions.assertEquals(ret.size(), limitTarget);
+        Assertions.assertEquals(ret.get(0).get("url"), targetUrl);
+    }
+
+    @Test
+    public void testSqlQueryArray() {
+
     }
 }

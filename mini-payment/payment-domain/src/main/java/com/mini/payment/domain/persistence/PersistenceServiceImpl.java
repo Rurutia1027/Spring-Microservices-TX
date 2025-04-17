@@ -373,17 +373,17 @@ public class PersistenceServiceImpl implements PersistenceService {
 
     @Override
     public List sqlQuery(String sql, Object... params) {
-        return List.of();
+        return sqlQueryExecute(sql, 0, params, mapBuilder);
     }
 
     @Override
     public List sqlQueryLimit(String sql, int limit, Object... params) {
-        return List.of();
+        return sqlQueryExecute(sql, limit, params, mapBuilder);
     }
 
     @Override
     public List<Object[]> sqlQueryArray(String sql, Object... params) {
-        return List.of();
+        return sqlQueryExecute(sql, 0, params, arrayBuilder);
     }
 
     @Override

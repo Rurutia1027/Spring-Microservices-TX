@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "notify_record_audit_log")
+@Table(name = "mp_notify_record_audit_log")
 public class MpNotifyRecordAuditLog extends DomainImpl {
     private String notifyId;
     private String request;
